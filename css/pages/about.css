@@ -4,7 +4,7 @@
 .page-hero,
 header.page-hero,
 .about-hero {
-  background-color: var(--color-green-primary, #2d5a27) !important;
+  background-color: var(--color-green-banner, #16301a) !important;
   color: var(--color-white, #ffffff) !important;
   padding: 56px 0 48px !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
@@ -119,7 +119,7 @@ header.page-hero h1,
 
 .btn-white {
   background-color: #ffffff !important;
-  color: var(--color-green-primary, #2d5a27) !important;
+  color: var(--color-green-banner, #16301a) !important;
   font-weight: 700 !important;
   font-size: 14px !important;
   padding: 11px 24px !important;
