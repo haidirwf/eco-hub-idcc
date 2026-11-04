@@ -1,5 +1,120 @@
 /* Konten Page Styles */
 
+/* Page Hero System */
+.page-hero,
+header.page-hero,
+.konten-hero {
+  background-color: var(--color-green-primary, #2d5a27) !important;
+  color: var(--color-white, #ffffff) !important;
+  padding: 56px 0 48px !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  position: relative !important;
+  text-align: center !important;
+  display: block !important;
+  width: 100% !important;
+}
+
+.page-hero-inner {
+  max-width: 760px !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.page-hero-eyebrow,
+.konten-eyebrow {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  padding: 6px 16px !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 50px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase !important;
+  color: #dcedc8 !important;
+  margin: 0 auto 16px auto !important;
+}
+
+.page-hero-eyebrow i,
+.konten-eyebrow i {
+  font-size: 13px !important;
+  color: #dcedc8 !important;
+}
+
+.page-hero h1,
+header.page-hero h1,
+.konten-hero h1 {
+  font-size: clamp(32px, 4.5vw, 44px) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  color: #ffffff !important;
+  margin: 0 auto 14px auto !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+}
+
+.page-hero-subtext,
+.hero-subtext {
+  font-size: 16px !important;
+  color: #e2ecd9 !important;
+  line-height: 1.6 !important;
+  max-width: 660px !important;
+  margin: 0 auto 24px auto !important;
+  text-align: center !important;
+}
+
+.page-hero-search,
+.search-container {
+  max-width: 580px !important;
+  margin: 0 auto !important;
+  position: relative !important;
+}
+
+.page-hero-search .search-icon,
+.search-container .search-icon {
+  position: absolute !important;
+  left: 18px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: var(--color-green-primary, #2d5a27) !important;
+  font-size: 16px !important;
+  pointer-events: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2 !important;
+}
+
+.page-hero-search input,
+.search-container input {
+  width: 100% !important;
+  padding: 15px 20px 15px 50px !important;
+  border: 2px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 50px !important;
+  font-size: 15px !important;
+  font-family: inherit !important;
+  background-color: #ffffff !important;
+  color: var(--color-text-primary, #1a1f16) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.25s ease !important;
+  display: block !important;
+}
+
+.page-hero-search input:focus,
+.search-container input:focus {
+  outline: none !important;
+  border-color: #dcedc8 !important;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.22) !important;
+}
+
+.page-hero-search input::placeholder,
+.search-container input::placeholder {
+  color: var(--color-text-muted, #7a8470) !important;
+}
+
 /* Filter Bar */
 .filter-bar-sticky {
   position: sticky;

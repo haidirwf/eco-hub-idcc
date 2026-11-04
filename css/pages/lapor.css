@@ -1,5 +1,148 @@
 /* ponytail: lapor.css - Flat solid colors, no gradient per design rules */
 
+/* Page Hero System */
+.page-hero,
+header.page-hero,
+.lapor-hero {
+  background-color: var(--color-green-primary, #2d5a27) !important;
+  color: var(--color-white, #ffffff) !important;
+  padding: 56px 0 48px !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  position: relative !important;
+  text-align: center !important;
+  display: block !important;
+  width: 100% !important;
+}
+
+.page-hero-inner {
+  max-width: 760px !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.page-hero-eyebrow,
+.lapor-eyebrow {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  padding: 6px 16px !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 50px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase !important;
+  color: #dcedc8 !important;
+  margin: 0 auto 16px auto !important;
+}
+
+.page-hero-eyebrow i,
+.lapor-eyebrow i {
+  font-size: 13px !important;
+  color: #dcedc8 !important;
+}
+
+.page-hero h1,
+header.page-hero h1,
+.lapor-hero h1 {
+  font-size: clamp(32px, 4.5vw, 44px) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  color: #ffffff !important;
+  margin: 0 auto 14px auto !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+}
+
+.page-hero-subtext,
+.hero-subtext {
+  font-size: 16px !important;
+  color: #e2ecd9 !important;
+  line-height: 1.6 !important;
+  max-width: 660px !important;
+  margin: 0 auto 24px auto !important;
+  text-align: center !important;
+}
+
+.hero-pills-row,
+.lapor-stats {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+  margin: 0 auto !important;
+}
+
+.hero-pill,
+.stat-bubble {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  padding: 9px 18px !important;
+  border-radius: 50px !important;
+  font-size: 14px !important;
+  color: #f5f2eb !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: all 0.2s ease !important;
+  line-height: 1.4 !important;
+}
+
+.hero-pill i,
+.stat-bubble i {
+  color: #dcedc8 !important;
+  font-size: 14px !important;
+}
+
+.hero-pill strong,
+.stat-bubble strong {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+.hero-pill:hover,
+.stat-bubble:hover {
+  background-color: rgba(255, 255, 255, 0.18) !important;
+  transform: translateY(-1px) !important;
+}
+
+.page-hero-actions {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 14px !important;
+  margin-top: 20px !important;
+  flex-wrap: wrap !important;
+}
+
+.btn-white {
+  background-color: #ffffff !important;
+  color: var(--color-green-primary, #2d5a27) !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  padding: 11px 24px !important;
+  border-radius: 50px !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  text-decoration: none !important;
+}
+
+.btn-white:hover {
+  background-color: #f1f7ee !important;
+  color: var(--color-green-mid, #4a7c42) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18) !important;
+}
+
 /* 2-Column Layout */
 .lapor-layout {
   display: grid;

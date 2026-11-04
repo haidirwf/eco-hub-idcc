@@ -324,41 +324,286 @@ p {
   display: none !important;
 }
 
-/* Unified Banner (Alias for .page-hero) */
-header.unified-banner {
-  background-color: var(--color-green-primary);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  text-align: center;
+/* ==========================================================================
+   Page Hero System (Unified Across All Sub-pages)
+   ========================================================================== */
+.page-hero,
+header.page-hero,
+header.unified-banner,
+.lapor-hero,
+.konten-hero,
+.kegiatan-hero,
+.about-hero {
+  background-color: var(--color-green-primary, #2d5a27) !important;
+  color: var(--color-white, #ffffff) !important;
+  padding: 56px 0 48px !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  position: relative !important;
+  text-align: center !important;
+  display: block !important;
+  width: 100% !important;
 }
 
-header.unified-banner .container {
-  max-width: var(--container-width);
+.page-hero-inner {
+  max-width: 760px !important;
+  margin: 0 auto !important;
+  text-align: center !important;
 }
 
-header.unified-banner h1 {
-  font-size: clamp(32px, 4.5vw, 44px);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: #ffffff;
-  margin-bottom: 14px;
+.page-hero-eyebrow,
+.lapor-eyebrow,
+.konten-eyebrow,
+.kegiatan-eyebrow,
+.about-eyebrow {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  padding: 6px 16px !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 50px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase !important;
+  color: #dcedc8 !important;
+  margin: 0 auto 16px auto !important;
 }
 
+.page-hero-eyebrow i,
+.lapor-eyebrow i,
+.konten-eyebrow i,
+.kegiatan-eyebrow i,
+.about-eyebrow i {
+  font-size: 13px !important;
+  color: #dcedc8 !important;
+}
+
+.page-hero h1,
+header.page-hero h1,
+header.unified-banner h1,
+.lapor-hero h1,
+.konten-hero h1,
+.kegiatan-hero h1,
+.about-hero h1 {
+  font-size: clamp(32px, 4.5vw, 44px) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  color: #ffffff !important;
+  margin: 0 auto 14px auto !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+}
+
+.page-hero-subtext,
+.page-hero p.page-hero-subtext,
+.hero-subtext,
 header.unified-banner .hero-subtext,
 header.unified-banner > .container > p {
-  max-width: 660px;
-  color: #e2ecd9;
-  font-size: 16px;
-  line-height: 1.6;
-  margin: 0 auto;
+  font-size: 16px !important;
+  color: #e2ecd9 !important;
+  line-height: 1.6 !important;
+  max-width: 660px !important;
+  margin: 0 auto 24px auto !important;
+  text-align: center !important;
 }
 
+/* Pills Row (Metrics, stats, feature tags) */
+.hero-pills-row,
+.lapor-stats,
+.about-hero-highlights,
+.hero-stats-row {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+  margin: 0 auto !important;
+}
+
+.hero-pill,
+.stat-bubble,
+.about-hero-pill,
+.hero-stat-box {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  padding: 9px 18px !important;
+  border-radius: 50px !important;
+  font-size: 14px !important;
+  color: #f5f2eb !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: all 0.2s ease !important;
+  line-height: 1.4 !important;
+}
+
+.hero-pill i,
+.stat-bubble i,
+.about-hero-pill i,
+.hero-stat-box i {
+  color: #dcedc8 !important;
+  font-size: 14px !important;
+}
+
+.hero-pill strong,
+.stat-bubble strong,
+.about-hero-pill strong,
+.hero-stat-box strong,
+.hero-stat-box .stat-num {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+.hero-pill:hover,
+.stat-bubble:hover,
+.about-hero-pill:hover {
+  background-color: rgba(255, 255, 255, 0.18) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Hero Action Button Area */
+.page-hero-actions,
+.hero-cta-box {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 14px !important;
+  margin-top: 20px !important;
+  flex-wrap: wrap !important;
+}
+
+.btn-white,
+.hero-cta-box .btn-white {
+  background-color: #ffffff !important;
+  color: var(--color-green-primary, #2d5a27) !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  padding: 11px 24px !important;
+  border-radius: 50px !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  text-decoration: none !important;
+}
+
+.btn-white:hover,
+.hero-cta-box .btn-white:hover {
+  background-color: #f1f7ee !important;
+  color: var(--color-green-mid, #4a7c42) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Hero Search Container (for Edukasi) */
+.page-hero-search,
+.search-container {
+  max-width: 580px !important;
+  margin: 0 auto !important;
+  position: relative !important;
+}
+
+.page-hero-search .search-icon,
+.search-container .search-icon {
+  position: absolute !important;
+  left: 18px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: var(--color-green-primary, #2d5a27) !important;
+  font-size: 16px !important;
+  pointer-events: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2 !important;
+}
+
+.page-hero-search input,
+.search-container input {
+  width: 100% !important;
+  padding: 15px 20px 15px 50px !important;
+  border: 2px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 50px !important;
+  font-size: 15px !important;
+  font-family: inherit !important;
+  background-color: #ffffff !important;
+  color: var(--color-text-primary, #1a1f16) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.25s ease !important;
+  display: block !important;
+}
+
+.page-hero-search input:focus,
+.search-container input:focus {
+  outline: none !important;
+  border-color: #dcedc8 !important;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.22) !important;
+}
+
+.page-hero-search input::placeholder,
+.search-container input::placeholder {
+  color: var(--color-text-muted, #7a8470) !important;
+}
+
+/* Page Hero Responsive */
 @media (max-width: 768px) {
-  header.unified-banner h1 {
-    font-size: 30px;
+  .page-hero,
+  header.page-hero,
+  header.unified-banner,
+  .lapor-hero,
+  .konten-hero,
+  .kegiatan-hero,
+  .about-hero {
+    padding: 40px 0 32px !important;
   }
 
+  .page-hero h1,
+  header.page-hero h1,
+  header.unified-banner h1,
+  .lapor-hero h1,
+  .konten-hero h1,
+  .kegiatan-hero h1,
+  .about-hero h1 {
+    font-size: 30px !important;
+  }
+
+  .page-hero-subtext,
   header.unified-banner .hero-subtext,
   header.unified-banner > .container > p {
-    font-size: 15px;
+    font-size: 15px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .hero-pills-row,
+  .lapor-stats,
+  .about-hero-highlights,
+  .hero-stats-row {
+    gap: 8px !important;
+  }
+
+  .hero-pill,
+  .stat-bubble,
+  .about-hero-pill,
+  .hero-stat-box {
+    font-size: 13px !important;
+    padding: 7px 14px !important;
+  }
+
+  .page-hero-search input,
+  .search-container input {
+    padding: 13px 18px 13px 44px !important;
+    font-size: 14px !important;
+  }
+
+  .btn-white,
+  .hero-cta-box .btn-white {
+    width: 100% !important;
+    justify-content: center !important;
   }
 }
