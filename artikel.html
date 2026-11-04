@@ -9,14 +9,31 @@
       content="Baca artikel edukasi mendalam seputar kualitas udara, perubahan iklim, konservasi alam, dan gaya hidup berkelanjutan di Eco Hub."
     />
 
+    <!-- Favicon & PWA -->
+    <link rel="icon" type="image/png" href="assets/icon-192.png" />
+    <link rel="apple-touch-icon" href="assets/icon-192.png" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#16301a" />
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Eco Hub" />
+    <meta property="og:title" content="Artikel Edukasi — Eco Hub" />
+    <meta property="og:description" content="Baca artikel edukasi mendalam seputar kualitas udara, perubahan iklim, konservasi alam, dan gaya hidup berkelanjutan di Eco Hub." />
+    <meta property="og:image" content="assets/icon-512.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Artikel Edukasi — Eco Hub" />
+    <meta name="twitter:description" content="Baca artikel edukasi mendalam seputar kualitas udara, perubahan iklim, konservasi alam, dan gaya hidup berkelanjutan di Eco Hub." />
+    <meta name="twitter:image" content="assets/icon-512.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/main.css?v=20261104_7" />
-    <link rel="stylesheet" href="css/components.css?v=20261104_7" />
+    <link rel="stylesheet" href="css/main.css?v=20261104_release" />
+    <link rel="stylesheet" href="css/components.css?v=20261104_release" />
     <style>
       .article-container {
         max-width: 900px;
@@ -164,7 +181,7 @@
 
       // Get URL Param
       const params = new URLSearchParams(window.location.search);
-      const topic = params.get("q") || "Climate_change"; // Default
+      const topic = params.get("q") || "Perubahan_iklim"; // Default ke topik valid Wikipedia ID
       const titleOverride = params.get("title") || topic.replace(/_/g, " ");
       const imgParam = params.get("img");
       const defaultImg =
@@ -217,7 +234,7 @@
                         ${cleanContent}
                     </div>
                     <div class="wiki-credit">
-                        Konten diambil secara dinamis dari Wikipedia. <a href="https://id.wikipedia.org/wiki/${topic}" target="_blank">Lihat sumber asli</a>.
+                        Konten diambil secara dinamis dari Wikipedia. <a href="https://id.wikipedia.org/wiki/${encodeURIComponent(topic)}" target="_blank" rel="noopener noreferrer">Lihat sumber asli</a>.
                     </div>
                 `;
         } catch (e) {
@@ -286,6 +303,6 @@
       </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=20261104_release"></script>
   </body>
 </html>

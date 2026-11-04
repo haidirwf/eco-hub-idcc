@@ -96,7 +96,19 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(reports));
     } catch (e) {
-      console.warn("Gagal menyimpan laporan", e);
+      console.warn("Gagal menyimpan laporan langsung, mencoba optimasi kuota...", e);
+      try {
+        // Fallback jika kuota localStorage penuh: buang foto dataURL pada laporan lama
+        const optimized = reports.map((rep, idx) => {
+          if (idx > 2 && rep.foto && rep.foto.startsWith("data:")) {
+            return { ...rep, foto: "" };
+          }
+          return rep;
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(optimized));
+      } catch (err2) {
+        console.error("Gagal menyimpan laporan ke localStorage", err2);
+      }
     }
   }
 
@@ -288,7 +300,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const reader = new FileReader();
     reader.onload = (event) => {
-      uploadedImageData = event.target.result;
+      const rawData = event.target.result;
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const maxDimension = 1000;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+          // Kompresi ke format JPEG (0.78) untuk menghemat kuota LocalStorage (~80-120KB)
+          uploadedImageData = canvas.toDataURL("image/jpeg", 0.78);
+        } catch (err) {
+          console.warn("Gagal mengompresi gambar dengan canvas, menggunakan raw", err);
+          uploadedImageData = rawData;
+        }
+      };
+      img.onerror = () => {
+        uploadedImageData = rawData;
+      };
+      img.src = rawData;
     };
     reader.readAsDataURL(file);
   }

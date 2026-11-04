@@ -9,6 +9,23 @@
       content="Platform edukasi dan pemantauan lingkungan interaktif untuk Indonesia. Cek kualitas udara, simulasi mobilitas hijau, dan lapor isu lingkungan."
     />
 
+    <!-- Favicon & PWA -->
+    <link rel="icon" type="image/png" href="assets/icon-192.png" />
+    <link rel="apple-touch-icon" href="assets/icon-192.png" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#16301a" />
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Eco Hub" />
+    <meta property="og:title" content="Eco Hub — Kenali Bumi Kita, Jaga Lingkungan Kita" />
+    <meta property="og:description" content="Platform edukasi dan pemantauan lingkungan interaktif untuk Indonesia. Cek kualitas udara, simulasi mobilitas hijau, dan lapor isu lingkungan." />
+    <meta property="og:image" content="assets/icon-512.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Eco Hub — Kenali Bumi Kita, Jaga Lingkungan Kita" />
+    <meta name="twitter:description" content="Platform edukasi dan pemantauan lingkungan interaktif untuk Indonesia. Cek kualitas udara, simulasi mobilitas hijau, dan lapor isu lingkungan." />
+    <meta name="twitter:image" content="assets/icon-512.png" />
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,10 +43,10 @@
     />
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/main.css?v=20261104_7" />
-    <link rel="stylesheet" href="css/components.css?v=20261104_7" />
-    <link rel="stylesheet" href="css/pages/home.css?v=20261104_7" />
-    <link rel="stylesheet" href="css/pages/mobility.css?v=20261104_7" />
+    <link rel="stylesheet" href="css/main.css?v=20261104_release" />
+    <link rel="stylesheet" href="css/components.css?v=20261104_release" />
+    <link rel="stylesheet" href="css/pages/home.css?v=20261104_release" />
+    <link rel="stylesheet" href="css/pages/mobility.css?v=20261104_release" />
   </head>
 
   <body>
@@ -107,7 +124,8 @@
           </div>
         </div>
 
-        <div class="hero-visual fade-up" style="animation-delay: 0.2s">
+        <div class="hero-visual fade-up" style="animation-delay: 0.2s; position: relative;">
+          <span id="aqi" style="position: absolute; top: -85px; left: 0; visibility: hidden; pointer-events: none;"></span>
           <div id="aqi-widget" class="aqi-card card">
             <div class="aqi-header">
               <div class="city-selector">
@@ -684,8 +702,8 @@
     ></script>
 
     <!-- Scripts -->
-    <script src="js/aqi.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/mobility.js"></script>
+    <script src="js/aqi.js?v=20261104_release"></script>
+    <script src="js/main.js?v=20261104_release"></script>
+    <script src="js/mobility.js?v=20261104_release"></script>
   </body>
 </html>
