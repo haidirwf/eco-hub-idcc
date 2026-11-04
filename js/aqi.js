@@ -67,22 +67,22 @@ document.addEventListener("DOMContentLoaded", () => {
       const pm10 = current.pm10;
 
       // Determine status
-      let status = "Baik";
+      let status = "Good";
       let color = "#2D5A27";
       let badgeBg = "#D4E8CD";
 
       if (aqi > 50) {
-        status = "Sedang";
+        status = "Moderate";
         color = "#D4870C";
         badgeBg = "#FFE0B2";
       }
       if (aqi > 100) {
-        status = "Tidak Sehat";
+        status = "Unhealthy";
         color = "#C0392B";
         badgeBg = "#FFCDD2";
       }
       if (aqi > 150) {
-        status = "Berbahaya";
+        status = "Hazardous";
         color = "#6B1A1A";
         badgeBg = "#EF9A9A";
       }

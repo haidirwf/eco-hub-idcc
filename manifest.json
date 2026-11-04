@@ -1,7 +1,7 @@
 {
-    "name": "Eco Hub - Bimbingan Lingkungan",
+    "name": "Eco Hub - Interactive Environmental Platform",
     "short_name": "Eco Hub",
-    "description": "Platform edukasi dan pemantauan lingkungan interaktif.",
+    "description": "Interactive environmental education, air quality monitoring, and green mobility platform.",
     "start_url": "index.html",
     "display": "standalone",
     "background_color": "#F5F2EB",

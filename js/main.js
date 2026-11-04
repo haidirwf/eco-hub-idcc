@@ -114,15 +114,15 @@ function initQuickStartCta() {
   const overlay = document.createElement("div");
   overlay.className = "quick-start-overlay";
   overlay.innerHTML = `
-    <div class="quick-start-sheet" role="dialog" aria-modal="true" aria-label="Mulai Sekarang">
-      <h3>Pilih Aksi</h3>
-      <p>Mulai dari langkah yang paling kamu butuhkan sekarang.</p>
+    <div class="quick-start-sheet" role="dialog" aria-modal="true" aria-label="Get Started">
+      <h3>Choose an Action</h3>
+      <p>Start with the action you need most right now.</p>
       <div class="quick-start-actions">
-        <a class="btn btn-primary" href="index.html#mobility-sim">Mulai Hitung Karbon</a>
-        <a class="btn btn-outline" href="lapor.html">Lapor Isu Lingkungan</a>
-        <a class="btn btn-outline" href="kegiatan.html#create-form-card">Buat Kegiatan</a>
+        <a class="btn btn-primary" href="index.html#mobility-sim">Calculate Carbon</a>
+        <a class="btn btn-outline" href="lapor.html">Report Issue</a>
+        <a class="btn btn-outline" href="kegiatan.html#create-form-card">Create Event</a>
       </div>
-      <button type="button" class="quick-start-close" aria-label="Tutup">Tutup</button>
+      <button type="button" class="quick-start-close" aria-label="Close">Close</button>
     </div>
   `;
   document.body.appendChild(overlay);
@@ -177,9 +177,9 @@ window.animateCount = function (el, toValue, decimals = 0, suffix = "") {
   function tick(now) {
     const p = Math.min(1, (now - startTime) / duration);
     const val = start + (target - start) * (1 - Math.pow(1 - p, 3));
-    el.textContent = `${decimals > 0 ? val.toFixed(decimals) : Math.round(val).toLocaleString("id-ID")}${suffix}`;
+    el.textContent = `${decimals > 0 ? val.toFixed(decimals) : Math.round(val).toLocaleString("en-US")}${suffix}`;
     if (p < 1) requestAnimationFrame(tick);
-    else el.textContent = `${decimals > 0 ? target.toFixed(decimals) : target.toLocaleString("id-ID")}${suffix}`;
+    else el.textContent = `${decimals > 0 ? target.toFixed(decimals) : target.toLocaleString("en-US")}${suffix}`;
   }
   requestAnimationFrame(tick);
 };

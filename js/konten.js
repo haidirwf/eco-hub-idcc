@@ -5,65 +5,65 @@ document.addEventListener("DOMContentLoaded", () => {
   const articles = [
     {
       id: 1,
-      title: "Mengapa Jakarta Masuk 10 Kota Polusi Terburuk?",
-      category: "Polusi Udara",
+      title: "Why Urban Areas Suffer from Severe Air Pollution",
+      category: "Air Pollution",
       author: "Rizky P",
-      date: "15 Feb 2026",
+      date: "Feb 15, 2026",
       thumbColor: "#E8F5E9",
-      wikiTopic: "Pencemaran_udara",
+      wikiTopic: "Air_pollution",
       imgUrl:
         "https://images.unsplash.com/photo-1698128827557-0b05ccb18fbf?auto=format&fit=crop&q=80&w=600",
     },
     {
       id: 2,
-      title: "Cara Kerja PLTS dan Masa Depan Energi Terbarukan",
-      category: "Perubahan Iklim",
+      title: "How Solar Power Works & The Future of Renewable Energy",
+      category: "Climate Change",
       author: "Sarah A",
-      date: "14 Feb 2026",
+      date: "Feb 14, 2026",
       thumbColor: "#FFF3E0",
-      wikiTopic: "Energi_surya",
+      wikiTopic: "Solar_power",
       imgUrl:
         "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=600",
     },
     {
       id: 3,
-      title: "Hutan Mangrove: Benteng Terakhir Pesisir Indonesia",
-      category: "Konservasi",
+      title: "Mangrove Forests: Coastal Shields Against Rising Seas",
+      category: "Conservation",
       author: "Budi T",
-      date: "12 Feb 2026",
+      date: "Feb 12, 2026",
       thumbColor: "#E1F5FE",
-      wikiTopic: "Hutan_bakau",
+      wikiTopic: "Mangrove",
       imgUrl:
         "https://images.unsplash.com/photo-1589556183130-530470785fab?auto=format&fit=crop&q=80&w=600",
     },
     {
       id: 4,
-      title: "Bahaya Mikroplastik di Makanan Kita",
-      category: "Polusi Laut",
+      title: "The Threat of Microplastics in Our Food Chain",
+      category: "Ocean Pollution",
       author: "Dina M",
-      date: "10 Feb 2026",
+      date: "Feb 10, 2026",
       thumbColor: "#FBE9E7",
-      wikiTopic: "Mikroplastik",
+      wikiTopic: "Microplastics",
       imgUrl:
         "https://images.unsplash.com/photo-1621451537084-482c73073a0f?auto=format&fit=crop&q=80&w=600",
     },
     {
       id: 5,
-      title: "Tips Mengolah Kompos di Rumah Sempit",
-      category: "Pengelolaan Sampah",
+      title: "Home Composting Guide: Turning Organic Waste into Soil",
+      category: "Waste Management",
       author: "Eco Team",
-      date: "09 Feb 2026",
+      date: "Feb 09, 2026",
       thumbColor: "#F3E5F5",
-      wikiTopic: "Kompos",
+      wikiTopic: "Compost",
       imgUrl:
         "https://images.unsplash.com/photo-1644575881028-9f170fd241ed?auto=format&fit=crop&q=80&w=600",
     },
     {
       id: 6,
-      title: "El Nino dan La Nina: Apa Bedanya?",
-      category: "Perubahan Iklim",
-      author: "BMKG Info",
-      date: "08 Feb 2026",
+      title: "Understanding El Niño and La Niña Climate Cycles",
+      category: "Climate Change",
+      author: "Climate Monitor",
+      date: "Feb 08, 2026",
       thumbColor: "#FFF3E0",
       wikiTopic: "El_Niño",
       imgUrl:
@@ -71,54 +71,54 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       id: 7,
-      title: "5 Tanaman Pembersih Udara Ruangan",
-      category: "Polusi Udara",
-      author: "Green Decor",
-      date: "05 Feb 2026",
+      title: "5 Air-Purifying Indoor Plants for Healthier Living",
+      category: "Air Pollution",
+      author: "Green Living",
+      date: "Feb 05, 2026",
       thumbColor: "#E8F5E9",
-      wikiTopic: "Tanaman_hias",
+      wikiTopic: "Houseplant",
       imgUrl:
         "https://images.unsplash.com/photo-1600411833196-7c1f6b1a8b90?auto=format&fit=crop&q=80&w=600",
     },
     {
       id: 8,
-      title: "Mengenal 'Carbon Offsetting' Lebih Dekat",
-      category: "Perubahan Iklim",
+      title: "A Deep Dive into Carbon Offsetting and Trading",
+      category: "Climate Change",
       author: "Eco Hub",
-      date: "03 Feb 2026",
+      date: "Feb 03, 2026",
       thumbColor: "#FFF3E0",
-      wikiTopic: "Perdagangan_emisi",
+      wikiTopic: "Emissions_trading",
       imgUrl:
         "https://images.unsplash.com/photo-1598335624134-5bceb5de202d?auto=format&fit=crop&q=80&w=600",
     },
     {
       id: 9,
-      title: "Mengapa Penyu Makan Plastik?",
-      category: "Polusi Laut",
+      title: "Why Marine Turtles Ingest Ocean Plastic Debris",
+      category: "Ocean Pollution",
       author: "Marine Bio",
-      date: "01 Feb 2026",
+      date: "Feb 01, 2026",
       thumbColor: "#E1F5FE",
-      wikiTopic: "Penyu",
+      wikiTopic: "Sea_turtle",
       imgUrl:
         "https://images.unsplash.com/photo-1549557143-90d216195a97?auto=format&fit=crop&q=80&w=600",
     },
     {
       id: 10,
-      title: "Zero Waste Living: Mulai dari Mana?",
-      category: "Pengelolaan Sampah",
+      title: "Zero Waste Living: How to Start and Sustain It",
+      category: "Waste Management",
       author: "Siska W",
-      date: "28 Jan 2026",
+      date: "Jan 28, 2026",
       thumbColor: "#F3E5F5",
-      wikiTopic: "Nirlimbah",
+      wikiTopic: "Zero_waste",
       imgUrl:
         "https://images.unsplash.com/photo-1645739467767-ee1ea618d36c?auto=format&fit=crop&q=80&w=600",
     },
     {
       id: 11,
-      title: "Konservasi Orangutan Kalimantan",
-      category: "Konservasi",
+      title: "Rainforest Habitat Conservation for Endangered Wildlife",
+      category: "Conservation",
       author: "WWF Partner",
-      date: "25 Jan 2026",
+      date: "Jan 25, 2026",
       thumbColor: "#E1F5FE",
       wikiTopic: "Orangutan",
       imgUrl:
@@ -126,12 +126,12 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       id: 12,
-      title: "Dampak Fast Fashion pada Lingkungan",
-      category: "Pengelolaan Sampah",
+      title: "The Environmental Toll of Global Fast Fashion",
+      category: "Waste Management",
       author: "Fashion Rev",
-      date: "20 Jan 2026",
+      date: "Jan 20, 2026",
       thumbColor: "#F3E5F5",
-      wikiTopic: "Fesyen_cepat",
+      wikiTopic: "Fast_fashion",
       imgUrl:
         "https://images.unsplash.com/photo-1495556650867-99590cea3657?auto=format&fit=crop&q=80&w=600",
     },
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
   const filterPills = document.querySelectorAll(".filter-pill");
 
-  let activeCategory = "Semua";
+  let activeCategory = "All";
   let searchQuery = "";
 
   function renderArticles() {
@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Filter logic
     const filtered = articles.filter((art) => {
       const matchCat =
-        activeCategory === "Semua" || art.category === activeCategory;
+        activeCategory === "All" || art.category === activeCategory;
       const matchSearch =
         art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         art.category.toLowerCase().includes(searchQuery.toLowerCase());
@@ -168,15 +168,15 @@ document.addEventListener("DOMContentLoaded", () => {
       grid.innerHTML = filtered
         .map(
           (art) => `
-                <a href="artikel.html?q=${art.wikiTopic || "Lingkungan_hidup"}&title=${encodeURIComponent(art.title)}&img=${encodeURIComponent(art.imgUrl)}" class="article-item fade-up" style="text-decoration: none; color: inherit;">
+                <a href="artikel.html?q=${art.wikiTopic || "Environmental_protection"}&title=${encodeURIComponent(art.title)}&img=${encodeURIComponent(art.imgUrl)}" class="article-item fade-up" style="text-decoration: none; color: inherit;">
                     <div class="article-thumb" style="height: 180px; background-image: url('${art.imgUrl}'); background-size: cover; background-position: center;"></div>
                     <div class="article-body">
                         <span class="article-cat">${art.category}</span>
                         <h3>${art.title}</h3>
-                        <p class="article-excerpt">Klik untuk membaca artikel selengkapnya tentang ${art.title} yang bersumber dari ensiklopedia bebas.</p>
+                        <p class="article-excerpt">Click to explore the full article on ${art.title} verified by academic encyclopedia references.</p>
                         <div class="article-footer">
                             <span>${art.author} • ${art.date}</span>
-                            <button class="bookmark-btn"><i class="fas fa-bookmark" size="16"></i></button>
+                            <button class="bookmark-btn" aria-label="Bookmark article"><i class="fas fa-bookmark" size="16"></i></button>
                         </div>
                     </div>
                 </a>
@@ -184,9 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
         )
         .join("");
 
-      // Re-init generic fade-up observer for new elements?
-
-      // Simple animation trigger for new items
       setTimeout(() => {
         document.querySelectorAll(".article-item").forEach((el, i) => {
           setTimeout(() => el.classList.add("visible"), i * 50);
@@ -219,10 +216,10 @@ document.addEventListener("DOMContentLoaded", () => {
        ECOFACT WIDGET
        ----------------------------------------------------- */
   const facts = [
-    "Setiap tahun, 8 juta ton plastik berakhir di lautan kita.",
-    "Satu pohon dewasa dapat menyerap 22kg CO2 per tahun.",
-    "Daur ulang satu kaleng aluminium menghemat energi untuk menyalakan TV selama 3 jam.",
-    "Hutan hujan Amazon menghasilkan 20% oksigen dunia.",
+    "Every year, approximately 8 million metric tons of plastic end up in our oceans.",
+    "A single mature leafy tree can absorb up to 22 kg (48 lbs) of carbon dioxide annually.",
+    "Recycling one aluminum can saves enough electricity to power a television for 3 hours.",
+    "The Amazon Basin generates about 20% of the Earth's continental river discharge into oceans.",
   ];
 
   const factText = document.getElementById("ecofact-text");
@@ -230,12 +227,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (factText) {
     const randomFact = facts[Math.floor(Math.random() * facts.length)];
-    factText.innerText = `"${randomFact}"`; // Add quotes
+    factText.innerText = `"${randomFact}"`;
 
     shareFactBtn.addEventListener("click", () => {
       navigator.clipboard.writeText(randomFact).then(() => {
         const originalText = shareFactBtn.innerHTML;
-        shareFactBtn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+        shareFactBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
         setTimeout(() => {
           shareFactBtn.innerHTML = originalText;
         }, 2000);
@@ -248,34 +245,34 @@ document.addEventListener("DOMContentLoaded", () => {
        ----------------------------------------------------- */
   const quizData = [
     {
-      q: "Berapa lama waktu yang dibutuhkan plastik untuk terurai?",
-      opts: ["10 tahun", "100 tahun", "450 tahun", "1000 tahun"],
-      a: 2, // Index of correct
-      expl: "Plastik butuh ~450 tahun. Jangan buang sembarangan!",
-    },
-    {
-      q: "Gas rumah kaca manakah yang paling banyak dihasilkan aktivitas manusia?",
-      opts: ["Metana", "Karbon Dioksida", "Ozon", "Nitrogen Oksida"],
-      a: 1,
-      expl: "CO2 adalah penyumbang terbesar pemanasan global.",
-    },
-    {
-      q: "Manakah yang BUKAN sumber energi terbarukan?",
-      opts: ["Angin", "Matahari", "Batubara", "Air"],
+      q: "How long does it typically take for a plastic bottle to decompose in nature?",
+      opts: ["10 years", "100 years", "450 years", "1,000 years"],
       a: 2,
-      expl: "Batubara adalah bahan bakar fosil yang terbatas.",
+      expl: "Conventional plastic takes ~450 years to break down. Choose reusable alternatives!",
     },
     {
-      q: "Apa sebutan untuk proses pengolahan limbah organik menjadi pupuk?",
-      opts: ["Daur ulang", "Reduksi", "Kompos", "Insitu"],
-      a: 2,
-      expl: "Pengomposan mengubah sisa organik menjadi nutrisi tanah.",
-    },
-    {
-      q: "Hari Lingkungan Hidup Sedunia diperingati setiap tanggal?",
-      opts: ["22 April", "5 Juni", "10 Januari", "1 Desember"],
+      q: "Which greenhouse gas is emitted in the greatest quantity by human activities?",
+      opts: ["Methane", "Carbon Dioxide", "Ozone", "Nitrous Oxide"],
       a: 1,
-      expl: "5 Juni adalah World Environment Day sejak 1974.",
+      expl: "Carbon Dioxide (CO2) accounts for roughly 75% of global human greenhouse emissions.",
+    },
+    {
+      q: "Which of the following is NOT a renewable energy source?",
+      opts: ["Wind Power", "Solar Energy", "Coal Power", "Hydroelectric"],
+      a: 2,
+      expl: "Coal is a finite fossil fuel that releases high carbon dioxide and toxic pollutants.",
+    },
+    {
+      q: "What is the process of decomposing organic matter into nutrient-rich soil called?",
+      opts: ["Upcycling", "Incineration", "Composting", "Bio-remediation"],
+      a: 2,
+      expl: "Composting turns food scraps into natural fertilizer, slashing landfill methane.",
+    },
+    {
+      q: "On what date is World Environment Day celebrated globally each year?",
+      opts: ["April 22", "June 5", "October 10", "December 1"],
+      a: 1,
+      expl: "June 5 has been recognized as World Environment Day by the UN since 1974.",
     },
   ];
 
@@ -287,7 +284,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const qStep = document.getElementById("quiz-question");
   const rStep = document.getElementById("quiz-result");
 
-  // Elements
   const qText = document.getElementById("question-text");
   const optsContainer = document.getElementById("options-container");
   const feedbackArea = document.getElementById("feedback-area");
@@ -295,7 +291,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const slideBtn = document.getElementById("next-q-btn");
   const progressBar = document.getElementById("quiz-progress");
 
-  // Start
   const startBtn = document.getElementById("start-quiz-btn");
   if (startBtn) {
     startBtn.addEventListener("click", () => {
@@ -309,11 +304,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = quizData[currentQ];
     qText.innerText = `${currentQ + 1}. ${data.q}`;
 
-    // Progress
     const prog = (currentQ / quizData.length) * 100;
     progressBar.style.width = `${prog}%`;
 
-    // Reset state
     optsContainer.innerHTML = "";
     feedbackArea.classList.add("hidden");
 
@@ -327,7 +320,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function handleAnswer(selectedIndex, btnElement) {
-    // Disable all clicks
     const allOpts = optsContainer.querySelectorAll(".quiz-option");
     allOpts.forEach((b) => (b.style.pointerEvents = "none"));
 
@@ -337,20 +329,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isCorrect) {
       btnElement.classList.add("correct");
       score++;
-      feedbackText.innerText = "Benar! " + data.expl;
+      feedbackText.innerText = "Correct! " + data.expl;
       feedbackText.style.color = "var(--color-green-primary)";
     } else {
       btnElement.classList.add("wrong");
-      // Highlight correct one
       allOpts[data.a].classList.add("correct");
-      feedbackText.innerText = "Salah. " + data.expl;
+      feedbackText.innerText = "Incorrect. " + data.expl;
       feedbackText.style.color = "var(--color-red-alert)";
     }
 
     feedbackArea.classList.remove("hidden");
 
-    // Setup next button logic
-    // Remove old listeners to be safe (recreation method is safer but quick hack:)
     slideBtn.onclick = () => {
       currentQ++;
       if (currentQ < quizData.length) {
@@ -370,18 +359,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const title = document.getElementById("score-title");
 
     if (score === 5) {
-      title.innerText = "Pahlawan Bumi! 🌍";
-      msg.innerText = "Sempurna! Pengetahuanmu luar biasa.";
+      title.innerText = "Earth Hero! 🌍";
+      msg.innerText = "Perfect score! Your environmental knowledge is extraordinary.";
     } else if (score >= 3) {
-      title.innerText = "Penjaga Hijau! 🌿";
-      msg.innerText = "Bagus! Kamu cukup paham tentang lingkungan.";
+      title.innerText = "Green Guardian! 🌿";
+      msg.innerText = "Great job! You have solid sustainability and eco awareness.";
     } else {
-      title.innerText = "Pemula Lingkungan 🌱";
-      msg.innerText = "Terus belajar untuk bumi yang lebih baik!";
+      title.innerText = "Eco Explorer! 🌱";
+      msg.innerText = "Keep exploring and learning to make a positive impact for our planet!";
     }
   }
 
-  // Restart
   const restartBtn = document.getElementById("restart-quiz-btn");
   if (restartBtn) {
     restartBtn.addEventListener("click", () => {
@@ -393,4 +381,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-

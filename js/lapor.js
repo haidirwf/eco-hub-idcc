@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const STORAGE_KEY = "EcoHub_reports_v1";
-  const COUNTER_KEY = "EcoHub_report_counter";
+  const STORAGE_KEY = "EcoHub_reports_en_v1";
+  const COUNTER_KEY = "EcoHub_report_counter_en";
 
   // Initial Sample Reports if empty
   const defaultReports = [
@@ -10,16 +10,16 @@ document.addEventListener("DOMContentLoaded", () => {
       email: "ahmad.f@example.com",
       whatsapp: "081234567890",
       kota: "Jakarta",
-      jenis: "Polusi Udara",
-      judul: "Asap Tebal Pembakaran Sampah Ilegal",
-      severity: "Parah",
-      lokasi: "Jl. Rawa Buaya, Cengkareng, Jakarta Barat",
+      jenis: "Air Pollution",
+      judul: "Dense Toxic Smoke from Open Waste Burning",
+      severity: "Severe",
+      lokasi: "Rawa Buaya Street, West Jakarta",
       lat: -6.1558,
       lng: 106.7214,
-      deskripsi: "Pembakaran sampah kabel dan plastik terbuka setiap malam hari menyebabkan kabut asap pekat dan bau menyengat hingga mengganggu pernapasan warga perumahan sekitar.",
+      deskripsi: "Continuous open combustion of plastic cables and household trash every night creates dense, foul-smelling smog impacting nearby residents' respiratory health.",
       foto: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&q=80&w=600",
-      status: "Dalam Proses",
-      tanggal: "03 Nov 2026",
+      status: "In Progress",
+      tanggal: "Nov 03, 2026",
       timestamp: Date.now() - 3600000 * 24,
     },
     {
@@ -28,16 +28,16 @@ document.addEventListener("DOMContentLoaded", () => {
       email: "siti.r@example.com",
       whatsapp: "082198765432",
       kota: "Bandung",
-      jenis: "Sampah Liar",
-      judul: "Tumpukan Sampah Plastik Menutup Saluran Air",
-      severity: "Sedang",
-      lokasi: "Bantaran Sungai Cikapundung, Dago, Bandung",
+      jenis: "Illegal Dumping",
+      judul: "Plastic Waste Pile Clogging River Waterway",
+      severity: "Moderate",
+      lokasi: "Cikapundung Riverbank, Dago, Bandung",
       lat: -6.8856,
       lng: 107.6136,
-      deskripsi: "Warga membuang sampah liar di pinggir sungai saat malam. Kondisi menumpuk hingga 15 meter dan rawan memicu banjir saat curah hujan meningkat.",
+      deskripsi: "Nighttime illegal dumping along the riverbank has accumulated over a 15-meter stretch, posing serious flash flood hazards as rains intensify.",
       foto: "https://images.unsplash.com/photo-1530587191325-3db32d826c18?auto=format&fit=crop&q=80&w=600",
-      status: "Diterima",
-      tanggal: "04 Nov 2026",
+      status: "Received",
+      tanggal: "Nov 04, 2026",
       timestamp: Date.now() - 3600000 * 5,
     },
     {
@@ -46,16 +46,16 @@ document.addEventListener("DOMContentLoaded", () => {
       email: "budi.s@example.com",
       whatsapp: "",
       kota: "Surabaya",
-      jenis: "Pencemaran Air",
-      judul: "Limbah Berbusa dan Berbau di Kali Jagir",
-      severity: "Parah",
-      lokasi: "Kali Jagir, Wonokromo, Surabaya",
+      jenis: "Water Pollution",
+      judul: "Foamy Chemical Discharge in Urban Canal",
+      severity: "Severe",
+      lokasi: "Jagir Canal, Wonokromo, Surabaya",
       lat: -7.3005,
       lng: 112.7482,
-      deskripsi: "Air sungai berubah warna kecokelatan berbusa putih dengan bau kimia yang tajam. Sejumlah ikan terlihat mati mengapung di dekat pintu air.",
+      deskripsi: "River water turned murky brownish with dense white foam and a pungent chemical odor. Several dead fish observed near the watergate.",
       foto: "https://images.unsplash.com/photo-1621451537084-482c73073a0f?auto=format&fit=crop&q=80&w=600",
-      status: "Selesai",
-      tanggal: "01 Nov 2026",
+      status: "Resolved",
+      tanggal: "Nov 01, 2026",
       timestamp: Date.now() - 3600000 * 72,
     },
     {
@@ -64,16 +64,16 @@ document.addEventListener("DOMContentLoaded", () => {
       email: "dewi.l@example.com",
       whatsapp: "085612349876",
       kota: "Denpasar",
-      jenis: "Sampah Liar",
-      judul: "Sampah Plastik Wisatawan di Pesisir Pantai",
-      severity: "Ringan",
-      lokasi: "Pantai Matahari Terbit, Sanur, Denpasar",
+      jenis: "Illegal Dumping",
+      judul: "Discarded Single-Use Plastic along Public Beach",
+      severity: "Minor",
+      lokasi: "Sunrise Beach, Sanur, Denpasar",
       lat: -8.6738,
       lng: 115.2631,
-      deskripsi: "Sisa botol kemasan plastik dan styrofoam berserakan di sepanjang bibir pantai setelah akhir pekan.",
+      deskripsi: "Leftover plastic drink bottles, food wrappers, and styrofoam containers scattered along the shoreline following the weekend.",
       foto: "",
-      status: "Selesai",
-      tanggal: "30 Okt 2026",
+      status: "Resolved",
+      tanggal: "Oct 30, 2026",
       timestamp: Date.now() - 3600000 * 96,
     },
   ];
@@ -96,9 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(reports));
     } catch (e) {
-      console.warn("Gagal menyimpan laporan langsung, mencoba optimasi kuota...", e);
+      console.warn("Storage quota full, attempting quota optimization...", e);
       try {
-        // Fallback jika kuota localStorage penuh: buang foto dataURL pada laporan lama
         const optimized = reports.map((rep, idx) => {
           if (idx > 2 && rep.foto && rep.foto.startsWith("data:")) {
             return { ...rep, foto: "" };
@@ -107,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         localStorage.setItem(STORAGE_KEY, JSON.stringify(optimized));
       } catch (err2) {
-        console.error("Gagal menyimpan laporan ke localStorage", err2);
+        console.error("Failed to save report to localStorage", err2);
       }
     }
   }
@@ -171,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     pickerMarker = window.L.marker([currentPickerCoords.lat, currentPickerCoords.lng], {
       draggable: true,
-      title: "Geser pin untuk menandai lokasi",
+      title: "Drag pin to mark issue location",
     }).addTo(pickerMap);
 
     function onMarkerMoved(latlng) {
@@ -189,15 +188,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Reverse Geocoding with Nominatim (with coordinate fallback)
+  // Reverse Geocoding with Nominatim
   async function reverseGeocode(lat, lng) {
     if (lokasiInput) {
-      lokasiInput.placeholder = "Mencari nama jalan/lokasi...";
+      lokasiInput.placeholder = "Looking up street/location name...";
     }
     try {
       const res = await fetch(
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`,
-        { headers: { "Accept-Language": "id" } }
+        { headers: { "Accept-Language": "en" } }
       );
       if (res.ok) {
         const data = await res.json();
@@ -214,14 +213,14 @@ document.addEventListener("DOMContentLoaded", () => {
       // Fallback below
     }
     if (lokasiInput && !lokasiInput.value) {
-      lokasiInput.value = `Koordinat: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+      lokasiInput.value = `Coordinates: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
     }
   }
 
   // Geolocation Button
   btnGetLocation?.addEventListener("click", () => {
     if (!navigator.geolocation) {
-      alert("Browser Anda tidak mendukung deteksi lokasi otomatis.");
+      alert("Your browser does not support automatic location detection.");
       return;
     }
     btnGetLocation.disabled = true;
@@ -244,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
       (err) => {
         btnGetLocation.disabled = false;
         btnGetLocation.innerHTML = '<i class="fas fa-crosshairs"></i>';
-        alert("Tidak dapat mengambil lokasi Anda. Pastikan izin lokasi diaktifkan.");
+        alert("Could not retrieve your location. Please check your browser location permissions.");
       },
       { timeout: 10000, enableHighAccuracy: true }
     );
@@ -274,10 +273,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     dropZone.addEventListener("drop", (e) => {
-      const files = e.dataTransfer.files;
-      if (files && files.length > 0) {
-        handleFileSelect(files[0]);
+      if (e.dataTransfer && e.dataTransfer.files.length > 0) {
+        handleFileSelect(e.dataTransfer.files[0]);
       }
+    });
+
+    dropZone.addEventListener("click", () => {
+      fileUpload.click();
     });
 
     fileUpload.addEventListener("change", (e) => {
@@ -289,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function handleFileSelect(file) {
     if (!file || !file.type.startsWith("image/")) {
-      alert("Silakan unggah file gambar (JPG, PNG, WebP).");
+      alert("Please upload a valid image file (JPG, PNG, WebP).");
       return;
     }
     if (fileNameSpan && filePreview) {
@@ -323,10 +325,9 @@ document.addEventListener("DOMContentLoaded", () => {
           canvas.height = height;
           const ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0, width, height);
-          // Kompresi ke format JPEG (0.78) untuk menghemat kuota LocalStorage (~80-120KB)
           uploadedImageData = canvas.toDataURL("image/jpeg", 0.78);
         } catch (err) {
-          console.warn("Gagal mengompresi gambar dengan canvas, menggunakan raw", err);
+          console.warn("Failed to compress image with canvas, using raw data", err);
           uploadedImageData = rawData;
         }
       };
@@ -353,21 +354,21 @@ document.addEventListener("DOMContentLoaded", () => {
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const nama = document.getElementById("nama")?.value.trim() || "Anonim";
+    const nama = document.getElementById("nama")?.value.trim() || "Anonymous";
     const email = document.getElementById("email")?.value.trim() || "";
     const whatsapp = document.getElementById("whatsapp")?.value.trim() || "";
     const kota = document.getElementById("kota")?.value || "Indonesia";
-    const jenis = document.getElementById("jenis")?.value || "Isu Lingkungan";
+    const jenis = document.getElementById("jenis")?.value || "Environmental Issue";
     const judul = document.getElementById("judul")?.value.trim() || jenis;
     const severityEl = document.querySelector('input[name="severity"]:checked');
-    const severity = severityEl ? severityEl.value : "Sedang";
+    const severity = severityEl ? severityEl.value : "Moderate";
     const lokasi = lokasiInput?.value.trim() || `${kota}, Indonesia`;
     const deskripsi = deskripsiInput?.value.trim() || "";
 
     const submitBtn = form.querySelector(".submit-btn");
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses Laporan...';
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Report...';
     }
 
     setTimeout(() => {
@@ -386,10 +387,10 @@ document.addEventListener("DOMContentLoaded", () => {
         lng: currentPickerCoords.lng,
         deskripsi,
         foto: uploadedImageData,
-        status: "Diterima",
-        tanggal: new Date().toLocaleDateString("id-ID", {
-          day: "2-digit",
+        status: "Received",
+        tanggal: new Date().toLocaleDateString("en-US", {
           month: "short",
+          day: "2-digit",
           year: "numeric",
         }),
         timestamp: Date.now(),
@@ -418,7 +419,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 600);
   });
 
-  // 5. Initialize Peta Sebaran Isu
+  // 5. Initialize Issue Map
   function initSebaranMap() {
     const mapEl = document.getElementById("lapor-map");
     if (!mapEl || !window.L) return;
@@ -450,9 +451,9 @@ document.addEventListener("DOMContentLoaded", () => {
       bounds.push([item.lat, item.lng]);
 
       const markerColor =
-        item.severity === "Parah"
+        item.severity === "Severe" || item.severity === "Parah"
           ? "#DC2626"
-          : item.severity === "Sedang"
+          : item.severity === "Moderate" || item.severity === "Sedang"
           ? "#D97706"
           : "#2D5A27";
 
@@ -467,7 +468,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </span>
           <div style="margin-top: 8px;">
             <a href="#" onclick="window.openReportModal('${item.id}'); return false;" style="color: #2D5A27; font-weight: 600; text-decoration: none;">
-              Lihat Detail &rarr;
+              View Details &rarr;
             </a>
           </div>
         </div>
@@ -496,17 +497,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const reports = getStoredReports();
     if (!reports.length) {
-      feedList.innerHTML = '<p class="text-muted" style="font-size: 13px;">Belum ada laporan masuk.</p>';
+      feedList.innerHTML = '<p class="text-muted" style="font-size: 13px;">No reports submitted yet.</p>';
       return;
     }
 
     feedList.innerHTML = reports
       .slice(0, 8)
       .map((item) => {
-        const catClass = (item.jenis || "lainnya")
+        const catClass = (item.jenis || "other")
           .toLowerCase()
           .replace(/\s+/g, "-");
-        const statusClass = (item.status || "diterima")
+        const statusClass = (item.status || "received")
           .toLowerCase()
           .replace(/\s+/g, "");
 
@@ -531,13 +532,13 @@ document.addEventListener("DOMContentLoaded", () => {
       .join("");
   }
 
-  // 7. Cek Status Laporan Search
+  // 7. Check Report Status Search
   checkStatusBtn?.addEventListener("click", () => {
     const query = (checkRefInput?.value || "").trim().toUpperCase();
     if (!query) {
       if (checkResult) {
         checkResult.className = "check-result-box not-found";
-        checkResult.innerHTML = "Masukkan nomor referensi laporan.";
+        checkResult.innerHTML = "Please enter your report reference ID.";
         checkResult.classList.remove("hidden");
       }
       return;
@@ -549,13 +550,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!found) {
       if (checkResult) {
         checkResult.className = "check-result-box not-found";
-        checkResult.innerHTML = `Laporan dengan referensi <strong>${query}</strong> tidak ditemukan.`;
+        checkResult.innerHTML = `Report with reference <strong>${query}</strong> was not found.`;
         checkResult.classList.remove("hidden");
       }
       return;
     }
 
-    const statusClass = (found.status || "diterima").toLowerCase().replace(/\s+/g, "");
+    const statusClass = (found.status || "received").toLowerCase().replace(/\s+/g, "");
     if (checkResult) {
       checkResult.className = "check-result-box";
       checkResult.innerHTML = `
@@ -567,7 +568,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span class="status-pill ${statusClass}">${found.status}</span>
-          <button class="btn btn-outline" style="padding: 4px 10px; font-size: 12px;" onclick="window.openReportModal('${found.id}')">Detail</button>
+          <button class="btn btn-outline" style="padding: 4px 10px; font-size: 12px;" onclick="window.openReportModal('${found.id}')">Details</button>
         </div>
       `;
       checkResult.classList.remove("hidden");
@@ -588,7 +589,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusPill = document.getElementById("modal-status-pill");
     if (statusPill) {
       statusPill.textContent = found.status;
-      statusPill.className = `status-pill ${(found.status || "diterima").toLowerCase().replace(/\s+/g, "")}`;
+      statusPill.className = `status-pill ${(found.status || "received").toLowerCase().replace(/\s+/g, "")}`;
     }
 
     const severityVal = document.getElementById("modal-severity");
@@ -606,7 +607,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const imageContainer = document.getElementById("modal-image-container");
     if (imageContainer) {
       if (found.foto) {
-        imageContainer.innerHTML = `<img src="${found.foto}" alt="Bukti Foto" class="modal-image" />`;
+        imageContainer.innerHTML = `<img src="${found.foto}" alt="Photo Evidence" class="modal-image" />`;
         imageContainer.style.display = "block";
       } else {
         imageContainer.innerHTML = "";

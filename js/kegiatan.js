@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const STORAGE_KEY = "Eco Hub_community_activities_v1";
-  const JOINED_KEY = "Eco Hub_community_joined_v1";
-  const USER_PROFILE_KEY = "Eco Hub_user_profile_v1";
+  const STORAGE_KEY = "Eco Hub_community_activities_en_v1";
+  const JOINED_KEY = "Eco Hub_community_joined_en_v1";
+  const USER_PROFILE_KEY = "Eco Hub_user_profile_en_v1";
 
   const CITIES = {
     Jakarta: { lat: -6.2088, lon: 106.8456 },
@@ -17,43 +17,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const DEFAULT_ACTIVITIES = [
     {
       id: "act_jkt_01",
-      title: "Aksi Bersih Sungai Ciliwung & Pilah Sampah",
+      title: "River Cleanup & Waste Segregation Drive",
       datetime: "2026-11-08T07:30",
-      what: "Gotong royong membersihkan sampah plastik di bantaran Sungai Ciliwung dan pemilahan material daur ulang bersama warga.",
-      where: "Bantaran Sungai Ciliwung, Manggarai, Jakarta Selatan",
-      whereCoords: { lat: -6.2088, lng: 106.8456, label: "Manggarai, Jakarta Selatan" },
-      creator: "Komunitas Ciliwung Bersih",
+      what: "Collective community effort to remove plastic waste from riverbank corridors and sort recyclable materials.",
+      where: "Riverbank Corridor, South Jakarta",
+      whereCoords: { lat: -6.2088, lng: 106.8456, label: "South Jakarta Corridor" },
+      creator: "Clean River Initiative",
       participants: 28,
       createdAt: "2026-11-01T08:00:00.000Z",
     },
     {
       id: "act_bdg_01",
-      title: "Penanaman 200 Bibit Pohon di Kawasan Dago Atas",
+      title: "200 Native Tree Seedling Planting Drive",
       datetime: "2026-11-09T08:00",
-      what: "Penghijauan lereng bukit Dago untuk memperkuat daerah resapan air Bandung Utara dan mencegah erosi tanah.",
-      where: "Dago Pakar, Ciburial, Bandung",
-      whereCoords: { lat: -6.8650, lng: 107.6250, label: "Dago Pakar, Bandung" },
+      what: "Reforestation of hillside slopes to reinforce natural water catchment basins and prevent soil erosion.",
+      where: "Dago Hills Nature Reserve, Bandung",
+      whereCoords: { lat: -6.8650, lng: 107.6250, label: "Dago Hills, Bandung" },
       creator: "Bandung Eco Green",
       participants: 45,
       createdAt: "2026-11-02T09:00:00.000Z",
     },
     {
       id: "act_sby_01",
-      title: "Restorasi Mangrove & Bersih Pesisir Wonorejo",
+      title: "Mangrove Restoration & Coastal Beach Cleanup",
       datetime: "2026-11-10T06:30",
-      what: "Ekowisata dan aksi penanaman bibit bakau serta pengumpulan sampah plastik di pesisir Timur Surabaya.",
-      where: "Ekowisata Mangrove Wonorejo, Rungkut, Surabaya",
+      what: "Ecotourism field excursion planting mangrove saplings and gathering plastic debris along the eastern coast.",
+      where: "Wonorejo Mangrove Ecotourism, Surabaya",
       whereCoords: { lat: -7.3080, lng: 112.8210, label: "Wonorejo, Surabaya" },
-      creator: "Sahabat Pesisir Surabaya",
+      creator: "Coastal Guardians Collective",
       participants: 36,
       createdAt: "2026-11-02T10:00:00.000Z",
     },
     {
       id: "act_dps_01",
-      title: "Beach Clean Up & Edukasi Pilah Sampah Sanur",
+      title: "Morning Beach Cleanup & Microplastic Education",
       datetime: "2026-11-11T06:00",
-      what: "Aksi bersih pantai pagi hari di Pantai Sanur bersama warga lokal dan turis untuk mengurangi polusi mikroplastik.",
-      where: "Pantai Matahari Terbit, Sanur, Denpasar",
+      what: "Sunrise beach clean-up alongside local residents and visitors to reduce shoreline microplastic pollution.",
+      where: "Sunrise Beach, Sanur, Denpasar",
       whereCoords: { lat: -8.6738, lng: 115.2631, label: "Sanur, Denpasar" },
       creator: "Bali Clean Waves",
       participants: 52,
@@ -61,87 +61,89 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       id: "act_smg_01",
-      title: "Pemasangan Biopori Warga & Kompos Lingkungan",
+      title: "Biopore Infiltration Workshop & Community Composting",
       datetime: "2026-11-12T08:30",
-      what: "Workshop dan pembuatan 50 lubang biopori percontohan di RW 04 untuk resapan air dan pengolahan sampah organik.",
-      where: "Banyumanik, Semarang Selatan",
+      what: "Hands-on workshop installing 50 biopore infiltration holes for rainwater absorption and organic waste composting.",
+      where: "Banyumanik Neighborhood, South Semarang",
       whereCoords: { lat: -7.0600, lng: 110.4150, label: "Banyumanik, Semarang" },
-      creator: "Kader Lingkungan Mandiri",
+      creator: "Community Eco Pioneers",
       participants: 22,
       createdAt: "2026-11-03T08:00:00.000Z",
     },
     {
       id: "act_ygy_01",
-      title: "Sepeda Bersama & Plogging Kali Code",
+      title: "Low-Emission Community Ride & River Plogging",
       datetime: "2026-11-13T06:30",
-      what: "Gowes santai rendah emisi menyusuri Kali Code dilanjutkan dengan jogging sambil memungut sampah (plogging).",
-      where: "Kawasan Kali Code, Gondokusuman, Yogyakarta",
-      whereCoords: { lat: -7.7828, lng: 110.3725, label: "Kali Code, Yogyakarta" },
-      creator: "Jogja Hijau Bersepeda",
+      what: "Eco-friendly leisure bike ride along the river followed by a collective jog and trash-pickup (plogging) session.",
+      where: "Code River Trail, Yogyakarta",
+      whereCoords: { lat: -7.7828, lng: 110.3725, label: "Code River, Yogyakarta" },
+      creator: "Jogja Green Cyclists",
       participants: 31,
       createdAt: "2026-11-03T09:00:00.000Z",
     },
     {
       id: "act_mdn_01",
-      title: "Revitalisasi Taman Kota & Drop Point Sampah Elektronik",
+      title: "Urban Park Renewal & E-Waste Drop Point Setup",
       datetime: "2026-11-14T09:00",
-      what: "Pembuatan spot drop point e-waste dan penataan tanaman hias penyerap polutan di area publik warga.",
-      where: "Taman Cadika, Medan Johor, Medan",
+      what: "Setting up a neighborhood electronic waste drop-off station and planting pollution-absorbing native shrubs.",
+      where: "Cadika Public Park, Medan",
       whereCoords: { lat: 3.5350, lng: 98.6650, label: "Medan Johor, Medan" },
-      creator: "Gerakan Medan Asri",
+      creator: "Medan Green Movement",
       participants: 19,
       createdAt: "2026-11-03T11:00:00.000Z",
     },
     {
       id: "act_mks_01",
-      title: "Bersih Pantai Losari & Kampanye Kurangi Kantong Plastik",
+      title: "Losari Coast Cleanup & Reusable Bag Campaign",
       datetime: "2026-11-15T07:00",
-      what: "Aksi gotong royong memungut sampah di anjungan Pantai Losari serta pembagian kantong belanja ramah lingkungan.",
-      where: "Anjungan Pantai Losari, Makassar",
-      whereCoords: { lat: -5.1450, lng: 119.4080, label: "Pantai Losari, Makassar" },
-      creator: "Makassar Green Community",
-      participants: 40,
+      what: "Citizen cleanup at the coastal esplanade and free distribution of reusable cloth shopping bags.",
+      where: "Losari Waterfront Esplanade, Makassar",
+      whereCoords: { lat: -5.1477, lng: 119.4060, label: "Pantai Losari, Makassar" },
+      creator: "Makassar Ocean Alliance",
+      participants: 38,
       createdAt: "2026-11-03T12:00:00.000Z",
     },
     {
       id: "act_jkt_02",
-      title: "Workshop Urban Farming & Kompos Sayur Dapur",
+      title: "Urban Farming & Household Composting Workshop",
       datetime: "2026-11-16T09:00",
-      what: "Belajar membuat instalasi hidroponik sederhana dari pipa bekas dan budidaya sayuran pekarangan sempit.",
-      where: "RPTRA Kalijodo, Penjaringan, Jakarta Utara",
-      whereCoords: { lat: -6.1415, lng: 106.7905, label: "Kalijodo, Jakarta Utara" },
-      creator: "Urban Farming ID",
+      what: "Hands-on tutorial creating simple hydroponic vegetable systems and food-scrap bokashi composting at home.",
+      where: "Kalijodo Eco Hub Center, Jakarta",
+      whereCoords: { lat: -6.1450, lng: 106.7850, label: "Kalijodo, Jakarta" },
+      creator: "Urban Farming Indonesia",
       participants: 25,
       createdAt: "2026-11-03T13:00:00.000Z",
     },
   ];
 
+  // DOM Elements
+  const formCard = document.getElementById("create-form-card");
   const form = document.getElementById("kegiatan-form");
+  const openFormBtn = document.getElementById("open-form-btn");
+  const closeFormBtn = document.getElementById("close-form-btn");
+  const modalCloseBtn = document.getElementById("modal-close-btn");
+  const modalOverlay = document.getElementById("activity-modal");
+  const feedbackEl = document.getElementById("form-feedback");
+  const createBtn = document.getElementById("create-activity-btn");
+
   const titleInput = document.getElementById("activity-title");
   const datetimeInput = document.getElementById("activity-datetime");
   const whatInput = document.getElementById("activity-what");
   const creatorInput = document.getElementById("activity-creator");
   const activityMapEl = document.getElementById("activity-map");
   const activityLocationDisplay = document.getElementById("activity-location-display");
-  const feedbackEl = document.getElementById("form-feedback");
-  const createBtn = document.getElementById("create-activity-btn");
-  const openFormBtn = document.getElementById("open-form-btn");
-  const closeFormBtn = document.getElementById("close-form-btn");
-  const modalCloseBtn = document.getElementById("modal-close-btn");
-  const modalOverlay = document.getElementById("activity-modal");
-  const formCard = document.getElementById("create-form-card");
 
-  // Join activity modal elements
+  // Join Modal Elements
   const joinModalOverlay = document.getElementById("join-modal");
   const joinFormCard = document.getElementById("join-form-card");
   const joinForm = document.getElementById("join-activity-form");
   const joinActivityIdInput = document.getElementById("join-activity-id");
   const joinSummaryCategory = document.getElementById("join-summary-category");
+  const joinSummaryParticipants = document.getElementById("join-summary-participants");
   const joinSummaryTitle = document.getElementById("join-summary-title");
   const joinSummaryDatetime = document.getElementById("join-summary-datetime");
   const joinSummaryLocation = document.getElementById("join-summary-location");
   const joinSummaryCreator = document.getElementById("join-summary-creator");
-  const joinSummaryParticipants = document.getElementById("join-summary-participants");
   const joinNameInput = document.getElementById("join-name");
   const joinPhoneInput = document.getElementById("join-phone");
   const joinEmailInput = document.getElementById("join-email");
@@ -216,16 +218,15 @@ document.addEventListener("DOMContentLoaded", () => {
       joinSummaryDatetime.textContent = formatDateTime(activity.datetime);
     }
     if (joinSummaryLocation) {
-      joinSummaryLocation.textContent = activity.where || "Lokasi belum ditentukan";
+      joinSummaryLocation.textContent = activity.where || "Location to be announced";
     }
     if (joinSummaryCreator) {
-      joinSummaryCreator.textContent = activity.creator || "Warga Peduli";
+      joinSummaryCreator.textContent = activity.creator || "Community Volunteer";
     }
     if (joinSummaryParticipants) {
       joinSummaryParticipants.textContent = String(activity.participants || 0);
     }
 
-    // Prefill from user profile if saved
     const profile = safeParse(localStorage.getItem(USER_PROFILE_KEY), {});
     if (joinNameInput) joinNameInput.value = profile.name || "";
     if (joinPhoneInput) joinPhoneInput.value = profile.phone || "";
@@ -291,14 +292,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function formatMapLocation(point) {
-    if (!point) return "Belum ada titik dipilih.";
-    return point.label || `Sekitar ${nearestCityForPoint(point)}, Indonesia`;
+    if (!point) return "No location pinned yet.";
+    return point.label || `Near ${nearestCityForPoint(point)}`;
   }
 
   function updateMapLocationDisplay() {
     if (!activityLocationDisplay) return;
     if (!formMapState.location) {
-      activityLocationDisplay.textContent = "Klik titik pada peta di atas untuk memilih lokasi.";
+      activityLocationDisplay.textContent = "Click a point on the interactive map above to pin the event location.";
       return;
     }
     activityLocationDisplay.textContent = formatMapLocation(formMapState.location);
@@ -310,7 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const timeoutId = setTimeout(() => controller.abort(), 3500);
       const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
       const res = await fetch(url, {
-        headers: { "Accept-Language": "id" },
+        headers: { "Accept-Language": "en" },
         signal: controller.signal,
       });
       clearTimeout(timeoutId);
@@ -327,14 +328,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     } catch (_) {}
-    return `Sekitar ${nearestCityForPoint({ lat, lng })}, Indonesia`;
+    return `Near ${nearestCityForPoint({ lat, lng })}`;
   }
 
   function initActivityMap() {
     if (!activityMapEl || formMapState.map) return;
 
     if (!window.L) {
-      activityMapEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--color-text-secondary);font-size:14px;padding:20px;text-align:center;">Peta memerlukan koneksi internet untuk memuat Leaflet.</div>';
+      activityMapEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--color-text-secondary);font-size:14px;padding:20px;text-align:center;">Map requires an active connection to load Leaflet tiles.</div>';
       return;
     }
 
@@ -352,25 +353,24 @@ document.addEventListener("DOMContentLoaded", () => {
       const point = {
         lat,
         lng,
-        label: `Sekitar ${nearestCity}, Indonesia`,
+        label: `Near ${nearestCity}`,
       };
       formMapState.location = point;
 
       if (formMapState.marker) {
         map.removeLayer(formMapState.marker);
       }
-      formMapState.marker = window.L.marker([lat, lng], { title: "Lokasi Kegiatan" })
+      formMapState.marker = window.L.marker([lat, lng], { title: "Event Location" })
         .addTo(map)
-        .bindPopup("<strong>Lokasi Terpilih:</strong><br>Sedang mencari alamat...");
+        .bindPopup("<strong>Selected Location:</strong><br>Looking up address...");
 
       updateMapLocationDisplay();
 
-      // Reverse geocode asynchronously to show real road/village address
       reverseGeocodeActivity(lat, lng).then((addr) => {
         if (formMapState.location && formMapState.location.lat === lat && formMapState.location.lng === lng) {
           formMapState.location.label = addr;
           updateMapLocationDisplay();
-          formMapState.marker?.setPopupContent("<strong>Lokasi Terpilih:</strong><br>" + addr);
+          formMapState.marker?.setPopupContent("<strong>Selected Location:</strong><br>" + addr);
         }
       });
     });
@@ -442,9 +442,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function formatDateTime(value) {
     const time = parseDateTimeLocal(value);
-    if (!Number.isFinite(time) || Number.isNaN(time)) return "Waktu belum ditetapkan";
+    if (!Number.isFinite(time) || Number.isNaN(time)) return "Date to be scheduled";
     const date = new Date(time);
-    return date.toLocaleString("id-ID", {
+    return date.toLocaleString("en-US", {
       weekday: "short",
       day: "2-digit",
       month: "short",
@@ -454,60 +454,49 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  let activeFilter = "Semua";
+  let activeFilter = "All";
 
   function getCategoryBadge(item) {
     const text = `${item.title} ${item.what}`.toLowerCase();
-    if (text.includes("sungai") || text.includes("kali code") || text.includes("ciliwung") || text.includes("air")) {
-      return { name: "Sungai & Air", className: "category-sungai", key: "Sungai", icon: "fa-water" };
+    if (text.includes("river") || text.includes("sungai") || text.includes("water") || text.includes("kali code") || text.includes("ciliwung")) {
+      return { name: "River & Water", className: "category-sungai", key: "River", icon: "fa-water" };
     }
-    if (text.includes("pohon") || text.includes("penghijauan") || text.includes("taman") || text.includes("dago")) {
-      return { name: "Penghijauan", className: "category-penghijauan", key: "Pohon", icon: "fa-tree" };
+    if (text.includes("tree") || text.includes("pohon") || text.includes("reforestation") || text.includes("greening") || text.includes("park") || text.includes("dago")) {
+      return { name: "Greening & Trees", className: "category-penghijauan", key: "Trees", icon: "fa-tree" };
     }
-    if (text.includes("mangrove") || text.includes("pantai") || text.includes("pesisir") || text.includes("laut")) {
-      return { name: "Pesisir & Laut", className: "category-pesisir", key: "Pantai", icon: "fa-umbrella-beach" };
+    if (text.includes("mangrove") || text.includes("beach") || text.includes("coastal") || text.includes("ocean") || text.includes("pantai")) {
+      return { name: "Coastal & Ocean", className: "category-pesisir", key: "Coastal", icon: "fa-umbrella-beach" };
     }
-    if (text.includes("biopori") || text.includes("kompos") || text.includes("sampah") || text.includes("waste")) {
-      return { name: "Sampah & Kompos", className: "category-sampah", key: "Sampah", icon: "fa-recycle" };
+    if (text.includes("biopori") || text.includes("compost") || text.includes("waste") || text.includes("sampah")) {
+      return { name: "Waste & Compost", className: "category-sampah", key: "Waste", icon: "fa-recycle" };
     }
-    if (text.includes("sepeda") || text.includes("plogging") || text.includes("gowes")) {
-      return { name: "Mobilitas Hijau", className: "category-sepeda", key: "Sepeda", icon: "fa-bicycle" };
+    if (text.includes("ride") || text.includes("bike") || text.includes("cyclist") || text.includes("sepeda") || text.includes("plogging")) {
+      return { name: "Green Mobility", className: "category-sepeda", key: "Mobility", icon: "fa-bicycle" };
     }
-    if (text.includes("farming") || text.includes("hidroponik") || text.includes("sayur")) {
+    if (text.includes("farming") || text.includes("hydroponic") || text.includes("garden")) {
       return { name: "Urban Farming", className: "category-farming", key: "Farming", icon: "fa-seedling" };
     }
-    return { name: "Aksi Lingkungan", className: "category-umum", key: "Umum", icon: "fa-leaf" };
-  }
-
-  function getCityLabel(item) {
-    if (item.whereCoords?.label) {
-      const parts = item.whereCoords.label.split(",");
-      return parts[parts.length - 1].trim();
-    }
-    if (item.where) {
-      const parts = item.where.split(",");
-      return parts[parts.length - 1].trim();
-    }
-    return "Indonesia";
+    return { name: "Eco Action", className: "category-umum", key: "Action", icon: "fa-leaf" };
   }
 
   function formatEventDateTime(value) {
     const time = parseDateTimeLocal(value);
     if (!Number.isFinite(time) || Number.isNaN(time)) {
-      return { date: "Waktu belum ditetapkan", time: "" };
+      return { date: "Date to be scheduled", time: "" };
     }
     const date = new Date(time);
-    const dateStr = date.toLocaleDateString("id-ID", {
+    const dateStr = date.toLocaleDateString("en-US", {
       weekday: "short",
       day: "2-digit",
       month: "short",
       year: "numeric",
     });
-    const timeStr = date.toLocaleTimeString("id-ID", {
+    const timeStr = date.toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
+      hour12: false,
     });
-    return { date: dateStr, time: `${timeStr} WIB` };
+    return { date: dateStr, time: timeStr };
   }
 
   function syncSummary(activities) {
@@ -539,7 +528,7 @@ document.addEventListener("DOMContentLoaded", () => {
     syncSummary(activeActivities);
 
     let filteredActivities = activeActivities;
-    if (activeFilter !== "Semua") {
+    if (activeFilter !== "All") {
       filteredActivities = activeActivities.filter((item) => {
         const cat = getCategoryBadge(item);
         return cat.key === activeFilter || cat.name.toLowerCase().includes(activeFilter.toLowerCase());
@@ -549,9 +538,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!filteredActivities.length) {
       listEl.innerHTML = `
         <article class="card empty-state-card list-reveal">
-          <h3>Tidak Ada Kegiatan untuk Kategori Ini</h3>
-          <p>Belum ada kegiatan yang cocok dengan filter "${activeFilter}".</p>
-          <button class="btn btn-outline" data-action="reset-filter">Tampilkan Semua Aksi</button>
+          <h3>No Community Events in this Category</h3>
+          <p>No active events match the filter "${activeFilter}".</p>
+          <button class="btn btn-outline" data-action="reset-filter">Show All Events</button>
         </article>
       `;
       return;
@@ -563,9 +552,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const start = parseDateTimeLocal(item.datetime);
         const isPast =
           Number.isFinite(start) && !Number.isNaN(start) ? start + 2 * 60 * 60 * 1000 < Date.now() : false;
-        const chipLabel = isPast ? "Selesai" : isJoined ? "Terdaftar" : "Aktif";
+        const chipLabel = isPast ? "Completed" : isJoined ? "Registered" : "Active";
         const chipClass = isPast ? "chip-past" : isJoined ? "chip-joined" : "chip-active";
-        const buttonLabel = isPast ? "Selesai" : isJoined ? "Terdaftar" : "Gabung Aksi";
+        const buttonLabel = isPast ? "Completed" : isJoined ? "Registered" : "Join Event";
         const buttonIcon = isPast ? "fa-calendar-check" : isJoined ? "fa-check" : "fa-plus";
         const buttonClass = isJoined ? "join-btn joined" : "join-btn";
         const cat = getCategoryBadge(item);
@@ -600,18 +589,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
                 <span>${item.where}</span>
               </div>
-              <div class="activity-meta-item" title="Diinisiasi oleh ${item.creator || "Komunitas Warga"}">
+              <div class="activity-meta-item" title="Initiated by ${item.creator || "Community Volunteers"}">
                 <i class="fas fa-bullhorn" aria-hidden="true"></i>
-                <span>Diinisiasi oleh <strong>${item.creator || "Komunitas Warga"}</strong></span>
+                <span>Initiated by <strong>${item.creator || "Community Volunteers"}</strong></span>
               </div>
             </div>
 
             <div class="activity-footer">
               <div class="participant-count">
                 <i class="fas fa-users" aria-hidden="true"></i>
-                <span><strong>${item.participants || 0}</strong> warga ikut</span>
+                <span><strong>${item.participants || 0}</strong> citizens joined</span>
               </div>
-              <button class="${buttonClass}" data-action="join" data-id="${item.id}" ${isPast ? "disabled" : ""} title="${isJoined ? "Klik untuk membatalkan keikutsertaan" : isPast ? "Kegiatan telah selesai" : "Klik untuk mendaftar aksi"}">
+              <button class="${buttonClass}" data-action="join" data-id="${item.id}" ${isPast ? "disabled" : ""} title="${isJoined ? "Click to cancel participation" : isPast ? "Event has completed" : "Click to RSVP for this action"}">
                 <i class="fas ${buttonIcon}" aria-hidden="true"></i> <span>${buttonLabel}</span>
               </button>
             </div>
@@ -631,11 +620,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!createBtn) return;
     if (loading) {
       createBtn.disabled = true;
-      createBtn.textContent = "Menyimpan...";
+      createBtn.textContent = "Saving...";
       return;
     }
     createBtn.disabled = false;
-    createBtn.textContent = "Buat Kegiatan";
+    createBtn.textContent = "Create Event";
   }
 
   function createActivity(payload) {
@@ -650,21 +639,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const title = String(titleInput?.value || "").trim();
     const datetime = String(datetimeInput?.value || "").trim();
     const what = String(whatInput?.value || "").trim();
-    const creator = String(creatorInput?.value || "").trim() || "Warga Peduli";
+    const creator = String(creatorInput?.value || "").trim() || "Community Volunteer";
     const where = formMapState.location ? formatMapLocation(formMapState.location) : "";
 
     if (!title || !datetime || !what || !formMapState.location) {
-      setFeedback("Lengkapi semua field wajib dan tentukan lokasi di peta.", false);
+      setFeedback("Please fill in all required fields and pin the location on the map.", false);
       return;
     }
 
     const time = parseDateTimeLocal(datetime);
     if (!Number.isFinite(time) || Number.isNaN(time)) {
-      setFeedback("Format waktu kegiatan tidak valid.", false);
+      setFeedback("Invalid date format.", false);
       return;
     }
     if (time < Date.now() - 5 * 60 * 1000) {
-      setFeedback("Waktu kegiatan sudah lewat. Pilih waktu sekarang atau yang akan datang.", false);
+      setFeedback("Event date cannot be in the past. Please select an upcoming date and time.", false);
       return;
     }
 
@@ -684,7 +673,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     createActivity(activity);
     setCreateLoading(false);
-    setFeedback("Kegiatan berhasil dibuat dan masuk ke daftar!", true);
+    setFeedback("Event successfully created and added to the community board!", true);
 
     form.reset();
     formMapState.location = null;
@@ -711,9 +700,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const resetFilterBtn = target.closest('button[data-action="reset-filter"]');
     if (resetFilterBtn) {
-      activeFilter = "Semua";
+      activeFilter = "All";
       document.querySelectorAll("#activity-filter-tabs .filter-btn").forEach((b) => {
-        b.classList.toggle("active", b.dataset.filter === "Semua");
+        b.classList.toggle("active", b.dataset.filter === "All");
       });
       renderActivities();
       return;
@@ -741,7 +730,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (isJoined) {
       const confirmCancel = window.confirm(
-        `Batalkan keikutsertaan Anda dari kegiatan:\n"${targetActivity.title}"?`
+        `Cancel your RSVP for this event:\n"${targetActivity.title}"?`
       );
       if (!confirmCancel) return;
 
@@ -768,22 +757,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const notes = String(joinNotesInput?.value || "").trim();
 
     if (!name || !phone) {
-      setJoinFeedback("Mohon lengkapi Nama Lengkap dan No. WhatsApp.", false);
+      setJoinFeedback("Please provide your Full Name and WhatsApp/Phone Number.", false);
       return;
     }
 
-    // Save profile for auto-filling future registrations
     localStorage.setItem(USER_PROFILE_KEY, JSON.stringify({ name, phone, email }));
 
     const activities = loadActivities();
     const joined = loadJoinedState();
     const actIndex = activities.findIndex((item) => item.id === activityId);
     if (actIndex < 0) {
-      setJoinFeedback("Kegiatan tidak ditemukan.", false);
+      setJoinFeedback("Event not found.", false);
       return;
     }
 
-    // Record user participation
     joined[activityId] = {
       joined: true,
       name,
@@ -798,17 +785,17 @@ document.addEventListener("DOMContentLoaded", () => {
     saveActivities(activities);
     saveJoinedState(joined);
 
-    setJoinFeedback(`Pendaftaran berhasil! Terima kasih ${name}, sampai jumpa di lokasi aksi.`, true);
+    setJoinFeedback(`RSVP Confirmed! Thank you ${name}, see you at the event location.`, true);
 
     if (joinSubmitBtn) {
       joinSubmitBtn.disabled = true;
-      joinSubmitBtn.innerHTML = '<i class="fas fa-check"></i> Terdaftar!';
+      joinSubmitBtn.innerHTML = '<i class="fas fa-check"></i> Registered!';
     }
 
     setTimeout(() => {
       if (joinSubmitBtn) {
         joinSubmitBtn.disabled = false;
-        joinSubmitBtn.innerHTML = '<i class="fas fa-check-circle" aria-hidden="true"></i> Konfirmasi Gabung';
+        joinSubmitBtn.innerHTML = '<i class="fas fa-check-circle" aria-hidden="true"></i> Confirm RSVP';
       }
       hideJoinModal();
       renderActivities();
@@ -829,14 +816,14 @@ document.addEventListener("DOMContentLoaded", () => {
   filterTabsContainer?.addEventListener("click", (e) => {
     const btn = e.target.closest(".filter-btn");
     if (!btn) return;
-    const filter = btn.dataset.filter || "Semua";
+    const filter = btn.dataset.filter || "All";
     activeFilter = filter;
     filterTabsContainer.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
     renderActivities();
   });
 
-  // Modal Buat Kegiatan listeners
+  // Modal Create Activity listeners
   openFormBtn?.addEventListener("click", showForm);
   closeFormBtn?.addEventListener("click", hideForm);
   modalCloseBtn?.addEventListener("click", hideForm);
@@ -844,7 +831,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === modalOverlay) hideForm();
   });
 
-  // Modal Gabung Kegiatan listeners
+  // Modal Join Activity listeners
   joinCloseBtn?.addEventListener("click", hideJoinModal);
   joinModalCloseBtn?.addEventListener("click", hideJoinModal);
   joinModalOverlay?.addEventListener("click", (e) => {

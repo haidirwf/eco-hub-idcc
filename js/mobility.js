@@ -2,7 +2,7 @@
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  const COMMUNITY_ACTIVITIES_KEY = "Eco Hub_community_activities_v1";
+  const COMMUNITY_ACTIVITIES_KEY = "Eco Hub_community_activities_en_v1";
   const MOCK_MODE = localStorage.getItem("Eco Hub_mock_mode") === "1";
   const DUMMY_MAP_MODE = false;
   const INDONESIA_BOUNDS = [
@@ -31,13 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "Papua", minLat: -9.8, maxLat: 0.2, minLng: 131.0, maxLng: 141.5 },
   ];
 
-  // g CO2 per km per person (estimasi edukasi)
+  // g CO2 per km per person (educational estimate)
   const MODE_FACTORS = {
-    walk: { label: "Jalan Kaki", factor: 0, color: "#4a7c42" },
-    bike: { label: "Sepeda", factor: 8, color: "#6aa85f" },
-    bus: { label: "Bus/Transum", factor: 68, color: "#8b6914" },
+    walk: { label: "Walking", factor: 0, color: "#4a7c42" },
+    bike: { label: "Bicycle", factor: 8, color: "#6aa85f" },
+    bus: { label: "Public Bus / Transit", factor: 68, color: "#8b6914" },
     carpool: { label: "Carpool", factor: 95, color: "#c48a2a" },
-    motor: { label: "Kendaraan Pribadi", factor: 170, color: "#c0392b" },
+    motor: { label: "Private Motor Vehicle", factor: 170, color: "#c0392b" },
   };
 
   const CITIES = {
@@ -323,8 +323,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const h = Math.floor(minutes / 60);
     const m = minutes % 60;
     if (h <= 0) return `${m}m`;
-    if (m === 0) return `${h}j`;
-    return `${h}j ${m}m`;
+    if (m === 0) return `${h}h`;
+    return `${h}h ${m}m`;
   }
 
   function addOsmTileLayer(map) {
@@ -394,23 +394,23 @@ document.addEventListener("DOMContentLoaded", () => {
   function getAqiDescriptor(aqi) {
     if (aqi <= 50) {
       return {
-        label: "Baik",
-        desc: "Udara relatif aman untuk aktivitas luar ruangan.",
+        label: "Good",
+        desc: "Air quality is satisfactory and poses little or no health risk.",
         className: "good",
       };
     }
 
     if (aqi <= 100) {
       return {
-        label: "Sedang",
-        desc: "Kelompok sensitif disarankan mengurangi paparan lama.",
+        label: "Moderate",
+        desc: "Acceptable quality; sensitive individuals should reduce prolonged exertion.",
         className: "warn",
       };
     }
 
     return {
-      label: "Tidak Sehat",
-      desc: "Batasi aktivitas luar dan prioritaskan perlindungan pernapasan.",
+      label: "Unhealthy",
+      desc: "Elevated pollution levels. Limit prolonged outdoor exertion.",
       className: "danger",
     };
   }
@@ -441,11 +441,11 @@ document.addEventListener("DOMContentLoaded", () => {
       areaScoreNote.classList.remove("score-good", "score-warn", "score-danger");
       areaScoreNote.classList.add(`score-${scoreState}`);
       if (score >= 75) {
-        areaScoreNote.textContent = "Area relatif sehat. Pertahankan transportasi rendah emisi.";
+        areaScoreNote.textContent = "Relatively healthy area. Maintain low-emission transit choices.";
       } else if (score >= 55) {
-        areaScoreNote.textContent = "Area butuh perbaikan bertahap melalui mobilitas hijau harian.";
+        areaScoreNote.textContent = "Area needs gradual progress through daily green commuting.";
       } else {
-        areaScoreNote.textContent = "Area prioritas tinggi. Perlu intervensi cepat dan pengurangan emisi harian.";
+        areaScoreNote.textContent = "High priority area. Urgent need for daily emission reduction.";
       }
     }
   }
@@ -453,43 +453,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const DEFAULT_COMMUNITY_ACTIVITIES = [
     {
       id: "act_jkt_01",
-      title: "Aksi Bersih Sungai Ciliwung & Pilah Sampah",
+      title: "River Cleanup & Waste Segregation Drive",
       datetime: "2026-11-08T07:30",
-      what: "Gotong royong membersihkan sampah plastik di bantaran Sungai Ciliwung dan pemilahan material daur ulang bersama warga.",
-      where: "Bantaran Sungai Ciliwung, Manggarai, Jakarta Selatan",
-      whereCoords: { lat: -6.2088, lng: 106.8456, label: "Manggarai, Jakarta Selatan" },
-      creator: "Komunitas Ciliwung Bersih",
+      what: "Collective community effort to remove plastic waste from riverbank corridors and sort recyclable materials.",
+      where: "Riverbank Corridor, South Jakarta",
+      whereCoords: { lat: -6.2088, lng: 106.8456, label: "South Jakarta Corridor" },
+      creator: "Clean River Initiative",
       participants: 28,
       createdAt: "2026-11-01T08:00:00.000Z",
     },
     {
       id: "act_bdg_01",
-      title: "Penanaman 200 Bibit Pohon di Kawasan Dago Atas",
+      title: "200 Native Tree Seedling Planting Drive",
       datetime: "2026-11-09T08:00",
-      what: "Penghijauan lereng bukit Dago untuk memperkuat daerah resapan air Bandung Utara dan mencegah erosi tanah.",
-      where: "Dago Pakar, Ciburial, Bandung",
-      whereCoords: { lat: -6.8650, lng: 107.6250, label: "Dago Pakar, Bandung" },
+      what: "Reforestation of hillside slopes to reinforce natural water catchment basins and prevent soil erosion.",
+      where: "Dago Hills Nature Reserve, Bandung",
+      whereCoords: { lat: -6.8650, lng: 107.6250, label: "Dago Hills, Bandung" },
       creator: "Bandung Eco Green",
       participants: 45,
       createdAt: "2026-11-02T09:00:00.000Z",
     },
     {
       id: "act_sby_01",
-      title: "Restorasi Mangrove & Bersih Pesisir Wonorejo",
+      title: "Mangrove Restoration & Coastal Beach Cleanup",
       datetime: "2026-11-10T06:30",
-      what: "Ekowisata dan aksi penanaman bibit bakau serta pengumpulan sampah plastik di pesisir Timur Surabaya.",
-      where: "Ekowisata Mangrove Wonorejo, Rungkut, Surabaya",
+      what: "Ecotourism field excursion planting mangrove saplings and gathering plastic debris along the eastern coast.",
+      where: "Wonorejo Mangrove Ecotourism, Surabaya",
       whereCoords: { lat: -7.3080, lng: 112.8210, label: "Wonorejo, Surabaya" },
-      creator: "Sahabat Pesisir Surabaya",
+      creator: "Coastal Guardians Collective",
       participants: 36,
       createdAt: "2026-11-02T10:00:00.000Z",
     },
     {
       id: "act_dps_01",
-      title: "Beach Clean Up & Edukasi Pilah Sampah Sanur",
+      title: "Morning Beach Cleanup & Microplastic Education",
       datetime: "2026-11-11T06:00",
-      what: "Aksi bersih pantai pagi hari di Pantai Sanur bersama warga lokal dan turis untuk mengurangi polusi mikroplastik.",
-      where: "Pantai Matahari Terbit, Sanur, Denpasar",
+      what: "Sunrise beach clean-up alongside local residents and visitors to reduce shoreline microplastic pollution.",
+      where: "Sunrise Beach, Sanur, Denpasar",
       whereCoords: { lat: -8.6738, lng: 115.2631, label: "Sanur, Denpasar" },
       creator: "Bali Clean Waves",
       participants: 52,
@@ -497,43 +497,43 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       id: "act_smg_01",
-      title: "Pemasangan Biopori Warga & Kompos Lingkungan",
+      title: "Biopore Infiltration Workshop & Community Composting",
       datetime: "2026-11-12T08:30",
-      what: "Workshop dan pembuatan 50 lubang biopori percontohan di RW 04 untuk resapan air dan pengolahan sampah organik.",
-      where: "Banyumanik, Semarang Selatan",
+      what: "Hands-on workshop installing 50 biopore infiltration holes for rainwater absorption and organic waste composting.",
+      where: "Banyumanik Neighborhood, South Semarang",
       whereCoords: { lat: -7.0600, lng: 110.4150, label: "Banyumanik, Semarang" },
-      creator: "Kader Lingkungan Mandiri",
+      creator: "Community Eco Pioneers",
       participants: 22,
       createdAt: "2026-11-03T08:00:00.000Z",
     },
     {
       id: "act_ygy_01",
-      title: "Sepeda Bersama & Plogging Kali Code",
+      title: "Low-Emission Community Ride & River Plogging",
       datetime: "2026-11-13T06:30",
-      what: "Gowes santai rendah emisi menyusuri Kali Code dilanjutkan dengan jogging sambil memungut sampah (plogging).",
-      where: "Kawasan Kali Code, Gondokusuman, Yogyakarta",
-      whereCoords: { lat: -7.7828, lng: 110.3725, label: "Kali Code, Yogyakarta" },
-      creator: "Jogja Hijau Bersepeda",
+      what: "Eco-friendly leisure bike ride along the river followed by a collective jog and trash-pickup (plogging) session.",
+      where: "Code River Trail, Yogyakarta",
+      whereCoords: { lat: -7.7828, lng: 110.3725, label: "Code River, Yogyakarta" },
+      creator: "Jogja Green Cyclists",
       participants: 31,
       createdAt: "2026-11-03T09:00:00.000Z",
     },
     {
       id: "act_mdn_01",
-      title: "Revitalisasi Taman Kota & Drop Point Sampah Elektronik",
+      title: "Urban Park Renewal & E-Waste Drop Point Setup",
       datetime: "2026-11-14T09:00",
-      what: "Pembuatan spot drop point e-waste dan penataan tanaman hias penyerap polutan di area publik warga.",
-      where: "Taman Cadika, Medan Johor, Medan",
+      what: "Setting up a neighborhood electronic waste drop-off station and planting pollution-absorbing native shrubs.",
+      where: "Cadika Public Park, Medan",
       whereCoords: { lat: 3.5350, lng: 98.6650, label: "Medan Johor, Medan" },
-      creator: "Gerakan Medan Asri",
+      creator: "Medan Green Movement",
       participants: 19,
       createdAt: "2026-11-03T11:00:00.000Z",
     },
     {
       id: "act_mks_01",
-      title: "Bersih Pantai Losari & Kampanye Kurangi Kantong Plastik",
+      title: "Losari Coast Cleanup & Reusable Bag Campaign",
       datetime: "2026-11-15T07:00",
-      what: "Aksi gotong royong memungut sampah di anjungan Pantai Losari serta pembagian kantong belanja ramah lingkungan.",
-      where: "Anjungan Pantai Losari, Makassar",
+      what: "Citizen cleanup at the coastal esplanade and free distribution of reusable cloth shopping bags.",
+      where: "Losari Waterfront Esplanade, Makassar",
       whereCoords: { lat: -5.1450, lng: 119.4080, label: "Pantai Losari, Makassar" },
       creator: "Makassar Green Community",
       participants: 40,
@@ -541,10 +541,10 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       id: "act_jkt_02",
-      title: "Workshop Urban Farming & Kompos Sayur Dapur",
+      title: "Urban Farming & Household Composting Workshop",
       datetime: "2026-11-16T09:00",
-      what: "Belajar membuat instalasi hidroponik sederhana dari pipa bekas dan budidaya sayuran pekarangan sempit.",
-      where: "RPTRA Kalijodo, Penjaringan, Jakarta Utara",
+      what: "Hands-on tutorial creating simple hydroponic vegetable systems and food-scrap bokashi composting at home.",
+      where: "Kalijodo Eco Hub Center, Jakarta",
       whereCoords: { lat: -6.1415, lng: 106.7905, label: "Kalijodo, Jakarta Utara" },
       creator: "Urban Farming ID",
       participants: 25,
@@ -573,21 +573,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const dt = item?.datetime ? new Date(item.datetime) : null;
         const timeText =
           dt && !Number.isNaN(dt.getTime())
-            ? dt.toLocaleString("id-ID", {
+            ? dt.toLocaleString("en-US", {
                 day: "2-digit",
                 month: "short",
                 hour: "2-digit",
                 minute: "2-digit",
               })
-            : "Waktu belum ditetapkan";
+            : "Date to be scheduled";
 
         return {
           id: item?.id || "",
-          title: item?.title || "Kegiatan Warga",
-          type: "Kegiatan Warga",
+          title: item?.title || "Community Event",
+          type: "Community Event",
           lat,
           lng,
-          detail: `${item?.what || "Aksi komunitas"} | ${timeText}`,
+          detail: `${item?.what || "Community action"} | ${timeText}`,
           participants: Number(item?.participants || 0),
           distanceKm: haversineDistanceKm({ lat, lng }, cityPoint),
         };
@@ -633,7 +633,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderCommunityActionMap(cityName) {
     if (!communityActionMapEl) return;
     if (!window.L) {
-      communityActionMapEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--color-text-secondary);font-size:13px;">Peta aksi komunitas memerlukan Leaflet & koneksi internet.</div>';
+      communityActionMapEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--color-text-secondary);font-size:13px;">Community action map requires Leaflet & an internet connection.</div>';
       return;
     }
 
@@ -651,8 +651,8 @@ document.addEventListener("DOMContentLoaded", () => {
           ? `kegiatan.html#activity-${encodeURIComponent(item.id)}`
           : "kegiatan.html#activity-list";
       const popupHtml = isCommunityActivity
-        ? `<strong>${item.title}</strong><br>${item.type}<br>${item.detail}<br>${item.participants} peserta<br><a class="map-detail-link" href="${detailHref}">Lihat Detail</a>`
-            : `<strong>${item.title}</strong><br>${item.type}<br><a class="map-detail-link" href="${detailHref}">Lihat Detail</a>`;
+        ? `<strong>${item.title}</strong><br>${item.type}<br>${item.detail}<br>${item.participants} participants<br><a class="map-detail-link" href="${detailHref}">View Details</a>`
+        : `<strong>${item.title}</strong><br>${item.type}<br><a class="map-detail-link" href="${detailHref}">View Details</a>`;
       window.L.circleMarker([item.lat, item.lng], {
         radius: 8,
         color: "#ffffff",
@@ -674,7 +674,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function formatPointLabel(point) {
-    if (!point) return "Belum dipilih";
+    if (!point) return "Not selected";
     if (point.label) return point.label;
     return `${point.lat.toFixed(4)}, ${point.lng.toFixed(4)}`;
   }
@@ -688,7 +688,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const ready = Boolean(mapState.from && mapState.to);
     if (simulateBtn) {
       simulateBtn.disabled = !ready;
-      simulateBtn.title = ready ? "" : "Pilih titik asal dan tujuan di peta terlebih dahulu";
+      simulateBtn.title = ready ? "" : "Please select origin and destination points on the map first";
     }
 
     if (resetPointsBtn) {
@@ -697,11 +697,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (mobilityMapHint) {
       if (!mapState.from && !mapState.to) {
-        mobilityMapHint.innerHTML = 'Klik peta untuk pilih <strong style="color: #2d8a4e;">asal (A)</strong>, lalu klik lagi untuk <strong style="color: #d93829;">tujuan (B)</strong>.';
+        mobilityMapHint.innerHTML = 'Click on the map to choose <strong style="color: #2d8a4e;">Origin (A)</strong>, then click again for <strong style="color: #d93829;">Destination (B)</strong>.';
       } else if (mapState.from && !mapState.to) {
-        mobilityMapHint.innerHTML = 'Titik Asal (<strong style="color: #2d8a4e;">A</strong>) dipilih! Sekarang klik peta untuk <strong style="color: #d93829;">Tujuan (B)</strong>.';
+        mobilityMapHint.innerHTML = 'Origin (<strong style="color: #2d8a4e;">A</strong>) selected! Now click the map to choose <strong style="color: #d93829;">Destination (B)</strong>.';
       } else if (mapState.from && mapState.to) {
-        mobilityMapHint.innerHTML = 'Rute berhasil dibuat! Geser pin <strong style="color: #2d8a4e;">A</strong> / <strong style="color: #d93829;">B</strong> jika ingin menyesuaikan, lalu klik <strong>Hitung Emisi</strong>.';
+        mobilityMapHint.innerHTML = 'Route generated! Drag pin <strong style="color: #2d8a4e;">A</strong> or <strong style="color: #d93829;">B</strong> to adjust, then click <strong>Calculate Emissions</strong>.';
       }
     }
   }
@@ -800,7 +800,7 @@ document.addEventListener("DOMContentLoaded", () => {
         mapState.fromMarker = window.L.marker([mapState.from.lat, mapState.from.lng], {
           icon: createCustomPin("from", "A"),
           draggable: true,
-          title: "Titik Asal (A) - Geser untuk sesuaikan",
+          title: "Origin Point (A) - Drag to adjust",
         }).addTo(mapState.map);
 
         mapState.fromMarker.on("dragend", async (e) => {
@@ -808,7 +808,7 @@ document.addEventListener("DOMContentLoaded", () => {
           mapState.from = {
             lat: Number(pos.lat.toFixed(5)),
             lng: Number(pos.lng.toFixed(5)),
-            label: "Mencari alamat...",
+            label: "Finding address...",
           };
           updatePointLabels();
           resolvePointAddress("from");
@@ -817,7 +817,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         mapState.fromMarker.setLatLng([mapState.from.lat, mapState.from.lng]);
       }
-      mapState.fromMarker.bindPopup("<strong>Titik Asal (A):</strong><br>" + (mapState.from.label || "Sedang memuat alamat..."));
+      mapState.fromMarker.bindPopup("<strong>Origin Point (A):</strong><br>" + (mapState.from.label || "Loading address..."));
     } else if (mapState.fromMarker) {
       mapState.map.removeLayer(mapState.fromMarker);
       mapState.fromMarker = null;
@@ -829,7 +829,7 @@ document.addEventListener("DOMContentLoaded", () => {
         mapState.toMarker = window.L.marker([mapState.to.lat, mapState.to.lng], {
           icon: createCustomPin("to", "B"),
           draggable: true,
-          title: "Titik Tujuan (B) - Geser untuk sesuaikan",
+          title: "Destination Point (B) - Drag to adjust",
         }).addTo(mapState.map);
 
         mapState.toMarker.on("dragend", async (e) => {
@@ -837,7 +837,7 @@ document.addEventListener("DOMContentLoaded", () => {
           mapState.to = {
             lat: Number(pos.lat.toFixed(5)),
             lng: Number(pos.lng.toFixed(5)),
-            label: "Mencari alamat...",
+            label: "Finding address...",
           };
           updatePointLabels();
           resolvePointAddress("to");
@@ -846,7 +846,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         mapState.toMarker.setLatLng([mapState.to.lat, mapState.to.lng]);
       }
-      mapState.toMarker.bindPopup("<strong>Titik Tujuan (B):</strong><br>" + (mapState.to.label || "Sedang memuat alamat..."));
+      mapState.toMarker.bindPopup("<strong>Destination Point (B):</strong><br>" + (mapState.to.label || "Loading address..."));
     } else if (mapState.toMarker) {
       mapState.map.removeLayer(mapState.toMarker);
       mapState.toMarker = null;
@@ -888,7 +888,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function initMap() {
     if (!mapEl) return;
     if (!window.L) {
-      mapEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--color-text-secondary);font-size:14px;padding:20px;text-align:center;">Peta memerlukan koneksi internet untuk memuat Leaflet.</div>';
+      mapEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--color-text-secondary);font-size:14px;padding:20px;text-align:center;">Map requires an active connection to load Leaflet tiles.</div>';
       return;
     }
 
@@ -902,7 +902,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const point = {
         lat: Number(event.latlng.lat.toFixed(5)),
         lng: Number(event.latlng.lng.toFixed(5)),
-        label: "Mencari alamat...",
+        label: "Looking up address...",
       };
       if (!mapState.from) {
         mapState.from = point;
@@ -1011,9 +1011,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getSimulationTag(savedKg) {
-    if (savedKg >= 10) return { text: "Potensi Hemat Tinggi", className: "good" };
-    if (savedKg >= 4) return { text: "Potensi Hemat Menengah", className: "warn" };
-    return { text: "Potensi Hemat Rendah", className: "danger" };
+    if (savedKg >= 10) return { text: "High Savings Potential", className: "good" };
+    if (savedKg >= 4) return { text: "Moderate Savings Potential", className: "warn" };
+    return { text: "Low Savings Potential", className: "danger" };
   }
 
   function nearestCityFromPoints(from, to) {
@@ -1042,42 +1042,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (context.aqi > 100) {
       items.push({
-        title: "Mode Rendah Emisi Prioritas Hari Ini",
-        desc: "AQI sedang tinggi. Gunakan bus/carpool atau kurangi perjalanan yang tidak mendesak.",
+        title: "Priority Low-Emission Mode Today",
+        desc: "AQI is elevated. Use transit, carpool, or reduce non-essential motorized trips.",
         chip: "Air Quality Alert",
-        action: "Kurangi perjalanan jam 11.00-14.00",
+        action: "Reduce travel between 11:00-14:00",
       });
     } else {
       items.push({
-        title: "Waktu Tepat untuk Mobilitas Hijau",
-        desc: "Kualitas udara cukup baik. Jadwalkan jalan kaki atau bersepeda untuk perjalanan pendek.",
+        title: "Ideal Window for Green Commuting",
+        desc: "Air quality is good. Walking or bicycling is highly recommended for short distances.",
         chip: "Good Air Window",
-        action: "Pilih rute hijau untuk jarak <2 km",
+        action: "Choose green routes for trips under 2 km",
       });
     }
 
     if (context.savedKg > 0) {
       items.push({
-        title: "Pertahankan Mode Alternatif",
-        desc: `Pilihanmu berpotensi menekan emisi ${context.savedKg.toFixed(2)} kg CO2 per minggu. Konsisten 1 bulan akan berdampak besar.`,
+        title: "Maintain Low-Carbon Routine",
+        desc: `Your choice can prevent ${context.savedKg.toFixed(2)} kg CO2 weekly. Sustaining this creates significant collective impact.`,
         chip: "Behavior Shift",
-        action: "Ulangi mode ini minimal 3 hari ke depan",
+        action: "Repeat this mode at least 3 days this week",
       });
     } else {
       items.push({
-        title: "Optimalkan Mode Perjalanan",
-        desc: "Coba mode dengan emisi lebih rendah untuk rute ini agar penghematan karbon lebih terasa.",
+        title: "Optimize Commuting Mode",
+        desc: "Consider switching to a lower-emission transit mode for this route to maximize your carbon savings.",
         chip: "Optimization",
-        action: "Coba bus/carpool untuk perjalanan berikutnya",
+        action: "Try public transit or carpooling next time",
       });
     }
 
     if (context.communityActionCount >= 3) {
       items.push({
-        title: "Aktivasi Aksi Komunitas Lokal",
-        desc: "Ada banyak agenda komunitas di sekitarmu. Pilih satu kegiatan akhir pekan untuk dampak langsung.",
+        title: "Join Local Environmental Action",
+        desc: "Active community events are happening near you. Join a weekend action for hands-on impact.",
         chip: "Community Action",
-        action: "Gabung 1 kegiatan komunitas minggu ini",
+        action: "RSVP for 1 community event this week",
       });
     }
 
@@ -1099,7 +1099,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateHeroInsight(simResult, aqi) {
     const baseline = simResult?.savedKg || 0;
-    const savedText = baseline > 0 ? `${baseline.toFixed(2)} kg/minggu` : "Belum ada";
+    const savedText = baseline > 0 ? `${baseline.toFixed(2)} kg/week` : "None yet";
 
     if (heroAqi) heroAqi.textContent = String(Math.round(aqi));
     if (heroSaving) heroSaving.textContent = savedText;
@@ -1107,8 +1107,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!heroInsightText) return;
     heroInsightText.textContent =
       baseline > 0
-        ? `Jika pola perjalanan ini dipertahankan, kamu bisa menghemat sekitar ${simResult.yearlySavedKg.toFixed(0)} kg CO2 per tahun.`
-        : "Klik asal dan tujuan di peta lalu hitung untuk melihat potensi penghematan karbon tahunanmu.";
+        ? `Maintaining this transit pattern can save approx. ${simResult.yearlySavedKg.toFixed(0)} kg CO2 annually.`
+        : "Click origin and destination on the map, then calculate to view your annual carbon savings potential.";
   }
 
   async function updateDashboardByCity(city, simResult = null) {
@@ -1231,7 +1231,7 @@ document.addEventListener("DOMContentLoaded", () => {
       current.label = address;
       updatePointLabels();
 
-      const prefix = role === "from" ? "Titik Asal (A)" : "Titik Tujuan (B)";
+      const prefix = role === "from" ? "Origin Point (A)" : "Destination Point (B)";
       if (role === "from" && mapState.fromMarker) {
         mapState.fromMarker.setPopupContent(`<strong>${prefix}:</strong><br>` + address);
       } else if (role === "to" && mapState.toMarker) {
@@ -1281,7 +1281,7 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault();
 
     if (!mapState.from || !mapState.to) {
-      setEmptyMessage("Pilih titik asal dan tujuan dulu di peta, lalu klik hitung.");
+      setEmptyMessage("Please select both origin and destination points on the map, then click Calculate.");
       emptyCard?.classList.remove("hidden");
       resultCard?.classList.add("hidden");
       return;
@@ -1292,7 +1292,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectedMode = modeSelect?.value || "motor";
     const tripsPerWeek = Math.max(1, Number(tripsWeek?.value || 10));
 
-    setButtonLoading(simulateBtn, true, "Menghitung...");
+    setButtonLoading(simulateBtn, true, "Calculating...");
     try {
       const { realRoute, distanceKm, etaMinutes } = await resolveAndDrawRoute(
         from,
@@ -1326,18 +1326,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const suggestedLabel = MODE_FACTORS[simResult.recommendedMode].label;
 
       if (simulationInsight) {
-        const routeBasis = realRoute ? "rute jalan nyata" : "estimasi garis lurus";
+        const routeBasis = realRoute ? "actual road route" : "direct line estimate";
         simulationInsight.textContent =
-          `Jarak ${routeBasis} sekitar ${distanceKm.toFixed(2)} km dengan estimasi waktu ${formatEta(etaMinutes)}. Jika memakai ${selectedLabel} sebanyak ${tripsPerWeek}x pulang-pergi/minggu, emisi diperkirakan ${simResult.selectedKg.toFixed(2)} kg CO2.`;
+          `Distance (${routeBasis}) is approx. ${distanceKm.toFixed(2)} km with an estimated travel time of ${formatEta(etaMinutes)}. Choosing ${selectedLabel} for ${tripsPerWeek} round trips/week emits an estimated ${simResult.selectedKg.toFixed(2)} kg CO2.`;
       }
 
       if (populationInsight) {
         if (simResult.savedKg > 0) {
           populationInsight.textContent =
-            `Untuk rute ini, mode yang lebih efisien adalah ${suggestedLabel}. Potensi hematmu ${simResult.savedKg.toFixed(2)} kg CO2 per minggu (${simResult.people100SavedKg.toFixed(0)} kg jika dilakukan 100 orang).`;
+            `For this route, a more eco-friendly mode is ${suggestedLabel}. You could save ${simResult.savedKg.toFixed(2)} kg CO2 per week (${simResult.people100SavedKg.toFixed(0)} kg CO2 if adopted by 100 people).`;
         } else {
           populationInsight.textContent =
-            `Mode ${selectedLabel} sudah termasuk efisien untuk rute ini. Pertahankan kebiasaan ini agar dampaknya konsisten.`;
+            `Mode ${selectedLabel} is already highly efficient for this route. Keep up this sustainable habit!`;
         }
       }
 
@@ -1357,14 +1357,14 @@ document.addEventListener("DOMContentLoaded", () => {
     syncModeDetailsByViewport();
     window.addEventListener("resize", syncModeDetailsByViewport);
     updatePointLabels();
-    setEmptyMessage("Klik peta untuk memilih asal dan tujuan perjalanan.");
+    setEmptyMessage("Click on the map to choose your trip's origin and destination.");
     const initialCity = dashboardCitySelect?.value || "Jakarta";
     const context = await updateDashboardByCity(initialCity);
 
-    if (heroSaving) heroSaving.textContent = "Belum ada";
+    if (heroSaving) heroSaving.textContent = "None yet";
     if (context.communityActionCount === 0 && heroInsightText) {
       heroInsightText.textContent =
-        "Mulai dengan klik peta untuk menentukan asal dan tujuan. Kami hitungkan emisinya secara otomatis.";
+        "Click on the map to set your origin and destination. We will calculate the emissions automatically.";
     }
   })();
 });

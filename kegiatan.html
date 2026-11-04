@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kegiatan Warga — Eco Hub</title>
+    <title>Community Events & Eco Action — Eco Hub</title>
     <meta
       name="description"
-      content="Temukan dan ikuti kegiatan lingkungan, aksi gotong royong, dan komunitas hijau terdekat di kotamu bersama Eco Hub."
+      content="Discover and participate in local environmental events, river cleanups, tree plantings, and community green initiatives near you with Eco Hub."
     />
 
     <!-- Favicon & PWA -->
@@ -18,12 +18,12 @@
     <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Eco Hub" />
-    <meta property="og:title" content="Aksi Komunitas & Kegiatan Warga — Eco Hub" />
-    <meta property="og:description" content="Temukan dan ikuti kegiatan lingkungan, aksi gotong royong, dan komunitas hijau terdekat di kotamu bersama Eco Hub." />
+    <meta property="og:title" content="Community Events & Eco Action — Eco Hub" />
+    <meta property="og:description" content="Discover and participate in local environmental events, river cleanups, tree plantings, and community green initiatives near you with Eco Hub." />
     <meta property="og:image" content="assets/icon-512.png" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Aksi Komunitas & Kegiatan Warga — Eco Hub" />
-    <meta name="twitter:description" content="Temukan dan ikuti kegiatan lingkungan, aksi gotong royong, dan komunitas hijau terdekat di kotamu bersama Eco Hub." />
+    <meta name="twitter:title" content="Community Events & Eco Action — Eco Hub" />
+    <meta name="twitter:description" content="Discover and participate in local environmental events, river cleanups, tree plantings, and community green initiatives near you with Eco Hub." />
     <meta name="twitter:image" content="assets/icon-512.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -55,16 +55,16 @@
         </a>
 
         <div class="nav-menu hide-mobile">
-          <a href="index.html" class="nav-link">Beranda</a>
-          <a href="lapor.html" class="nav-link">Lapor</a>
-          <a href="konten.html" class="nav-link">Edukasi</a>
-          <a href="kegiatan.html" class="nav-link active">Kegiatan</a>
-          <a href="about.html" class="nav-link">Tentang</a>
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="lapor.html" class="nav-link">Report</a>
+          <a href="konten.html" class="nav-link">Education</a>
+          <a href="kegiatan.html" class="nav-link active">Events</a>
+          <a href="about.html" class="nav-link">About</a>
         </div>
 
-        <a href="index.html#mobility-sim" class="btn btn-primary hide-mobile">Mulai Sekarang</a>
+        <a href="index.html#mobility-sim" class="btn btn-primary hide-mobile">Get Started</a>
 
-        <button class="hamburger" aria-label="Buka Menu Navigasi" type="button">
+        <button class="hamburger" aria-label="Open Navigation Menu" type="button">
           <span></span>
           <span></span>
           <span></span>
@@ -75,43 +75,43 @@
     <div class="mobile-menu-overlay"></div>
     <div class="mobile-menu">
       <div class="mobile-nav-list">
-        <a href="index.html" class="mobile-nav-link">Beranda</a>
-        <a href="lapor.html" class="mobile-nav-link">Lapor</a>
-        <a href="konten.html" class="mobile-nav-link">Edukasi</a>
-        <a href="kegiatan.html" class="mobile-nav-link active">Kegiatan</a>
-        <a href="about.html" class="mobile-nav-link">Tentang</a>
-        <a href="index.html#mobility-sim" class="btn btn-primary btn-full" style="margin-top: 20px">Mulai Sekarang</a>
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="lapor.html" class="mobile-nav-link">Report</a>
+        <a href="konten.html" class="mobile-nav-link">Education</a>
+        <a href="kegiatan.html" class="mobile-nav-link active">Events</a>
+        <a href="about.html" class="mobile-nav-link">About</a>
+        <a href="index.html#mobility-sim" class="btn btn-primary btn-full" style="margin-top: 20px">Get Started</a>
       </div>
     </div>
 
     <header class="page-hero unified-banner section">
       <div class="container fade-up">
         <div class="page-hero-inner">
-          <h1>Daftar Kegiatan Warga</h1>
+          <h1>Community Eco Events</h1>
           <p class="page-hero-subtext">
-            Inisiasi dan temukan aksi lingkungan terdekat di kotamu.
-            Pilih kegiatan terdekat dan bergabung bersama ratusan warga lainnya.
+            Discover and initiate grassroots environmental action in your area.
+            Choose an upcoming event and join hundreds of fellow citizens taking real climate action.
           </p>
 
           <div class="hero-pills-row">
             <div class="hero-pill">
               <i class="fas fa-calendar-check" aria-hidden="true"></i>
-              <span><strong id="total-activities">9</strong> Total Kegiatan</span>
+              <span><strong id="total-activities">9</strong> Total Events</span>
             </div>
             <div class="hero-pill">
               <i class="fas fa-clock" aria-hidden="true"></i>
-              <span><strong id="upcoming-activities">9</strong> Akan Datang</span>
+              <span><strong id="upcoming-activities">9</strong> Upcoming</span>
             </div>
             <div class="hero-pill">
               <i class="fas fa-users" aria-hidden="true"></i>
-              <span><strong id="total-participants">298</strong> Warga Terdaftar</span>
+              <span><strong id="total-participants">298</strong> Citizens Joined</span>
             </div>
           </div>
 
           <div class="page-hero-actions">
             <button id="open-form-btn" class="btn btn-white" type="button">
               <i class="fas fa-plus-circle" aria-hidden="true"></i>
-              Buat Kegiatan Baru
+              Create New Event
             </button>
           </div>
         </div>
@@ -123,14 +123,14 @@
         <!-- Filter Tabs -->
         <div class="activity-filter-bar fade-up">
           <div class="filter-categories" id="activity-filter-tabs">
-            <button class="filter-btn active" data-filter="Semua">Semua Aksi</button>
-            <button class="filter-btn" data-filter="Sungai">Sungai & Air</button>
-            <button class="filter-btn" data-filter="Pohon">Penghijauan</button>
-            <button class="filter-btn" data-filter="Pantai">Pesisir & Laut</button>
-            <button class="filter-btn" data-filter="Sampah">Sampah & Kompos</button>
+            <button class="filter-btn active" data-filter="All">All Events</button>
+            <button class="filter-btn" data-filter="River">River & Water</button>
+            <button class="filter-btn" data-filter="Trees">Greening & Trees</button>
+            <button class="filter-btn" data-filter="Coastal">Coastal & Ocean</button>
+            <button class="filter-btn" data-filter="Waste">Waste & Compost</button>
           </div>
           <div class="filter-hint" style="font-size: 13px; color: var(--color-text-secondary);">
-            <i class="fas fa-info-circle" style="color: var(--color-green-primary);"></i> Klik "Gabung Aksi" untuk berpartisipasi
+            <i class="fas fa-info-circle" style="color: var(--color-green-primary);"></i> Click "Join Event" to RSVP
           </div>
         </div>
 
@@ -139,89 +139,89 @@
       </div>
     </section>
 
-    <!-- Modal Form Buat Kegiatan -->
+    <!-- Modal Form Create Activity -->
     <div id="activity-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <article id="create-form-card" class="modal-card">
-        <button id="modal-close-btn" class="modal-close" type="button" aria-label="Tutup Modal">
+        <button id="modal-close-btn" class="modal-close" type="button" aria-label="Close Modal">
           <i class="fas fa-times"></i>
         </button>
 
         <div class="form-head">
           <div>
-            <h3 id="modal-title">Buat Kegiatan Warga Baru</h3>
-            <p class="form-note">Ajak warga sekitar gotong royong aksi hijau di lokasimu.</p>
+            <h3 id="modal-title">Create New Community Event</h3>
+            <p class="form-note">Invite neighbors and local volunteers to join a hands-on green initiative in your neighborhood.</p>
           </div>
         </div>
 
         <form id="kegiatan-form" class="kegiatan-form">
           <div class="form-group">
-            <label for="activity-title">Judul Kegiatan</label>
-            <input id="activity-title" type="text" required placeholder="Contoh: Bersih Sungai Cikapundung" />
+            <label for="activity-title">Event Title</label>
+            <input id="activity-title" type="text" required placeholder="e.g., Cikapundung River Cleanup & Tree Planting" />
           </div>
 
           <div class="form-group">
-            <label for="activity-datetime">Waktu Kegiatan</label>
+            <label for="activity-datetime">Event Date & Time</label>
             <input id="activity-datetime" type="datetime-local" required />
           </div>
 
           <div class="form-group">
-            <label for="activity-what">Deskripsi Aksi (Ngapain?)</label>
-            <textarea id="activity-what" rows="3" required placeholder="Contoh: Gotong royong bersih sampah plastik dan sortir daur ulang"></textarea>
+            <label for="activity-what">Action Description (What are we doing?)</label>
+            <textarea id="activity-what" rows="3" required placeholder="e.g., Collective trash pickup, plastic sorting, and native tree sapling planting"></textarea>
           </div>
 
           <div class="form-group">
-            <label>Lokasi Kegiatan (Pilih di Peta)</label>
-            <div id="activity-map" class="activity-map" aria-label="Peta lokasi kegiatan"></div>
-            <p id="activity-location-display" class="map-location-display">Klik titik pada peta di atas untuk memilih lokasi.</p>
+            <label>Event Location (Pin on Map)</label>
+            <div id="activity-map" class="activity-map" aria-label="Event location map"></div>
+            <p id="activity-location-display" class="map-location-display">Click a point on the interactive map above to pin the event location.</p>
           </div>
 
           <div class="form-group">
-            <label for="activity-creator">Nama Penggagas</label>
-            <input id="activity-creator" type="text" placeholder="Nama kamu atau komunitas (opsional)" />
+            <label for="activity-creator">Initiator / Organizer Name</label>
+            <input id="activity-creator" type="text" placeholder="Your name or organization (optional)" />
           </div>
 
           <div class="modal-actions">
-            <button id="create-activity-btn" type="submit" class="btn btn-primary" style="flex: 1;">Buat Kegiatan</button>
-            <button id="close-form-btn" class="btn btn-outline" type="button">Tutup</button>
+            <button id="create-activity-btn" type="submit" class="btn btn-primary" style="flex: 1;">Create Event</button>
+            <button id="close-form-btn" class="btn btn-outline" type="button">Close</button>
           </div>
           <p id="form-feedback" class="feedback-text" aria-live="polite"></p>
         </form>
       </article>
     </div>
 
-    <!-- Modal Formulir Gabung Kegiatan -->
+    <!-- Modal Form Join Activity -->
     <div id="join-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="join-modal-title">
       <article id="join-form-card" class="modal-card join-modal-card">
-        <button id="join-modal-close-btn" class="modal-close" type="button" aria-label="Tutup Modal">
+        <button id="join-modal-close-btn" class="modal-close" type="button" aria-label="Close Modal">
           <i class="fas fa-times"></i>
         </button>
 
         <div class="form-head">
           <div>
-            <h3 id="join-modal-title">Gabung Kegiatan Warga</h3>
-            <p class="form-note">Konfirmasi kehadiranmu untuk koordinasi dan persiapan logistik di lokasi.</p>
+            <h3 id="join-modal-title">Join Community Event</h3>
+            <p class="form-note">Confirm your attendance for on-site coordination and logistic preparation.</p>
           </div>
         </div>
 
         <!-- Activity preview summary inside modal -->
         <div class="join-activity-summary" id="join-activity-summary">
           <div class="summary-top">
-            <span class="activity-category-badge category-sungai" id="join-summary-category">Sungai & Air</span>
-            <span class="summary-participants-tag"><i class="fas fa-users" aria-hidden="true"></i> <span id="join-summary-participants">28</span> warga terdaftar</span>
+            <span class="activity-category-badge category-sungai" id="join-summary-category">River & Water</span>
+            <span class="summary-participants-tag"><i class="fas fa-users" aria-hidden="true"></i> <span id="join-summary-participants">28</span> citizens registered</span>
           </div>
-          <h4 id="join-summary-title">Aksi Bersih Sungai Ciliwung & Pilah Sampah</h4>
+          <h4 id="join-summary-title">River Cleanup & Waste Segregation Drive</h4>
           <div class="summary-details">
             <div class="summary-item">
               <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-              <span id="join-summary-datetime">Min, 08 Nov 2026, 07.30</span>
+              <span id="join-summary-datetime">Sun, Nov 08, 2026, 07:30</span>
             </div>
             <div class="summary-item">
               <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-              <span id="join-summary-location">Bantaran Sungai Ciliwung, Manggarai, Jakarta Selatan</span>
+              <span id="join-summary-location">Riverbank Corridor, South Jakarta</span>
             </div>
             <div class="summary-item">
               <i class="fas fa-user-circle" aria-hidden="true"></i>
-              <span>Diinisiasi oleh <strong id="join-summary-creator">Komunitas Ciliwung Bersih</strong></span>
+              <span>Initiated by <strong id="join-summary-creator">Clean River Initiative</strong></span>
             </div>
           </div>
         </div>
@@ -230,38 +230,38 @@
           <input type="hidden" id="join-activity-id" value="" />
 
           <div class="form-group">
-            <label for="join-name">Nama Lengkap <span class="required-star">*</span></label>
-            <input id="join-name" type="text" required placeholder="Contoh: Budi Santoso" autocomplete="name" />
+            <label for="join-name">Full Name <span class="required-star">*</span></label>
+            <input id="join-name" type="text" required placeholder="e.g., Alex Johnson" autocomplete="name" />
           </div>
 
           <div class="form-row-2col">
             <div class="form-group">
-              <label for="join-phone">No. WhatsApp / HP <span class="required-star">*</span></label>
-              <input id="join-phone" type="tel" required placeholder="Contoh: 081234567890" autocomplete="tel" />
+              <label for="join-phone">WhatsApp / Phone No. <span class="required-star">*</span></label>
+              <input id="join-phone" type="tel" required placeholder="e.g., +62 812 3456 7890" autocomplete="tel" />
             </div>
             <div class="form-group">
-              <label for="join-email">Email (Opsional)</label>
-              <input id="join-email" type="email" placeholder="Contoh: budi@gmail.com" autocomplete="email" />
+              <label for="join-email">Email (Optional)</label>
+              <input id="join-email" type="email" placeholder="e.g., alex@example.com" autocomplete="email" />
             </div>
           </div>
 
           <div class="form-group">
-            <label for="join-notes">Catatan Tambahan / Perlengkapan (Opsional)</label>
-            <input id="join-notes" type="text" placeholder="Contoh: Bawa kantong sampah & sarung tangan sendiri" />
+            <label for="join-notes">Additional Notes / Equipment (Optional)</label>
+            <input id="join-notes" type="text" placeholder="e.g., Bringing own gloves & trash bags" />
           </div>
 
           <div class="form-group form-checkbox-group">
             <label class="checkbox-label" for="join-commitment">
               <input type="checkbox" id="join-commitment" required checked />
-              <span>Saya berkomitmen hadir tepat waktu dan menjaga keselamatan serta kebersihan bersama.</span>
+              <span>I commit to arriving on time and upholding mutual safety and environmental cleanliness.</span>
             </label>
           </div>
 
           <div class="modal-actions">
             <button id="join-submit-btn" type="submit" class="btn btn-primary" style="flex: 1;">
-              <i class="fas fa-check-circle" aria-hidden="true"></i> Konfirmasi Gabung
+              <i class="fas fa-check-circle" aria-hidden="true"></i> Confirm RSVP
             </button>
-            <button id="join-close-btn" class="btn btn-outline" type="button">Batal</button>
+            <button id="join-close-btn" class="btn btn-outline" type="button">Cancel</button>
           </div>
           <p id="join-feedback" class="feedback-text" aria-live="polite"></p>
         </form>
@@ -277,43 +277,43 @@
               Eco Hub
             </a>
             <p class="footer-tagline">
-              Platform inovasi mobilitas cerdas, pemantauan kualitas udara, dan aksi gotong royong warga untuk masa depan Indonesia yang lebih hijau.
+              Smart mobility innovation, air quality monitoring, and citizen collective action for a greener, sustainable future.
             </p>
           </div>
 
           <div class="footer-links">
-            <div class="footer-heading">Navigasi</div>
+            <div class="footer-heading">Navigation</div>
             <ul>
-              <li><a href="index.html">Beranda</a></li>
-              <li><a href="lapor.html">Lapor Isu</a></li>
-              <li><a href="konten.html">Edukasi</a></li>
-              <li><a href="kegiatan.html">Kegiatan Warga</a></li>
-              <li><a href="about.html">Tentang Kami</a></li>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="lapor.html">Report Issue</a></li>
+              <li><a href="konten.html">Education</a></li>
+              <li><a href="kegiatan.html">Events</a></li>
+              <li><a href="about.html">About Us</a></li>
             </ul>
           </div>
 
           <div class="footer-links">
-            <div class="footer-heading">Topik</div>
+            <div class="footer-heading">Topics</div>
             <ul>
               <li><a href="index.html#mobility-sim">Smart Mobility</a></li>
-              <li><a href="index.html#aqi">Kualitas Udara</a></li>
-              <li><a href="kegiatan.html">Aksi Komunitas</a></li>
-              <li><a href="konten.html">Literasi Iklim</a></li>
+              <li><a href="index.html#aqi">Air Quality</a></li>
+              <li><a href="kegiatan.html">Community Action</a></li>
+              <li><a href="konten.html">Climate Literacy</a></li>
             </ul>
           </div>
 
           <div class="footer-links">
-            <div class="footer-heading">Informasi</div>
+            <div class="footer-heading">Information</div>
             <ul>
-              <li><a href="about.html">Tentang Proyek</a></li>
-              <li><a href="lapor.html">Laporkan Masalah</a></li>
-              <li><a href="konten.html">Panduan Edukasi</a></li>
+              <li><a href="about.html">About the Project</a></li>
+              <li><a href="lapor.html">Report an Issue</a></li>
+              <li><a href="konten.html">Education Guide</a></li>
             </ul>
           </div>
         </div>
 
         <div class="footer-bottom">
-          <p>&copy; 2026 Eco Hub. Inovasi Mobilitas & Lingkungan Berkelanjutan.</p>
+          <p>&copy; 2026 Eco Hub. Sustainable Mobility & Environmental Innovation.</p>
         </div>
       </div>
     </footer>
