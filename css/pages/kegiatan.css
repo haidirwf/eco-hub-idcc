@@ -542,6 +542,119 @@
   margin-top: 20px;
 }
 
+/* Join Modal Specific Styles (Solid Flat Colors Only) */
+.join-modal-card {
+  max-width: 560px;
+}
+
+.join-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.join-activity-summary {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.summary-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.summary-participants-tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-green-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.join-activity-summary h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 10px 0;
+  line-height: 1.35;
+}
+
+.summary-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.summary-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.summary-item i {
+  color: var(--color-green-primary);
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.form-row-2col {
+  display: flex;
+  gap: 12px;
+}
+
+.form-row-2col .form-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.required-star {
+  color: #c62828;
+  font-weight: 700;
+}
+
+.form-checkbox-group {
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  margin-top: 2px;
+  accent-color: var(--color-green-primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .activity-list {
@@ -594,5 +707,10 @@
 
   .activity-map {
     height: 180px;
+  }
+
+  .form-row-2col {
+    flex-direction: column;
+    gap: 0;
   }
 }

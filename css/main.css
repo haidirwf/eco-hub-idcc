@@ -324,11 +324,11 @@ p {
   display: none !important;
 }
 
-/* Unified Banner (fitur/about/konten/kontak) */
+/* Unified Banner */
 header.unified-banner {
-  background: var(--color-bg-primary) !important;
-  border-bottom: 1px solid var(--color-border) !important;
-  text-align: left !important;
+  background-color: var(--color-green-primary);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  text-align: center;
 }
 
 header.unified-banner .container {
@@ -336,29 +336,29 @@ header.unified-banner .container {
 }
 
 header.unified-banner h1 {
-  font-size: clamp(42px, 5vw, 64px) !important;
-  line-height: 1.1 !important;
-  letter-spacing: -0.03em !important;
-  color: var(--color-text-primary) !important;
-  margin-bottom: 16px !important;
+  font-size: clamp(36px, 4.5vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 14px;
 }
 
 header.unified-banner .hero-subtext,
 header.unified-banner > .container > p {
-  max-width: 860px !important;
-  color: var(--color-text-secondary) !important;
-  font-size: clamp(18px, 1.9vw, 28px) !important;
-  line-height: 1.45 !important;
-  margin: 0 !important;
+  max-width: 660px;
+  color: #e2ecd9;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 auto;
 }
 
 @media (max-width: 768px) {
   header.unified-banner h1 {
-    font-size: 38px !important;
+    font-size: 32px;
   }
 
   header.unified-banner .hero-subtext,
   header.unified-banner > .container > p {
-    font-size: 18px !important;
+    font-size: 15px;
   }
 }

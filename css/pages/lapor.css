@@ -1,22 +1,43 @@
 /* ponytail: lapor.css - Flat solid colors, no gradient per design rules */
 
 .lapor-hero {
-  background-color: var(--color-bg-primary);
-  border-bottom: 1px solid var(--color-border);
-  padding: 48px 0 36px;
+  background-color: var(--color-green-primary);
+  color: var(--color-white);
+  padding: 56px 0 46px;
   text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.lapor-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #dcedc8;
+  margin-bottom: 16px;
 }
 
 .lapor-hero h1 {
-  font-size: 38px;
-  color: var(--color-text-primary);
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
   margin-bottom: 12px;
+  line-height: 1.15;
 }
 
 .lapor-hero .hero-subtext {
   font-size: 16px;
-  color: var(--color-text-secondary);
-  max-width: 620px;
+  color: #e2ecd9;
+  max-width: 640px;
   margin: 0 auto 24px;
   line-height: 1.6;
 }
@@ -24,22 +45,36 @@
 .lapor-stats {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
 .stat-bubble {
-  background-color: var(--color-white);
-  border: 1px solid var(--color-border);
-  padding: 8px 18px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 9px 18px;
   border-radius: 50px;
   font-size: 14px;
-  color: var(--color-text-secondary);
+  color: #f5f2eb;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.stat-bubble i {
+  color: #dcedc8;
+  font-size: 14px;
 }
 
 .stat-bubble strong {
-  color: var(--color-green-primary);
-  font-weight: 700;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.stat-bubble:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
 }
 
 /* 2-Column Layout */
@@ -679,5 +714,25 @@
   }
   .grid-2 {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .lapor-hero {
+    padding: 40px 0 32px;
+  }
+  .lapor-hero h1 {
+    font-size: 32px;
+  }
+  .lapor-hero .hero-subtext {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+  .lapor-stats {
+    gap: 8px;
+  }
+  .stat-bubble {
+    font-size: 13px;
+    padding: 7px 14px;
   }
 }

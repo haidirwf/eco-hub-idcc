@@ -63,8 +63,8 @@
       </div>
     </div>
 
-    <header class="kegiatan-hero section fade-up">
-      <div class="container">
+    <header class="kegiatan-hero section">
+      <div class="container fade-up">
         <div class="hero-head">
           <div class="hero-copy">
             <span class="kegiatan-eyebrow">
@@ -114,7 +114,7 @@
             <button class="filter-btn" data-filter="Sampah">Sampah & Kompos</button>
           </div>
           <div class="filter-hint" style="font-size: 13px; color: var(--color-text-secondary);">
-            <i class="fas fa-info-circle" style="color: var(--color-green-primary);"></i> Klik "Ikut Aksi" untuk mendaftar
+            <i class="fas fa-info-circle" style="color: var(--color-green-primary);"></i> Klik "Gabung Kegiatan" untuk mendaftar
           </div>
         </div>
 
@@ -169,6 +169,86 @@
             <button id="close-form-btn" class="btn btn-outline" type="button">Tutup</button>
           </div>
           <p id="form-feedback" class="feedback-text" aria-live="polite"></p>
+        </form>
+      </article>
+    </div>
+
+    <!-- Modal Formulir Gabung Kegiatan -->
+    <div id="join-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="join-modal-title">
+      <article id="join-form-card" class="card modal-card join-modal-card">
+        <button id="join-modal-close-btn" class="modal-close" type="button" aria-label="Tutup Modal">
+          <i class="fas fa-times"></i>
+        </button>
+
+        <div class="form-head">
+          <div>
+            <span class="join-modal-badge"><i class="fas fa-hand-holding-heart" aria-hidden="true"></i> Partisipasi Warga</span>
+            <h3 id="join-modal-title">Gabung Kegiatan Warga</h3>
+            <p class="form-note">Konfirmasi kehadiranmu untuk koordinasi dan persiapan logistik di lokasi.</p>
+          </div>
+        </div>
+
+        <!-- Activity preview summary inside modal -->
+        <div class="join-activity-summary" id="join-activity-summary">
+          <div class="summary-top">
+            <span class="activity-category-badge category-sungai" id="join-summary-category">Sungai & Air</span>
+            <span class="summary-participants-tag"><i class="fas fa-users" aria-hidden="true"></i> <span id="join-summary-participants">28</span> warga terdaftar</span>
+          </div>
+          <h4 id="join-summary-title">Aksi Bersih Sungai Ciliwung & Pilah Sampah</h4>
+          <div class="summary-details">
+            <div class="summary-item">
+              <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+              <span id="join-summary-datetime">Min, 08 Nov 2026, 07.30</span>
+            </div>
+            <div class="summary-item">
+              <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+              <span id="join-summary-location">Bantaran Sungai Ciliwung, Manggarai, Jakarta Selatan</span>
+            </div>
+            <div class="summary-item">
+              <i class="fas fa-user-circle" aria-hidden="true"></i>
+              <span>Diinisiasi oleh <strong id="join-summary-creator">Komunitas Ciliwung Bersih</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <form id="join-activity-form" class="kegiatan-form">
+          <input type="hidden" id="join-activity-id" value="" />
+
+          <div class="form-group">
+            <label for="join-name">Nama Lengkap <span class="required-star">*</span></label>
+            <input id="join-name" type="text" required placeholder="Contoh: Budi Santoso" autocomplete="name" />
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label for="join-phone">No. WhatsApp / HP <span class="required-star">*</span></label>
+              <input id="join-phone" type="tel" required placeholder="Contoh: 081234567890" autocomplete="tel" />
+            </div>
+            <div class="form-group">
+              <label for="join-email">Email (Opsional)</label>
+              <input id="join-email" type="email" placeholder="Contoh: budi@gmail.com" autocomplete="email" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="join-notes">Catatan Tambahan / Perlengkapan (Opsional)</label>
+            <input id="join-notes" type="text" placeholder="Contoh: Bawa kantong sampah & sarung tangan sendiri" />
+          </div>
+
+          <div class="form-group form-checkbox-group">
+            <label class="checkbox-label" for="join-commitment">
+              <input type="checkbox" id="join-commitment" required checked />
+              <span>Saya berkomitmen hadir tepat waktu dan menjaga keselamatan serta kebersihan bersama.</span>
+            </label>
+          </div>
+
+          <div class="modal-actions">
+            <button id="join-submit-btn" type="submit" class="btn btn-primary" style="flex: 1;">
+              <i class="fas fa-check-circle" aria-hidden="true"></i> Konfirmasi Gabung
+            </button>
+            <button id="join-close-btn" class="btn btn-outline" type="button">Batal</button>
+          </div>
+          <p id="join-feedback" class="feedback-text" aria-live="polite"></p>
         </form>
       </article>
     </div>

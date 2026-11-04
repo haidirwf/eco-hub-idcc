@@ -454,12 +454,21 @@
       </div>
     </section>
 
-    <!-- Section Artikel & Edukasi Terbaru (seperti refindex.html) -->
+    <!-- Section Artikel & Edukasi Terbaru -->
     <section class="articles-section section">
       <div class="container">
-        <div class="section-header">
-          <h2>Artikel & Edukasi Terbaru</h2>
-          <a href="konten.html" class="link-arrow">Lihat Semua →</a>
+        <div class="section-head section-head-row fade-up">
+          <div class="section-head-text">
+            <p class="eyebrow">Literasi &amp; Edukasi Lingkungan</p>
+            <h2>Artikel &amp; Edukasi Terbaru</h2>
+            <p>
+              Pelajari isu krisis iklim, kondisi polusi, dan inspirasi aksi ramah lingkungan lewat wawasan terkurasi.
+            </p>
+          </div>
+          <a href="konten.html" class="btn btn-outline section-head-btn">
+            <span>Lihat Semua Artikel</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
         </div>
 
         <div class="articles-grid">
@@ -467,27 +476,33 @@
           <a
             href="artikel.html?q=Pencemaran_udara&title=Mengapa%20Jakarta%20Masuk%2010%20Kota%20Polusi%20Terburuk%3F&img=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1698128827557-0b05ccb18fbf%3Fauto%3Dformat%26fit%3Dcrop%26q%3D80%26w%3D600"
             class="article-card featured fade-up"
-            style="display: block; text-decoration: none; color: inherit"
+            aria-label="Baca artikel Mengapa Jakarta Masuk 10 Kota Polusi Terburuk?"
           >
-            <div
-              class="article-thumb"
-              style="
-                background-image: url(&quot;https://images.unsplash.com/photo-1698128827557-0b05ccb18fbf?auto=format&fit=crop&q=80&w=600&quot;);
-                background-size: cover;
-                background-position: center;
-              "
-            ></div>
-            <div class="article-content">
+            <div class="article-thumb">
+              <img
+                src="https://images.unsplash.com/photo-1698128827557-0b05ccb18fbf?auto=format&fit=crop&q=80&w=600"
+                alt="Mengapa Jakarta Masuk 10 Kota Polusi Terburuk?"
+                loading="lazy"
+              />
               <span class="badge badge-green">Polusi Udara</span>
+            </div>
+            <div class="article-content">
               <h3>Mengapa Jakarta Masuk 10 Kota Polusi Terburuk?</h3>
               <p>
-                Analisis mendalam mengenai faktor-faktor penyebab polusi udara
-                di ibukota dan dampaknya bagi kesehatan masyarakat.
+                Analisis mendalam mengenai faktor-faktor penyebab polusi udara di ibukota dan dampaknya bagi kesehatan masyarakat.
               </p>
-              <div class="article-meta">
-                <span>Tim Eco Hub</span> • <span>15 Feb 2026</span>
+              <div class="article-footer-row">
+                <div class="article-meta">
+                  <i class="far fa-user"></i>
+                  <span>Tim Eco Hub</span>
+                  <span class="meta-dot">•</span>
+                  <i class="far fa-calendar-alt"></i>
+                  <span>15 Feb 2026</span>
+                </div>
+                <span class="read-more">
+                  Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                </span>
               </div>
-              <span class="read-more">Baca Selengkapnya →</span>
             </div>
           </a>
 
@@ -497,75 +512,77 @@
             <a
               href="artikel.html?q=Energi_surya&title=Cara%20Kerja%20PLTS%20dan%20Masa%20Depan%20Energi%20Terbarukan&img=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1509391366360-2e959784a276%3Fauto%3Dformat%26fit%3Dcrop%26q%3D80%26w%3D600"
               class="article-card small fade-up"
-              style="
-                animation-delay: 0.1s;
-                display: flex;
-                text-decoration: none;
-                color: inherit;
-              "
+              style="animation-delay: 0.1s"
+              aria-label="Baca artikel Cara Kerja PLTS dan Masa Depan Energi Terbarukan"
             >
-              <div
-                class="article-thumb-small"
-                style="
-                  background-image: url(&quot;https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=600&quot;);
-                  background-size: cover;
-                  background-position: center;
-                "
-              ></div>
+              <div class="article-thumb-small">
+                <img
+                  src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=600"
+                  alt="Cara Kerja PLTS dan Masa Depan Energi Terbarukan"
+                  loading="lazy"
+                />
+              </div>
               <div class="article-content-small">
-                <span class="badge badge-amber">Perubahan Iklim</span>
+                <div class="article-card-header">
+                  <span class="badge badge-amber">Perubahan Iklim</span>
+                </div>
                 <h4>Cara Kerja PLTS dan Masa Depan Energi Terbarukan</h4>
-                <div class="article-meta">14 Feb 2026</div>
+                <div class="article-meta">
+                  <i class="far fa-calendar-alt"></i>
+                  <span>14 Feb 2026</span>
+                </div>
               </div>
             </a>
+
             <!-- 2 -->
             <a
               href="artikel.html?q=Hutan_bakau&title=Hutan%20Mangrove%3A%20Benteng%20Terakhir%20Pesisir%20Indonesia&img=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1589556183130-530470785fab%3Fauto%3Dformat%26fit%3Dcrop%26q%3D80%26w%3D600"
               class="article-card small fade-up"
-              style="
-                animation-delay: 0.2s;
-                display: flex;
-                text-decoration: none;
-                color: inherit;
-              "
+              style="animation-delay: 0.2s"
+              aria-label="Baca artikel Hutan Mangrove: Benteng Terakhir Pesisir Indonesia"
             >
-              <div
-                class="article-thumb-small"
-                style="
-                  background-image: url(&quot;https://images.unsplash.com/photo-1589556183130-530470785fab?auto=format&fit=crop&q=80&w=600&quot;);
-                  background-size: cover;
-                  background-position: center;
-                "
-              ></div>
+              <div class="article-thumb-small">
+                <img
+                  src="https://images.unsplash.com/photo-1589556183130-530470785fab?auto=format&fit=crop&q=80&w=600"
+                  alt="Hutan Mangrove: Benteng Terakhir Pesisir Indonesia"
+                  loading="lazy"
+                />
+              </div>
               <div class="article-content-small">
-                <span class="badge badge-blue">Konservasi</span>
+                <div class="article-card-header">
+                  <span class="badge badge-blue">Konservasi</span>
+                </div>
                 <h4>Hutan Mangrove: Benteng Terakhir Pesisir Indonesia</h4>
-                <div class="article-meta">12 Feb 2026</div>
+                <div class="article-meta">
+                  <i class="far fa-calendar-alt"></i>
+                  <span>12 Feb 2026</span>
+                </div>
               </div>
             </a>
+
             <!-- 3 -->
             <a
               href="artikel.html?q=Mikroplastik&title=Bahaya%20Mikroplastik%20di%20Makanan%20Kita&img=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1621451537084-482c73073a0f%3Fauto%3Dformat%26fit%3Dcrop%26q%3D80%26w%3D600"
               class="article-card small fade-up"
-              style="
-                animation-delay: 0.3s;
-                display: flex;
-                text-decoration: none;
-                color: inherit;
-              "
+              style="animation-delay: 0.3s"
+              aria-label="Baca artikel Bahaya Mikroplastik di Makanan Kita"
             >
-              <div
-                class="article-thumb-small"
-                style="
-                  background-image: url(&quot;https://images.unsplash.com/photo-1621451537084-482c73073a0f?auto=format&fit=crop&q=80&w=600&quot;);
-                  background-size: cover;
-                  background-position: center;
-                "
-              ></div>
+              <div class="article-thumb-small">
+                <img
+                  src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?auto=format&fit=crop&q=80&w=600"
+                  alt="Bahaya Mikroplastik di Makanan Kita"
+                  loading="lazy"
+                />
+              </div>
               <div class="article-content-small">
-                <span class="badge badge-red">Polusi Laut</span>
+                <div class="article-card-header">
+                  <span class="badge badge-red">Polusi Laut</span>
+                </div>
                 <h4>Bahaya Mikroplastik di Makanan Kita</h4>
-                <div class="article-meta">10 Feb 2026</div>
+                <div class="article-meta">
+                  <i class="far fa-calendar-alt"></i>
+                  <span>10 Feb 2026</span>
+                </div>
               </div>
             </a>
           </div>

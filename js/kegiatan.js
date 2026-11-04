@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const STORAGE_KEY = "Eco Hub_community_activities_v1";
   const JOINED_KEY = "Eco Hub_community_joined_v1";
+  const USER_PROFILE_KEY = "Eco Hub_user_profile_v1";
 
   const CITIES = {
     Jakarta: { lat: -6.2088, lon: 106.8456 },
@@ -130,6 +131,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalOverlay = document.getElementById("activity-modal");
   const formCard = document.getElementById("create-form-card");
 
+  // Join activity modal elements
+  const joinModalOverlay = document.getElementById("join-modal");
+  const joinFormCard = document.getElementById("join-form-card");
+  const joinForm = document.getElementById("join-activity-form");
+  const joinActivityIdInput = document.getElementById("join-activity-id");
+  const joinSummaryCategory = document.getElementById("join-summary-category");
+  const joinSummaryTitle = document.getElementById("join-summary-title");
+  const joinSummaryDatetime = document.getElementById("join-summary-datetime");
+  const joinSummaryLocation = document.getElementById("join-summary-location");
+  const joinSummaryCreator = document.getElementById("join-summary-creator");
+  const joinSummaryParticipants = document.getElementById("join-summary-participants");
+  const joinNameInput = document.getElementById("join-name");
+  const joinPhoneInput = document.getElementById("join-phone");
+  const joinEmailInput = document.getElementById("join-email");
+  const joinNotesInput = document.getElementById("join-notes");
+  const joinCommitmentInput = document.getElementById("join-commitment");
+  const joinSubmitBtn = document.getElementById("join-submit-btn");
+  const joinCloseBtn = document.getElementById("join-close-btn");
+  const joinModalCloseBtn = document.getElementById("join-modal-close-btn");
+  const joinFeedbackEl = document.getElementById("join-feedback");
+
   const listEl = document.getElementById("activity-list");
   const totalActivitiesEl = document.getElementById("total-activities");
   const upcomingActivitiesEl = document.getElementById("upcoming-activities");
@@ -164,6 +186,72 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     document.body.style.overflow = "";
     setFeedback("");
+  }
+
+  function setJoinFeedback(text, ok = false) {
+    if (!joinFeedbackEl) return;
+    joinFeedbackEl.textContent = text;
+    joinFeedbackEl.classList.toggle("success", ok);
+  }
+
+  function showJoinModal(activity) {
+    if (!joinModalOverlay || !activity) return;
+
+    if (joinActivityIdInput) joinActivityIdInput.value = activity.id;
+    if (joinSummaryTitle) joinSummaryTitle.textContent = activity.title;
+
+    const cat = getCategoryBadge(activity);
+    if (joinSummaryCategory) {
+      joinSummaryCategory.textContent = cat.name;
+      joinSummaryCategory.className = `activity-category-badge ${cat.className}`;
+    }
+
+    if (joinSummaryDatetime) {
+      joinSummaryDatetime.textContent = formatDateTime(activity.datetime);
+    }
+    if (joinSummaryLocation) {
+      joinSummaryLocation.textContent = activity.where || "Lokasi belum ditentukan";
+    }
+    if (joinSummaryCreator) {
+      joinSummaryCreator.textContent = activity.creator || "Warga Peduli";
+    }
+    if (joinSummaryParticipants) {
+      joinSummaryParticipants.textContent = String(activity.participants || 0);
+    }
+
+    // Prefill from user profile if saved
+    const profile = safeParse(localStorage.getItem(USER_PROFILE_KEY), {});
+    if (joinNameInput) joinNameInput.value = profile.name || "";
+    if (joinPhoneInput) joinPhoneInput.value = profile.phone || "";
+    if (joinEmailInput) joinEmailInput.value = profile.email || "";
+    if (joinNotesInput) joinNotesInput.value = "";
+    if (joinCommitmentInput) joinCommitmentInput.checked = true;
+
+    setJoinFeedback("");
+
+    joinModalOverlay.classList.remove("hidden");
+    joinModalOverlay.classList.add("active");
+    if (joinFormCard) joinFormCard.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+
+    setTimeout(() => {
+      if (joinNameInput && !joinNameInput.value) {
+        joinNameInput.focus();
+      } else if (joinPhoneInput && !joinPhoneInput.value) {
+        joinPhoneInput.focus();
+      } else if (joinNotesInput) {
+        joinNotesInput.focus();
+      }
+    }, 150);
+  }
+
+  function hideJoinModal() {
+    if (joinModalOverlay) {
+      joinModalOverlay.classList.remove("active");
+      joinModalOverlay.classList.add("hidden");
+    }
+    document.body.style.overflow = "";
+    setJoinFeedback("");
   }
 
   function haversineDistanceKm(from, to) {
@@ -434,8 +522,8 @@ document.addEventListener("DOMContentLoaded", () => {
           Number.isFinite(start) && !Number.isNaN(start) ? start + 2 * 60 * 60 * 1000 < Date.now() : false;
         const chipLabel = isPast ? "Selesai" : isJoined ? "Terdaftar" : "Aktif";
         const chipClass = isPast ? "chip-past" : isJoined ? "chip-joined" : "chip-active";
-        const buttonLabel = isPast ? "Selesai" : isJoined ? "Batalkan" : "Ikut Aksi";
-        const buttonIcon = isPast ? "fa-check" : isJoined ? "fa-times" : "fa-plus";
+        const buttonLabel = isPast ? "Selesai" : isJoined ? "Batalkan" : "Gabung Kegiatan";
+        const buttonIcon = isPast ? "fa-check" : isJoined ? "fa-times" : "fa-user-plus";
         const buttonClass = isJoined ? "join-btn joined" : "join-btn";
         const cat = getCategoryBadge(item);
 
@@ -599,18 +687,92 @@ document.addEventListener("DOMContentLoaded", () => {
     if (index < 0) return;
 
     const isJoined = Boolean(joined[activityId]);
+    const targetActivity = activities[index];
 
     if (isJoined) {
+      const confirmCancel = window.confirm(
+        `Batalkan keikutsertaan Anda dari kegiatan:\n"${targetActivity.title}"?`
+      );
+      if (!confirmCancel) return;
+
       delete joined[activityId];
       activities[index].participants = Math.max(1, Number(activities[index].participants || 1) - 1);
+      saveActivities(activities);
+      saveJoinedState(joined);
+      renderActivities();
     } else {
-      joined[activityId] = true;
-      activities[index].participants = Number(activities[index].participants || 0) + 1;
+      showJoinModal(targetActivity);
     }
+  });
+
+  // Handle Join Activity Form Submission
+  joinForm?.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const activityId = joinActivityIdInput?.value;
+    if (!activityId) return;
+
+    const name = String(joinNameInput?.value || "").trim();
+    const phone = String(joinPhoneInput?.value || "").trim();
+    const email = String(joinEmailInput?.value || "").trim();
+    const notes = String(joinNotesInput?.value || "").trim();
+
+    if (!name || !phone) {
+      setJoinFeedback("Mohon lengkapi Nama Lengkap dan No. WhatsApp.", false);
+      return;
+    }
+
+    // Save profile for auto-filling future registrations
+    localStorage.setItem(USER_PROFILE_KEY, JSON.stringify({ name, phone, email }));
+
+    const activities = loadActivities();
+    const joined = loadJoinedState();
+    const actIndex = activities.findIndex((item) => item.id === activityId);
+    if (actIndex < 0) {
+      setJoinFeedback("Kegiatan tidak ditemukan.", false);
+      return;
+    }
+
+    // Record user participation
+    joined[activityId] = {
+      joined: true,
+      name,
+      phone,
+      email,
+      notes,
+      registeredAt: new Date().toISOString(),
+    };
+
+    activities[actIndex].participants = Number(activities[actIndex].participants || 0) + 1;
 
     saveActivities(activities);
     saveJoinedState(joined);
-    renderActivities();
+
+    setJoinFeedback(`Pendaftaran berhasil! Terima kasih ${name}, sampai jumpa di lokasi aksi.`, true);
+
+    if (joinSubmitBtn) {
+      joinSubmitBtn.disabled = true;
+      joinSubmitBtn.innerHTML = '<i class="fas fa-check"></i> Terdaftar!';
+    }
+
+    setTimeout(() => {
+      if (joinSubmitBtn) {
+        joinSubmitBtn.disabled = false;
+        joinSubmitBtn.innerHTML = '<i class="fas fa-check-circle" aria-hidden="true"></i> Konfirmasi Gabung';
+      }
+      hideJoinModal();
+      renderActivities();
+
+      const el = document.getElementById(`activity-${activityId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.style.borderColor = "var(--color-green-primary)";
+        el.style.boxShadow = "0 0 0 3px rgba(45, 90, 39, 0.25)";
+        setTimeout(() => {
+          el.style.boxShadow = "";
+        }, 2200);
+      }
+    }, 700);
   });
 
   const filterTabsContainer = document.getElementById("activity-filter-tabs");
@@ -624,15 +786,28 @@ document.addEventListener("DOMContentLoaded", () => {
     renderActivities();
   });
 
+  // Modal Buat Kegiatan listeners
   openFormBtn?.addEventListener("click", showForm);
   closeFormBtn?.addEventListener("click", hideForm);
   modalCloseBtn?.addEventListener("click", hideForm);
   modalOverlay?.addEventListener("click", (e) => {
     if (e.target === modalOverlay) hideForm();
   });
+
+  // Modal Gabung Kegiatan listeners
+  joinCloseBtn?.addEventListener("click", hideJoinModal);
+  joinModalCloseBtn?.addEventListener("click", hideJoinModal);
+  joinModalOverlay?.addEventListener("click", (e) => {
+    if (e.target === joinModalOverlay) hideJoinModal();
+  });
+
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modalOverlay?.classList.contains("active")) {
-      hideForm();
+    if (e.key === "Escape") {
+      if (joinModalOverlay?.classList.contains("active")) {
+        hideJoinModal();
+      } else if (modalOverlay?.classList.contains("active")) {
+        hideForm();
+      }
     }
   });
 
