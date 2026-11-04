@@ -1,0 +1,365 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");
+
+:root {
+  /* Backgrounds */
+  --color-bg-primary: #f5f2eb;
+  /* Warm off-white — main background */
+  --color-bg-secondary: #edeae1;
+  /* Slightly darker warm white */
+  --color-bg-white: #ffffff;
+  /* Explicit white for legacy page CSS */
+  --color-bg-dark: #1a1f16;
+  /* Deep forest dark — used for sections */
+  --color-bg-card: #ffffff;
+  /* Pure white cards */
+
+  /* Brand Colors */
+  --color-green-primary: #2d5a27;
+  /* Deep forest green — primary brand */
+  --color-green-mid: #4a7c42;
+  /* Mid green — secondary elements */
+  --color-green-light: #8cb87e;
+  /* Light green — accents */
+  --color-green-pale: #d4e8cd;
+  /* Pale green — tag backgrounds */
+
+  /* Accent */
+  --color-earth: #8b6914;
+  /* Earth brown — warm accent */
+  --color-amber: #d4870c;
+  /* Amber — alert/warning states */
+  --color-red-alert: #c0392b;
+  /* Alert red — poor air quality */
+
+  /* Text */
+  --color-text-primary: #1a1f16;
+  /* Near-black — main text */
+  --color-text-secondary: #4a5240;
+  /* Dark gray-green — secondary text */
+  --color-text-muted: #7a8470;
+  /* Muted — captions, meta */
+  --color-text-on-dark: #f5f2eb;
+  /* Light text on dark backgrounds */
+
+  /* Borders & Dividers */
+  --color-border: #c8c4bb;
+  --color-border-green: #b5ceb0;
+
+  /* Utility */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --card-radius: 12px;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --card-shadow-hover: 0 6px 14px rgba(0, 0, 0, 0.09);
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+
+  /* Container */
+  --container-width: 1200px;
+  --container-padding: 20px;
+  --container-padding-mobile: clamp(16px, 4.5vw, 24px);
+}
+
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 92px;
+}
+
+body {
+  font-family: "Host Grotesk", sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-green-primary);
+  outline-offset: 2px;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+iframe,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: var(--spacing-sm);
+}
+
+p {
+  font-weight: 400;
+  margin-bottom: var(--spacing-md);
+}
+
+/* Utility Classes */
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-white {
+  color: var(--color-white);
+}
+
+.text-primary {
+  color: var(--color-green-primary);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.gap-sm {
+  gap: var(--spacing-sm);
+}
+
+.gap-md {
+  gap: var(--spacing-md);
+}
+
+.gap-lg {
+  gap: var(--spacing-lg);
+}
+
+.grid {
+  display: grid;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.hero-subtext,
+.section-head p {
+  max-width: 72ch;
+}
+
+/* Animation utilities */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-fade {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile responsive utils */
+@media (max-width: 768px) {
+  html,
+  body {
+    max-width: 100%;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .container {
+    width: 100%;
+    padding-left: var(--container-padding-mobile);
+    padding-right: var(--container-padding-mobile);
+  }
+
+  .container > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hero-wrap,
+  .hero-grid,
+  .carbon-grid,
+  .features-grid,
+  .dashboard-grid,
+  .mobility-layout,
+  .tracker-layout,
+  .kontak-layout,
+  .content-layout,
+  .mission-grid,
+  .values-grid,
+  .team-grid,
+  .articles-grid,
+  .articles-grid-layout {
+    min-width: 0;
+  }
+
+  .card,
+  .feature-card,
+  .aqi-card,
+  .article-card,
+  .article-item,
+  .widget-card,
+  .contact-card,
+  .pillar-card,
+  .team-card,
+  .faq-item,
+  .sidebar-card,
+  .feed-card,
+  .result-found-card,
+  .result-not-found-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .section {
+    padding: 56px 0;
+  }
+
+  h1 {
+    line-height: 1.15;
+  }
+
+  h2 {
+    line-height: 1.2;
+  }
+
+  p {
+    line-height: 1.65;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Unified Banner (fitur/about/konten/kontak) */
+header.unified-banner {
+  background:
+    radial-gradient(circle at 90% 10%, rgba(45, 90, 39, 0.14), transparent 32%),
+    linear-gradient(120deg, rgba(212, 232, 205, 0.42), rgba(255, 255, 255, 0.9)) !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  text-align: left !important;
+}
+
+header.unified-banner .container {
+  max-width: var(--container-width);
+}
+
+header.unified-banner h1 {
+  font-size: clamp(42px, 5vw, 64px) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.03em !important;
+  color: var(--color-text-primary) !important;
+  margin-bottom: 16px !important;
+}
+
+header.unified-banner .hero-subtext,
+header.unified-banner > .container > p {
+  max-width: 860px !important;
+  color: var(--color-text-secondary) !important;
+  font-size: clamp(18px, 1.9vw, 28px) !important;
+  line-height: 1.45 !important;
+  margin: 0 !important;
+}
+
+@media (max-width: 768px) {
+  header.unified-banner h1 {
+    font-size: 38px !important;
+  }
+
+  header.unified-banner .hero-subtext,
+  header.unified-banner > .container > p {
+    font-size: 18px !important;
+  }
+}

@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Artikel — Eco Hub</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+      .article-container {
+        max-width: 900px;
+        margin: 40px auto;
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        border: 1px solid var(--color-border);
+        min-height: 500px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      }
+
+      .article-header h1 {
+        font-size: 40px;
+        margin-bottom: 16px;
+        font-weight: 800;
+        line-height: 1.2;
+      }
+
+      .article-meta {
+        color: var(--color-text-muted);
+        font-size: 14px;
+        margin-bottom: 32px;
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: 20px;
+      }
+
+      .article-content {
+        font-size: 18px;
+        line-height: 1.8;
+        color: var(--color-text-primary);
+      }
+
+      .article-content p {
+        margin-bottom: 24px;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 40px;
+        color: var(--color-text-muted);
+      }
+
+      .error {
+        color: var(--color-red-alert);
+        text-align: center;
+        padding: 40px;
+      }
+
+      .wiki-credit {
+        margin-top: 40px;
+        font-size: 13px;
+        color: var(--color-text-muted);
+        border-top: 1px solid var(--color-border);
+        padding-top: 16px;
+      }
+
+      @media (max-width: 768px) {
+        .article-container {
+          margin: 20px auto;
+          padding: 24px;
+        }
+
+        .article-header h1 {
+          font-size: 32px;
+        }
+      }
+    </style>
+
+    <!-- Leaflet CSS -->
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="container nav-container">
+        <a href="index.html" class="nav-brand">
+          <i class="fas fa-leaf" color="var(--color-green-primary)"></i>
+          Eco Hub
+        </a>
+
+        <div class="nav-menu hide-mobile">
+          <a href="index.html" class="nav-link">Beranda</a>
+          <a href="fitur.html" class="nav-link">Fitur</a>
+          <a href="konten.html" class="nav-link active">Edukasi</a>
+          <a href="kegiatan.html" class="nav-link">Kegiatan</a>
+          <a href="about.html" class="nav-link">Tentang</a>
+        </div>
+
+        <a href="index.html#mobility-sim" class="btn btn-primary hide-mobile"
+          >Mulai Sekarang</a
+        >
+
+        <button class="hamburger" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+    <div class="mobile-menu-overlay"></div>
+    <div class="mobile-menu">
+      <div class="mobile-nav-list">
+        <a href="index.html" class="mobile-nav-link">Beranda</a>
+        <a href="fitur.html" class="mobile-nav-link">Fitur</a>
+        <a href="konten.html" class="mobile-nav-link">Edukasi</a>
+        <a href="kegiatan.html" class="mobile-nav-link">Kegiatan</a>
+        <a href="about.html" class="mobile-nav-link">Tentang</a>
+        <a
+          href="index.html#mobility-sim"
+          class="btn btn-primary btn-full"
+          style="margin-top: 20px"
+          >Mulai Sekarang</a
+        >
+      </div>
+    </div>
+
+    <div
+      class="container section"
+      style="padding-top: 40px; padding-bottom: 40px"
+    >
+      <div style="max-width: 900px; margin: 0 auto; margin-bottom: 16px">
+        <a
+          href="konten.html"
+          class="btn btn-outline"
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            text-decoration: none;
+          "
+        >
+          <i class="fas fa-arrow-left" size="18"></i> Kembali ke Edukasi
+        </a>
+      </div>
+      <div class="article-container" id="content-box" style="margin-top: 0">
+        <div class="loading">Memuat artikel...</div>
+      </div>
+    </div>
+
+    <script>
+
+      // Get URL Param
+      const params = new URLSearchParams(window.location.search);
+      const topic = params.get("q") || "Climate_change"; // Default
+      const titleOverride = params.get("title") || topic.replace(/_/g, " ");
+      const imgParam = params.get("img");
+      const defaultImg =
+        "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1200";
+      const articleImgUrl = imgParam ? imgParam : defaultImg;
+
+      const contentBox = document.getElementById("content-box");
+
+      // Fetch from Wikipedia API
+      // https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles=Stack_Overflow&origin=*
+
+      async function fetchArticle() {
+        try {
+          const url = `https://id.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles=${topic}&origin=*&exintro=1&explaintext=0`;
+          // Using Indonesian Wikipedia (id.wikipedia.org). exintro=1 for intro only to be safe, or remove for full.
+
+          const res = await fetch(url);
+          const data = await res.json();
+          const pages = data.query.pages;
+          const pageId = Object.keys(pages)[0];
+
+          if (pageId === "-1") {
+            contentBox.innerHTML = `
+                        <div class="error fade-up visible" style="padding: 60px 20px;">
+                            <i class="fas fa-exclamation-triangle" size="64" color="var(--color-red-alert)" style="margin-bottom: 20px;"></i>
+                            <h2 style="margin-bottom: 12px; color: var(--color-text-primary);">Artikel tidak ditemukan</h2>
+                            <p style="color: var(--color-text-muted); margin-bottom: 24px;">Maaf, artikel yang Anda cari tidak tersedia atau mungkin telah dihapus.</p>
+                            <a href="konten.html" class="btn btn-primary">Kembali ke Edukasi</a>
+                        </div>
+                    `;
+            return;
+          }
+
+          const page = pages[pageId];
+          const cleanContent = page.extract; // HTML content from Wiki
+
+          contentBox.innerHTML = `
+                    <div class="article-header fade-up visible">
+                        <h1>${titleOverride}</h1>
+                        <div class="article-meta">Sumber Asli Wikipedia: <em>${page.title}</em> • ${new Date().toLocaleDateString("id-ID")}</div>
+                    </div>
+                    <div class="article-image fade-up visible" style="margin-bottom: 30px;">
+                        <img src="${articleImgUrl}" alt="Ilustrasi ${titleOverride}" style="width: 100%; height: auto; max-height: 450px; object-fit: cover; border-radius: 8px;">
+                    </div>
+                    <div class="article-content fade-up visible">
+                        ${cleanContent}
+                    </div>
+                    <div class="wiki-credit">
+                        Konten diambil secara dinamis dari Wikipedia. <a href="https://id.wikipedia.org/wiki/${topic}" target="_blank">Lihat sumber asli</a>.
+                    </div>
+                `;
+        } catch (e) {
+          console.error(e);
+          contentBox.innerHTML = `
+                    <div class="error fade-up visible" style="padding: 60px 20px;">
+                        <i class="fas fa-wifi" size="64" color="var(--color-amber)" style="margin-bottom: 20px;"></i>
+                        <h2 style="margin-bottom: 12px; color: var(--color-text-primary);">Koneksi Bermasalah</h2>
+                        <p style="color: var(--color-text-muted); margin-bottom: 24px;">Gagal memuat artikel. Silakan periksa koneksi internet Anda.</p>
+                        <a href="konten.html" class="btn btn-primary">Kembali ke Edukasi</a>
+                    </div>
+                `;
+        }
+      }
+
+      fetchArticle();
+    </script>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <h3>Eco Hub</h3>
+            <p class="footer-tagline">
+              Platform edukasi dan monitoring lingkungan untuk masa depan yang
+              lebih baik.
+            </p>
+</div>
+
+          <div class="footer-links">
+            <div class="footer-heading">Navigasi</div>
+            <ul>
+              <li><a href="index.html">Beranda</a></li>
+              <li><a href="fitur.html">Fitur</a></li>
+              <li><a href="about.html">Tentang</a></li>
+              <li><a href="konten.html">Edukasi</a></li>
+              <li><a href="kegiatan.html">Kegiatan</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-links">
+            <div class="footer-heading">Topik</div>
+            <ul>
+              <li><a href="#">Eco Mobility</a></li>
+              <li><a href="#">Kualitas Udara</a></li>
+              <li><a href="#">Aksi Komunitas</a></li>
+              <li><a href="#">Smart City</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-links">
+            <div class="footer-heading">Informasi</div>
+            <ul>
+              <li><a href="about.html">Tentang Proyek</a></li>
+              <li><a href="fitur.html">Fitur Utama</a></li>
+              <li><a href="konten.html">Panduan Edukasi</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2026 Eco Hub. Inovasi Mobilitas & Lingkungan Berkelanjutan.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+
+    <!-- Leaflet JS -->
+    <script>
+      if ((location.protocol === "http:" || location.protocol === "https:") && "serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("sw.js")
+            .catch((err) => console.log("SW error", err));
+        });
+      }
+    </script>
+  </body>
+</html>
