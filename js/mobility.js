@@ -207,136 +207,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${h}j ${m}m`;
   }
 
-  function paintDummyMapBase(map) {
+  function addOsmTileLayer(map) {
     if (!map || !window.L) return;
-
-    const sumatra = [
-      [5.4, 95.1],
-      [4.4, 96.4],
-      [3.0, 98.0],
-      [1.8, 99.5],
-      [0.2, 100.8],
-      [-1.5, 102.1],
-      [-3.5, 103.4],
-      [-5.4, 104.8],
-      [-5.8, 105.4],
-      [-4.4, 104.0],
-      [-2.0, 102.3],
-      [0.8, 100.2],
-      [3.0, 98.3],
-      [4.8, 96.8],
-    ];
-    const javaBali = [
-      [-6.1, 105.0],
-      [-6.4, 106.2],
-      [-6.8, 108.1],
-      [-7.1, 110.3],
-      [-7.7, 112.9],
-      [-8.2, 114.6],
-      [-8.5, 115.4],
-      [-8.8, 116.5],
-      [-8.9, 118.1],
-      [-8.6, 119.9],
-      [-8.9, 121.8],
-      [-9.4, 123.7],
-      [-10.0, 124.6],
-      [-9.2, 122.4],
-      [-8.7, 120.3],
-      [-8.4, 118.2],
-      [-8.0, 116.1],
-      [-7.6, 113.8],
-      [-7.1, 111.5],
-      [-6.7, 109.1],
-      [-6.2, 106.8],
-    ];
-    const kalimantan = [
-      [3.9, 108.0],
-      [3.2, 110.5],
-      [2.5, 113.2],
-      [1.8, 116.0],
-      [0.5, 117.7],
-      [-1.3, 118.3],
-      [-2.7, 117.1],
-      [-3.1, 114.6],
-      [-2.5, 112.1],
-      [-1.1, 109.5],
-      [0.6, 108.3],
-      [2.4, 108.1],
-    ];
-    const sulawesi = [
-      [1.8, 119.1],
-      [2.7, 121.0],
-      [2.3, 123.2],
-      [1.2, 124.8],
-      [0.0, 124.2],
-      [-1.8, 123.4],
-      [-3.8, 122.3],
-      [-4.9, 120.8],
-      [-4.2, 119.3],
-      [-2.3, 120.2],
-      [-1.0, 121.2],
-      [0.7, 121.0],
-      [1.5, 120.0],
-    ];
-    const papua = [
-      [-1.6, 130.0],
-      [0.6, 131.5],
-      [1.6, 133.8],
-      [0.9, 136.2],
-      [-0.7, 138.2],
-      [-2.0, 140.1],
-      [-3.8, 141.1],
-      [-5.9, 139.2],
-      [-6.5, 136.5],
-      [-5.2, 133.5],
-      [-3.9, 131.2],
-    ];
-
-    window.L.rectangle(
-      INDONESIA_BOUNDS,
-      {
-        stroke: false,
-        fillColor: "#eef3ea",
-        fillOpacity: 0.96,
-      },
-    ).addTo(map);
-
-    [sumatra, javaBali, kalimantan, sulawesi, papua].forEach((island) => {
-      window.L.polygon(island, {
-        color: "#9fb59a",
-        weight: 1,
-        fillColor: "#d9e8d0",
-        fillOpacity: 0.92,
-      }).addTo(map);
-    });
-
-    [
-      [
-        [3.6, 98.7],
-        [-0.9, 104.5],
-        [-6.2, 106.8],
-        [-7.8, 110.4],
-        [-7.3, 112.7],
-        [-5.1, 119.4],
-      ],
-      [
-        [-6.2, 106.8],
-        [-0.0, 109.3],
-        [-1.2, 116.9],
-        [1.5, 124.8],
-      ],
-      [
-        [-5.1, 119.4],
-        [-3.7, 128.2],
-        [-2.5, 140.7],
-      ],
-    ].forEach((path, idx) => {
-      window.L.polyline(path, {
-        color: idx === 0 ? "#8c968c" : "#a6aea6",
-        weight: idx === 0 ? 4 : 3,
-        opacity: 0.75,
-      }).addTo(map);
-    });
+    window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
+    }).addTo(map);
   }
 
   function animateNumber(el, toValue, suffix = "") {
@@ -519,7 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tap: true,
     }).setView([-2.5, 118], 5);
 
-    paintDummyMapBase(map);
+    addOsmTileLayer(map);
     map.fitBounds(INDONESIA_BOUNDS, { padding: [10, 10] });
 
     communityMapState.map = map;
@@ -654,7 +530,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     mapState.map = window.L.map(mapEl, { zoomControl: true }).setView([-2.5, 118], 5);
-    paintDummyMapBase(mapState.map);
+    addOsmTileLayer(mapState.map);
     mapState.map.fitBounds(INDONESIA_BOUNDS, { padding: [10, 10] });
 
     mapState.map.on("click", (event) => {

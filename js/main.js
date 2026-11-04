@@ -119,6 +119,7 @@ function initQuickStartCta() {
       <p>Mulai dari langkah yang paling kamu butuhkan sekarang.</p>
       <div class="quick-start-actions">
         <a class="btn btn-primary" href="index.html#mobility-sim">Mulai Hitung Karbon</a>
+        <a class="btn btn-outline" href="lapor.html">Lapor Isu Lingkungan</a>
         <a class="btn btn-outline" href="kegiatan.html#create-form-card">Buat Kegiatan</a>
       </div>
       <button type="button" class="quick-start-close" aria-label="Tutup">Tutup</button>

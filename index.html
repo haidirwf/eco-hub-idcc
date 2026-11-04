@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eco Hub - Eco Smart Mobility & City Insights</title>
+    <title>Eco Hub — Kenali Bumi Kita, Jaga Lingkungan Kita</title>
     <meta
       name="description"
-      content="Platform eco-smart city untuk simulasi mobilitas, insight emisi, kualitas udara, dan rekomendasi aksi hijau personal."
+      content="Platform edukasi dan pemantauan lingkungan interaktif untuk Indonesia. Cek kualitas udara, simulasi mobilitas hijau, dan lapor isu lingkungan."
     />
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,22 +17,33 @@
       rel="stylesheet"
     />
 
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/pages/home.css" />
     <link rel="stylesheet" href="css/pages/mobility.css" />
   </head>
 
   <body>
+    <!-- Navbar -->
     <nav class="navbar">
       <div class="container nav-container">
         <a href="index.html" class="nav-brand">
-          <i class="fas fa-leaf" color="var(--color-green-primary)"></i>
+          <i class="fas fa-leaf" style="color: var(--color-green-primary)"></i>
           Eco Hub
         </a>
 
         <div class="nav-menu hide-mobile">
           <a href="index.html" class="nav-link active">Beranda</a>
-          <a href="fitur.html" class="nav-link">Fitur</a>
+          <a href="lapor.html" class="nav-link">Lapor</a>
           <a href="konten.html" class="nav-link">Edukasi</a>
           <a href="kegiatan.html" class="nav-link">Kegiatan</a>
           <a href="about.html" class="nav-link">Tentang</a>
@@ -47,11 +59,12 @@
       </div>
     </nav>
 
+    <!-- Mobile Menu Drawer -->
     <div class="mobile-menu-overlay"></div>
     <div class="mobile-menu">
       <div class="mobile-nav-list">
-        <a href="index.html" class="mobile-nav-link">Beranda</a>
-        <a href="fitur.html" class="mobile-nav-link">Fitur</a>
+        <a href="index.html" class="mobile-nav-link active">Beranda</a>
+        <a href="lapor.html" class="mobile-nav-link">Lapor</a>
         <a href="konten.html" class="mobile-nav-link">Edukasi</a>
         <a href="kegiatan.html" class="mobile-nav-link">Kegiatan</a>
         <a href="about.html" class="mobile-nav-link">Tentang</a>
@@ -59,36 +72,142 @@
       </div>
     </div>
 
-    <header class="mobility-hero section">
-      <div class="container hero-wrap fade-up">
-        <div class="hero-text">
-          <h1>Kota Lebih Hijau Dimulai dari Cara Kamu Bergerak</h1>
-          <p>
-            Simulasikan emisi perjalananmu, lihat kondisi kota secara ringkas,
-            dan dapatkan rekomendasi aksi hijau berbasis data lingkungan.
+    <!-- Hero Section (seperti refindex.html) -->
+    <section class="hero-section section">
+      <div class="container hero-grid">
+        <div class="hero-content fade-up">
+          <p class="eyebrow">INOVASI DIGITAL LINGKUNGAN BERKELANJUTAN</p>
+          <h1>Kenali Bumi Kita,<br />Jaga Lingkungan Kita.</h1>
+          <p class="hero-subtext">
+            Eco Hub adalah platform edukasi dan pemantauan lingkungan interaktif
+            yang membantu masyarakat Indonesia memahami kondisi lingkungan sekitar,
+            simulasi mobilitas hijau, dan mengambil aksi nyata.
           </p>
-          <div class="hero-actions">
-            <a href="#mobility-sim" class="btn btn-primary">Mulai Simulasi</a>
-            <a href="#city-dashboard" class="btn btn-outline">Lihat Dashboard Kota</a>
+
+          <div class="hero-ctas">
+            <a href="#aqi-widget" class="btn btn-primary">Cek Kondisi Udara</a>
+            <a href="lapor.html" class="btn btn-outline">Lapor Isu Lingkungan</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-val">12.000+</span>
+              <span class="stat-lbl">Pengguna</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-val">34</span>
+              <span class="stat-lbl">Kota Terpantau</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-val">5</span>
+              <span class="stat-lbl">Isu Lingkungan</span>
+            </div>
           </div>
         </div>
-        <div class="hero-insight card fade-up" style="animation-delay: 0.1s">
-          <h3>Insight Hari Ini</h3>
-          <p id="hero-insight-text">Memuat insight kota...</p>
-          <div class="insight-kpis">
-            <div>
-              <span class="kpi-label">AQI Kota Dipilih</span>
-              <strong id="hero-aqi">--</strong>
+
+        <div class="hero-visual fade-up" style="animation-delay: 0.2s">
+          <div id="aqi-widget" class="aqi-card card">
+            <div class="aqi-header">
+              <div class="city-selector">
+                <select id="city-select" aria-label="Pilih Kota">
+                  <option value="Jakarta">Jakarta</option>
+                  <option value="Bandung">Bandung</option>
+                  <option value="Surabaya">Surabaya</option>
+                  <option value="Medan">Medan</option>
+                  <option value="Makassar">Makassar</option>
+                </select>
+              </div>
+              <span id="aqi-status-badge" class="status-badge">Sedang</span>
             </div>
-            <div>
-              <span class="kpi-label">Potensi Hemat</span>
-              <strong id="hero-saving">--</strong>
+
+            <div class="aqi-main">
+              <div class="aqi-value" id="aqi-value">87</div>
+              <div class="aqi-label">US AQI</div>
+            </div>
+
+            <div class="aqi-details">
+              <div class="detail-item">
+                <i class="fas fa-wind" aria-hidden="true"></i>
+                <span id="pm25-val">34</span>
+                <small>PM2.5</small>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-cloud" aria-hidden="true"></i>
+                <span id="pm10-val">45</span>
+                <small>PM10</small>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-tint" aria-hidden="true"></i>
+                <span id="humidity-val">60%</span>
+                <small>Kelembaban</small>
+              </div>
+            </div>
+
+            <div class="aqi-footer">
+              <button id="refresh-aqi" class="btn-refresh" type="button">
+                <i class="fas fa-sync-alt" aria-hidden="true"></i> Perbarui Data
+              </button>
+              <span class="last-updated">
+                <span class="blink-dot"></span> Baru saja
+              </span>
             </div>
           </div>
         </div>
       </div>
-    </header>
+    </section>
 
+    <!-- Features Section: Apa yang Bisa Kamu Lakukan? -->
+    <section class="features-section section">
+      <div class="container">
+        <h2 class="text-white text-center fade-up" style="margin-bottom: 48px">
+          Apa yang Bisa Kamu Lakukan?
+        </h2>
+        <div class="grid features-grid">
+          <!-- Feature 1 -->
+          <div class="feature-card fade-up" style="animation-delay: 0.1s">
+            <div class="feature-icon">
+              <i class="fas fa-wind" style="color: var(--color-green-light); font-size: 24px;"></i>
+            </div>
+            <h3>Pantau Kualitas Udara</h3>
+            <p>
+              Monitor AQI real-time di berbagai kota Indonesia untuk menjaga
+              kesehatanmu dan keluarga.
+            </p>
+            <a href="#city-dashboard" class="feature-link">Lihat Data →</a>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="feature-card fade-up" style="animation-delay: 0.2s">
+            <div class="feature-icon">
+              <i class="fas fa-route" style="color: var(--color-green-light); font-size: 24px;"></i>
+            </div>
+            <h3>Simulasi Mobilitas Cerdas</h3>
+            <p>
+              Hitung estimasi emisi perjalanan harian dan temukan rute moda alternatif
+              yang lebih rendah jejak karbon.
+            </p>
+            <a href="#mobility-sim" class="feature-link">Simulasi Sekarang →</a>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="feature-card fade-up" style="animation-delay: 0.3s">
+            <div class="feature-icon">
+              <i class="fas fa-bullhorn" style="color: var(--color-green-light); font-size: 24px;"></i>
+            </div>
+            <h3>Lapor Isu Lingkungan</h3>
+            <p>
+              Laporkan sampah liar, pencemaran udara/air, dan kerusakan alam di sekitarmu
+              dengan peta lokasi interaktif.
+            </p>
+            <a href="lapor.html" class="feature-link">Lapor Isu →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Eco Smart City Dashboard -->
     <section id="city-dashboard" class="section">
       <div class="container">
         <div class="section-head fade-up">
@@ -191,16 +310,16 @@
             <p class="widget-note">Titik aksi solusi komunitas: tanam pohon, bersih sungai, dan drop point daur ulang.</p>
             <div id="community-action-map" class="community-action-map" aria-label="Peta aksi komunitas"></div>
           </article>
-
         </div>
       </div>
     </section>
 
+    <!-- Smart Mobility Simulation Section -->
     <section id="mobility-sim" class="section mobility-section">
       <div class="container">
         <div class="section-head fade-up">
           <h2>Smart Mobility Simulation</h2>
-          <p>Estimasi ini memakai faktor emisi dummy yang realistis untuk kebutuhan edukasi.</p>
+          <p>Estimasi ini memakai faktor emisi terukur untuk kebutuhan edukasi mobilitas perkotaan.</p>
         </div>
 
         <div class="mobility-layout">
@@ -301,6 +420,160 @@
       </div>
     </section>
 
+    <!-- Stats Section (di bawah Smart Mobility Simulation) -->
+    <section class="stats-section section">
+      <div class="container">
+        <div class="stats-row">
+          <div class="stat-block fade-up">
+            <span class="stat-number count-up" data-target="847">0</span>
+            <span class="stat-label">Laporan Masuk</span>
+          </div>
+          <div class="stat-divider-lg"></div>
+          <div class="stat-block fade-up" style="animation-delay: 0.1s">
+            <span class="stat-number count-up" data-target="23">0</span>
+            <span class="stat-label">Kota Aktif</span>
+          </div>
+          <div class="stat-divider-lg"></div>
+          <div class="stat-block fade-up" style="animation-delay: 0.2s">
+            <span
+              class="stat-number count-up"
+              data-target="12400"
+              data-suffix="+"
+              >0</span
+            >
+            <span class="stat-label">Pohon Diselamatkan</span>
+          </div>
+          <div class="stat-divider-lg"></div>
+          <div class="stat-block fade-up" style="animation-delay: 0.3s">
+            <span class="stat-number count-up" data-target="67" data-suffix="%"
+              >0</span
+            >
+            <span class="stat-label">Kenaikan Kesadaran</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Artikel & Edukasi Terbaru (seperti refindex.html) -->
+    <section class="articles-section section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Artikel & Edukasi Terbaru</h2>
+          <a href="konten.html" class="link-arrow">Lihat Semua →</a>
+        </div>
+
+        <div class="articles-grid">
+          <!-- Featured Article -->
+          <a
+            href="artikel.html?q=Pencemaran_udara&title=Mengapa%20Jakarta%20Masuk%2010%20Kota%20Polusi%20Terburuk%3F&img=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1698128827557-0b05ccb18fbf%3Fauto%3Dformat%26fit%3Dcrop%26q%3D80%26w%3D600"
+            class="article-card featured fade-up"
+            style="display: block; text-decoration: none; color: inherit"
+          >
+            <div
+              class="article-thumb"
+              style="
+                background-image: url(&quot;https://images.unsplash.com/photo-1698128827557-0b05ccb18fbf?auto=format&fit=crop&q=80&w=600&quot;);
+                background-size: cover;
+                background-position: center;
+              "
+            ></div>
+            <div class="article-content">
+              <span class="badge badge-green">Polusi Udara</span>
+              <h3>Mengapa Jakarta Masuk 10 Kota Polusi Terburuk?</h3>
+              <p>
+                Analisis mendalam mengenai faktor-faktor penyebab polusi udara
+                di ibukota dan dampaknya bagi kesehatan masyarakat.
+              </p>
+              <div class="article-meta">
+                <span>Tim Eco Hub</span> • <span>15 Feb 2026</span>
+              </div>
+              <span class="read-more">Baca Selengkapnya →</span>
+            </div>
+          </a>
+
+          <!-- Side Articles -->
+          <div class="side-articles">
+            <!-- 1 -->
+            <a
+              href="artikel.html?q=Energi_surya&title=Cara%20Kerja%20PLTS%20dan%20Masa%20Depan%20Energi%20Terbarukan&img=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1509391366360-2e959784a276%3Fauto%3Dformat%26fit%3Dcrop%26q%3D80%26w%3D600"
+              class="article-card small fade-up"
+              style="
+                animation-delay: 0.1s;
+                display: flex;
+                text-decoration: none;
+                color: inherit;
+              "
+            >
+              <div
+                class="article-thumb-small"
+                style="
+                  background-image: url(&quot;https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=600&quot;);
+                  background-size: cover;
+                  background-position: center;
+                "
+              ></div>
+              <div class="article-content-small">
+                <span class="badge badge-amber">Perubahan Iklim</span>
+                <h4>Cara Kerja PLTS dan Masa Depan Energi Terbarukan</h4>
+                <div class="article-meta">14 Feb 2026</div>
+              </div>
+            </a>
+            <!-- 2 -->
+            <a
+              href="artikel.html?q=Hutan_bakau&title=Hutan%20Mangrove%3A%20Benteng%20Terakhir%20Pesisir%20Indonesia&img=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1589556183130-530470785fab%3Fauto%3Dformat%26fit%3Dcrop%26q%3D80%26w%3D600"
+              class="article-card small fade-up"
+              style="
+                animation-delay: 0.2s;
+                display: flex;
+                text-decoration: none;
+                color: inherit;
+              "
+            >
+              <div
+                class="article-thumb-small"
+                style="
+                  background-image: url(&quot;https://images.unsplash.com/photo-1589556183130-530470785fab?auto=format&fit=crop&q=80&w=600&quot;);
+                  background-size: cover;
+                  background-position: center;
+                "
+              ></div>
+              <div class="article-content-small">
+                <span class="badge badge-blue">Konservasi</span>
+                <h4>Hutan Mangrove: Benteng Terakhir Pesisir Indonesia</h4>
+                <div class="article-meta">12 Feb 2026</div>
+              </div>
+            </a>
+            <!-- 3 -->
+            <a
+              href="artikel.html?q=Mikroplastik&title=Bahaya%20Mikroplastik%20di%20Makanan%20Kita&img=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1621451537084-482c73073a0f%3Fauto%3Dformat%26fit%3Dcrop%26q%3D80%26w%3D600"
+              class="article-card small fade-up"
+              style="
+                animation-delay: 0.3s;
+                display: flex;
+                text-decoration: none;
+                color: inherit;
+              "
+            >
+              <div
+                class="article-thumb-small"
+                style="
+                  background-image: url(&quot;https://images.unsplash.com/photo-1621451537084-482c73073a0f?auto=format&fit=crop&q=80&w=600&quot;);
+                  background-size: cover;
+                  background-position: center;
+                "
+              ></div>
+              <div class="article-content-small">
+                <span class="badge badge-red">Polusi Laut</span>
+                <h4>Bahaya Mikroplastik di Makanan Kita</h4>
+                <div class="article-meta">10 Feb 2026</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Green Action Recommendation -->
     <section class="section recommendation-section">
       <div class="container">
         <div class="section-head fade-up">
@@ -318,19 +591,19 @@
       </div>
     </section>
 
-    
-
-    <section class="section cta-zone">
-      <div class="container card cta-card fade-up">
-        <h2>Sudah Punya Insight? Saatnya Aksi Nyata.</h2>
-        <p>Ajak temanmu pindah ke moda transportasi lebih hijau atau gabung kegiatan komunitas terdekat.</p>
-        <div class="cta-actions">
-          <a href="kegiatan.html" class="btn btn-primary">Ikut Aksi Komunitas</a>
-          <a href="konten.html" class="btn btn-outline">Lanjut Belajar di Pusat Edukasi</a>
+    <!-- CTA Banner -->
+    <section class="cta-banner section">
+      <div class="container text-center fade-up">
+        <h2>Bersama, Kita Jaga Bumi Indonesia.</h2>
+        <p>Mulai dari hal kecil. Lapor isu lingkungan di sekitarmu hari ini.</p>
+        <div class="cta-buttons">
+          <a href="lapor.html" class="btn btn-white">Lapor Sekarang</a>
+          <a href="about.html" class="btn btn-outline-white">Pelajari Lebih</a>
         </div>
       </div>
     </section>
 
+    <!-- Footer -->
     <footer class="footer">
       <div class="container">
         <div class="footer-grid">
@@ -340,13 +613,13 @@
               Platform edukasi dan monitoring lingkungan untuk masa depan yang
               lebih baik.
             </p>
-</div>
+          </div>
 
           <div class="footer-links">
             <div class="footer-heading">Navigasi</div>
             <ul>
               <li><a href="index.html">Beranda</a></li>
-              <li><a href="fitur.html">Fitur</a></li>
+              <li><a href="lapor.html">Lapor Isu</a></li>
               <li><a href="about.html">Tentang</a></li>
               <li><a href="konten.html">Edukasi</a></li>
               <li><a href="kegiatan.html">Kegiatan</a></li>
@@ -367,7 +640,7 @@
             <div class="footer-heading">Informasi</div>
             <ul>
               <li><a href="about.html">Tentang Proyek</a></li>
-              <li><a href="fitur.html">Fitur Utama</a></li>
+              <li><a href="lapor.html">Lapor Isu</a></li>
               <li><a href="konten.html">Panduan Edukasi</a></li>
             </ul>
           </div>
@@ -379,6 +652,15 @@
       </div>
     </footer>
 
+    <!-- Leaflet JS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+
+    <!-- Scripts -->
+    <script src="js/aqi.js"></script>
     <script src="js/main.js"></script>
     <script src="js/mobility.js"></script>
   </body>

@@ -326,9 +326,7 @@ p {
 
 /* Unified Banner (fitur/about/konten/kontak) */
 header.unified-banner {
-  background:
-    radial-gradient(circle at 90% 10%, rgba(45, 90, 39, 0.14), transparent 32%),
-    linear-gradient(120deg, rgba(212, 232, 205, 0.42), rgba(255, 255, 255, 0.9)) !important;
+  background: var(--color-bg-primary) !important;
   border-bottom: 1px solid var(--color-border) !important;
   text-align: left !important;
 }
