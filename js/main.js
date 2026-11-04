@@ -1,50 +1,8 @@
-// Global map config:
-// - dummyOnly: true  => semua map pakai dummy (hemat API)
-// - dummyOnly: false => aktifkan kembali tile/API peta online (OSM/Nominatim/OSRM)
 window.ECO_HUB_MAP_CONFIG = {
   dummyOnly: false,
 };
 
-window.EcoHubMapFallback = {
-  bounds: {
-    minLat: -11.2,
-    maxLat: 6.8,
-    minLng: 94.5,
-    maxLng: 141.5,
-  },
-  eventToLatLng(container, event) {
-    const rect = container.getBoundingClientRect();
-    const x = Math.max(0, Math.min(rect.width, event.clientX - rect.left));
-    const y = Math.max(0, Math.min(rect.height, event.clientY - rect.top));
-    const lng =
-      this.bounds.minLng +
-      (x / Math.max(1, rect.width)) * (this.bounds.maxLng - this.bounds.minLng);
-    const lat =
-      this.bounds.maxLat -
-      (y / Math.max(1, rect.height)) * (this.bounds.maxLat - this.bounds.minLat);
-    return { lat, lng };
-  },
-  latLngToPercent(point) {
-    const left =
-      ((point.lng - this.bounds.minLng) /
-        (this.bounds.maxLng - this.bounds.minLng)) *
-      100;
-    const top =
-      ((this.bounds.maxLat - point.lat) /
-        (this.bounds.maxLat - this.bounds.minLat)) *
-      100;
-    return { left, top };
-  },
-};
-
 document.addEventListener("DOMContentLoaded", () => {
-  // Cleanup sisa data gamifikasi dari versi lama.
-  try {
-    localStorage.removeItem("Eco Hub_gamification");
-  } catch (error) {
-    console.warn("Gagal membersihkan data gamifikasi lama:", error);
-  }
-
   if (location.protocol === "http:" || location.protocol === "https:") {
     const hasManifest = document.querySelector('link[rel="manifest"]');
     if (!hasManifest) {
@@ -204,21 +162,30 @@ function initQuickStartCta() {
   });
 }
 
-function animateValue(obj) {
-  const target = parseInt(obj.getAttribute("data-target"));
-  const duration = 2000;
-  const stepTime = Math.abs(Math.floor(duration / target));
+window.animateCount = function (el, toValue, decimals = 0, suffix = "") {
+  if (!el) return;
+  const target = parseFloat(toValue);
+  if (!Number.isFinite(target)) {
+    el.textContent = `${toValue}${suffix}`;
+    return;
+  }
+  const start = parseFloat(el.dataset.currentValue || 0);
+  el.dataset.currentValue = String(target);
+  const duration = 600;
+  const startTime = performance.now();
+  function tick(now) {
+    const p = Math.min(1, (now - startTime) / duration);
+    const val = start + (target - start) * (1 - Math.pow(1 - p, 3));
+    el.textContent = `${decimals > 0 ? val.toFixed(decimals) : Math.round(val).toLocaleString("id-ID")}${suffix}`;
+    if (p < 1) requestAnimationFrame(tick);
+    else el.textContent = `${decimals > 0 ? target.toFixed(decimals) : target.toLocaleString("id-ID")}${suffix}`;
+  }
+  requestAnimationFrame(tick);
+};
 
-  let current = 0;
-  const timer = setInterval(() => {
-    current += Math.ceil(target / 100);
-    if (current >= target) {
-      current = target;
-      clearInterval(timer);
-    }
-    obj.innerText =
-      current.toLocaleString("id-ID") + (obj.getAttribute("data-suffix") || "");
-  }, 20);
+function animateValue(obj) {
+  const target = parseInt(obj.getAttribute("data-target")) || 0;
+  window.animateCount(obj, target, 0, obj.getAttribute("data-suffix") || "");
 }
 
 

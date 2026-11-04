@@ -293,7 +293,7 @@
               </details>
 
               <div class="export-actions">
-                <button id="export-png-btn" type="button" class="btn btn-outline">Ekspor Ringkasan PNG</button>
+                <button id="export-png-btn" type="button" class="btn btn-outline"><i class="fas fa-print"></i> Cetak Ringkasan</button>
               </div>
             </article>
           </div>
@@ -381,14 +381,5 @@
 
     <script src="js/main.js"></script>
     <script src="js/mobility.js"></script>
-    <script>
-      if ((location.protocol === "http:" || location.protocol === "https:") && "serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker
-            .register("sw.js")
-            .catch((err) => console.log("SW error", err));
-        });
-      }
-    </script>
   </body>
 </html>

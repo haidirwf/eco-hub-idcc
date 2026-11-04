@@ -274,16 +274,5 @@
     </footer>
 
     <script src="js/main.js"></script>
-
-    <!-- Leaflet JS -->
-    <script>
-      if ((location.protocol === "http:" || location.protocol === "https:") && "serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker
-            .register("sw.js")
-            .catch((err) => console.log("SW error", err));
-        });
-      }
-    </script>
   </body>
 </html>

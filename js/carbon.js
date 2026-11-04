@@ -67,20 +67,11 @@ document.addEventListener("DOMContentLoaded", () => {
     resultBox.classList.remove("hidden");
 
     // Animate count up
-    const target = parseFloat(total);
-    let current = 0;
-    const duration = 1000;
-    const stepTime = 20;
-    const increment = target / (duration / stepTime);
-
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        current = target;
-        clearInterval(timer);
-      }
-      co2Span.innerText = current.toFixed(2);
-    }, stepTime);
+    if (window.animateCount) {
+      window.animateCount(co2Span, total, 2, "");
+    } else {
+      co2Span.innerText = parseFloat(total).toFixed(2);
+    }
 
     // Estimasi serapan pohon: ~0.06 kg CO2 per hari per pohon (~22 kg/tahun)
     const trees = Math.ceil(target / 0.06);

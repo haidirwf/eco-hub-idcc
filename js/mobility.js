@@ -3,12 +3,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   const COMMUNITY_ACTIVITIES_KEY = "Eco Hub_community_activities_v1";
-  const AQI_CACHE_KEY = "Eco Hub_aqi_cache_v1";
-  const GEO_CACHE_KEY = "Eco Hub_geo_cache_v1";
-  const ROUTE_CACHE_KEY = "Eco Hub_route_cache_v1";
-    const AQI_TTL_MS = 10 * 60 * 1000;
-  const GEO_TTL_MS = 30 * 24 * 60 * 60 * 1000;
-  const ROUTE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
   const MOCK_MODE = localStorage.getItem("Eco Hub_mock_mode") === "1";
   const DUMMY_MAP_MODE = window.ECO_HUB_MAP_CONFIG?.dummyOnly ?? true;
   const INDONESIA_BOUNDS = [
@@ -36,19 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "Maluku", minLat: -8.4, maxLat: -1.0, minLng: 124.0, maxLng: 131.4 },
     { name: "Papua", minLat: -9.8, maxLat: 0.2, minLng: 131.0, maxLng: 141.5 },
   ];
-  const FALLBACK_MAP_BG = `
-    <div class="fallback-map-bg">
-      <svg class="fallback-indo-svg" viewBox="0 0 1000 520" aria-hidden="true">
-        <rect x="0" y="0" width="1000" height="520" fill="#eef3ea"></rect>
-        <path d="M88 120 L150 95 L206 118 L234 150 L218 196 L170 238 L130 228 L94 188 Z" fill="#d5e3cc" stroke="#9fb59a" stroke-width="2"/>
-        <path d="M272 272 L355 266 L438 278 L536 302 L620 322 L680 336 L748 350 L820 365 L784 382 L702 370 L610 348 L514 326 L420 310 L332 296 L276 286 Z" fill="#d5e3cc" stroke="#9fb59a" stroke-width="2"/>
-        <path d="M462 155 L528 132 L596 146 L640 190 L624 244 L568 268 L492 252 L450 212 Z" fill="#d5e3cc" stroke="#9fb59a" stroke-width="2"/>
-        <path d="M666 194 L712 174 L760 188 L744 226 L700 242 L666 222 Z" fill="#d5e3cc" stroke="#9fb59a" stroke-width="2"/>
-        <path d="M820 214 L900 196 L958 230 L930 282 L860 296 L806 266 Z" fill="#d5e3cc" stroke="#9fb59a" stroke-width="2"/>
-      </svg>
-      <span class="fallback-map-title">Peta Dummy Indonesia (Klik untuk pilih titik)</span>
-    </div>
-  `;
 
   // g CO2 per km per person (estimasi edukasi)
   const MODE_FACTORS = {
@@ -136,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fromMarker: null,
     toMarker: null,
     routeLine: null,
-    fallbackLayer: null,
   };
   const geocodeCache = new Map();
   const aqiCache = new Map();
@@ -146,39 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
     layerGroup: null,
   };
   let lastGeocodeAt = 0;
-
-  function eventToLatLngFallback(container, event) {
-    if (window.EcoHubMapFallback?.eventToLatLng) {
-      return window.EcoHubMapFallback.eventToLatLng(container, event);
-    }
-    const rect = container.getBoundingClientRect();
-    const x = Math.max(0, Math.min(rect.width, event.clientX - rect.left));
-    const y = Math.max(0, Math.min(rect.height, event.clientY - rect.top));
-    const minLat = INDONESIA_BOUNDS[0][0];
-    const minLng = INDONESIA_BOUNDS[0][1];
-    const maxLat = INDONESIA_BOUNDS[1][0];
-    const maxLng = INDONESIA_BOUNDS[1][1];
-    const lng = minLng + (x / Math.max(1, rect.width)) * (maxLng - minLng);
-    const lat = maxLat - (y / Math.max(1, rect.height)) * (maxLat - minLat);
-    return { lat, lng };
-  }
-
-  function latLngToPercentFallback(point) {
-    if (window.EcoHubMapFallback?.latLngToPercent) {
-      return window.EcoHubMapFallback.latLngToPercent(point);
-    }
-    const minLat = INDONESIA_BOUNDS[0][0];
-    const minLng = INDONESIA_BOUNDS[0][1];
-    const maxLat = INDONESIA_BOUNDS[1][0];
-    const maxLng = INDONESIA_BOUNDS[1][1];
-    const left = ((point.lng - minLng) / (maxLng - minLng)) * 100;
-    const top = ((maxLat - point.lat) / (maxLat - minLat)) * 100;
-    return { left, top };
-  }
-
-  function clampPercent(value) {
-    return Math.max(2, Math.min(98, value));
-  }
 
   function provinceFromPoint(point) {
     if (point && typeof point.provinceHint === "string" && point.provinceHint) {
@@ -192,40 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
         point.lng <= item.maxLng,
     );
     return zone?.name || nearestCityForPoint(point);
-  }
-
-  function provinceFromFallbackScreenClick(container, event) {
-    const rect = container.getBoundingClientRect();
-    const xPct = ((event.clientX - rect.left) / Math.max(1, rect.width)) * 100;
-    const yPct = ((event.clientY - rect.top) / Math.max(1, rect.height)) * 100;
-
-    // Prioritaskan Java belt agar tidak nyasar ke Kalimantan/Sulawesi.
-    if (yPct >= 50 && yPct <= 76 && xPct >= 27 && xPct <= 88) {
-      if (xPct < 33) return "DKI Jakarta";
-      if (xPct < 47) return "Jawa Barat";
-      if (xPct < 57) return yPct >= 62 ? "DI Yogyakarta" : "Jawa Tengah";
-      if (xPct < 68) return "Jawa Timur";
-      if (xPct < 72) return "Bali";
-      if (xPct < 79) return "Nusa Tenggara Barat";
-      return "Nusa Tenggara Timur";
-    }
-
-    const zones = [
-      { name: "Aceh", x1: 6, x2: 14, y1: 24, y2: 40 },
-      { name: "Sumatera Utara", x1: 12, x2: 20, y1: 24, y2: 42 },
-      { name: "Sumatera Barat", x1: 15, x2: 23, y1: 34, y2: 52 },
-      { name: "Riau", x1: 19, x2: 28, y1: 30, y2: 47 },
-      { name: "Kalimantan Barat", x1: 42, x2: 52, y1: 28, y2: 45 },
-      { name: "Kalimantan Tengah", x1: 50, x2: 59, y1: 33, y2: 49 },
-      { name: "Kalimantan Timur", x1: 58, x2: 66, y1: 30, y2: 47 },
-      { name: "Sulawesi Tengah", x1: 66, x2: 74, y1: 35, y2: 51 },
-      { name: "Sulawesi Selatan", x1: 69, x2: 77, y1: 49, y2: 63 },
-      { name: "Maluku", x1: 77, x2: 85, y1: 44, y2: 60 },
-      { name: "Papua", x1: 82, x2: 97, y1: 34, y2: 60 },
-    ];
-
-    const hit = zones.find((z) => xPct >= z.x1 && xPct <= z.x2 && yPct >= z.y1 && yPct <= z.y2);
-    return hit?.name || null;
   }
 
   function setButtonLoading(button, loading, loadingText = "Memproses...") {
@@ -258,75 +171,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function hydrateCaches() {
-    const now = Date.now();
-    const storedAqi = safeParse(localStorage.getItem(AQI_CACHE_KEY), {});
-    const storedGeo = safeParse(localStorage.getItem(GEO_CACHE_KEY), {});
-    const storedRoute = safeParse(localStorage.getItem(ROUTE_CACHE_KEY), {});
-
-    Object.entries(storedAqi).forEach(([key, item]) => {
-      if (item && typeof item.ts === "number" && now - item.ts <= AQI_TTL_MS) {
-        aqiCache.set(key, item);
-      }
-    });
-
-    Object.entries(storedGeo).forEach(([key, item]) => {
-      if (item && typeof item.ts === "number" && now - item.ts <= GEO_TTL_MS) {
-        geocodeCache.set(key, item.value);
-      }
-    });
-
-    Object.entries(storedRoute).forEach(([key, item]) => {
-      if (item && typeof item.ts === "number" && now - item.ts <= ROUTE_TTL_MS) {
-        routeCache.set(key, item);
-      }
-    });
-  }
-
-  function persistAqiCache() {
-    const obj = {};
-    aqiCache.forEach((value, key) => {
-      obj[key] = value;
-    });
-    localStorage.setItem(AQI_CACHE_KEY, JSON.stringify(obj));
-  }
-
-  function persistGeoCache() {
-    const now = Date.now();
-    const obj = {};
-    geocodeCache.forEach((value, key) => {
-      obj[key] = { value, ts: now };
-    });
-    localStorage.setItem(GEO_CACHE_KEY, JSON.stringify(obj));
-  }
-
-  function persistRouteCache() {
-    const MAX_ROUTE_CACHE_ITEMS = 120;
-    while (routeCache.size > MAX_ROUTE_CACHE_ITEMS) {
-      const oldestKey = routeCache.keys().next().value;
-      if (!oldestKey) break;
-      routeCache.delete(oldestKey);
-    }
-
-    const obj = {};
-    routeCache.forEach((value, key) => {
-      obj[key] = value;
-    });
-    localStorage.setItem(ROUTE_CACHE_KEY, JSON.stringify(obj));
-  }
-
   function routeCacheKey(from, to) {
     return `${from.lat.toFixed(5)},${from.lng.toFixed(5)}|${to.lat.toFixed(5)},${to.lng.toFixed(5)}`;
   }
 
   async function fetchRealRoute(from, to) {
-    const key = routeCacheKey(from, to);
-    const cached = routeCache.get(key);
-    if (cached && typeof cached.ts === "number" && Date.now() - cached.ts <= ROUTE_TTL_MS) {
-      return cached.value;
-    }
-
-    return null;
+    return routeCache.get(routeCacheKey(from, to)) || null;
   }
 
   function estimateEtaMinutes(distanceKm, mode, routeDurationMin = null) {
@@ -355,50 +205,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (h <= 0) return `${m}m`;
     if (m === 0) return `${h}j`;
     return `${h}j ${m}m`;
-  }
-
-  function makeExportSummary() {
-    return [
-      `Jarak Rute: ${routeDistanceEl?.textContent || "0"} km`,
-      `Estimasi Waktu: ${routeEtaEl?.textContent || "-"}`,
-      `Emisi Pilihan: ${currentEmissionEl?.textContent || "0"} kg/minggu`,
-      `Emisi Saran: ${targetEmissionEl?.textContent || "0"} kg/minggu`,
-      `Penghematan: ${savedEmissionEl?.textContent || "0"} kg/minggu`,
-      `Waktu Ekspor: ${new Date().toLocaleString("id-ID")}`,
-    ];
-  }
-
-  function exportSummaryPng() {
-    const lines = makeExportSummary();
-    const canvas = document.createElement("canvas");
-    canvas.width = 1200;
-    canvas.height = 630;
-    const ctx = canvas.getContext("2d");
-
-    ctx.fillStyle = "#f2f6ef";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = "#b8c9b4";
-    ctx.lineWidth = 2;
-    ctx.strokeRect(52, 52, 1096, 526);
-
-    ctx.fillStyle = "#1f2a1f";
-    ctx.font = "700 44px Arial";
-    ctx.fillText("EcoSense - Ringkasan Simulasi", 84, 120);
-
-    ctx.fillStyle = "#2d5a27";
-    ctx.font = "700 30px Arial";
-    ctx.fillText("Smart Mobility Summary", 84, 180);
-
-    ctx.fillStyle = "#243024";
-    ctx.font = "500 30px Arial";
-    lines.forEach((line, idx) => {
-      ctx.fillText(line, 84, 245 + idx * 58);
-    });
-
-    const link = document.createElement("a");
-    link.href = canvas.toDataURL("image/png");
-    link.download = `ecosense-summary-${Date.now()}.png`;
-    link.click();
   }
 
   function paintDummyMapBase(map) {
@@ -534,31 +340,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function animateNumber(el, toValue, suffix = "") {
-    if (!el) return;
-    const current = Number(el.dataset.current || 0);
-    const target = Number(toValue);
-    const steps = 20;
-    const inc = (target - current) / steps;
-    let step = 0;
-
-    clearInterval(el._timer);
-    el._timer = setInterval(() => {
-      step += 1;
-      const next = step >= steps ? target : current + inc * step;
-      el.textContent = `${next.toFixed(1).replace(/\.0$/, "")}${suffix}`;
-      el.dataset.current = String(next);
-
-      if (step >= steps) {
-        clearInterval(el._timer);
-      }
-    }, 20);
+    if (window.animateCount) {
+      window.animateCount(el, toValue, 0, suffix);
+    } else if (el) {
+      el.textContent = `${toValue}${suffix}`;
+    }
   }
 
   async function fetchAQI(city) {
     const cityData = CITIES[city] || CITIES.Jakarta;
     const cacheKey = city;
     const cached = aqiCache.get(cacheKey);
-    if (cached && Date.now() - cached.ts <= AQI_TTL_MS) {
+    if (cached) {
       return cached.value;
     }
 
@@ -570,7 +363,6 @@ document.addEventListener("DOMContentLoaded", () => {
         humidity: 60,
       };
       aqiCache.set(cacheKey, { value: mock, ts: Date.now() });
-      persistAqiCache();
       return mock;
     }
 
@@ -587,7 +379,6 @@ document.addEventListener("DOMContentLoaded", () => {
           humidity: 55 + Math.floor(Math.random() * 25),
         };
         aqiCache.set(cacheKey, { value: live, ts: Date.now() });
-        persistAqiCache();
         return live;
       }
     } catch (error) {
@@ -601,7 +392,6 @@ document.addEventListener("DOMContentLoaded", () => {
       humidity: 60,
     };
     aqiCache.set(cacheKey, { value: fallback, ts: Date.now() });
-    persistAqiCache();
     return fallback;
   }
 
@@ -740,48 +530,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderCommunityActionMap(cityName) {
     if (!communityActionMapEl) return;
     if (!window.L) {
-      const actions = getCommunityActivitiesForMap(cityName);
-      if (!actions.length) {
-        communityActionMapEl.innerHTML =
-          '<div class="fallback-map-empty">Belum ada titik kegiatan warga.</div>';
-        return;
-      }
-
-      const dotsHtml = actions
-        .map((item, idx) => {
-          const posRaw = latLngToPercentFallback({ lat: item.lat, lng: item.lng });
-          const pos = {
-            left: clampPercent(posRaw.left),
-            top: clampPercent(posRaw.top),
-          };
-          return `<button type="button" class="fallback-map-point-btn" data-action-idx="${idx}" style="left:${pos.left}%;top:${pos.top}%;" aria-label="Detail ${item.title}"></button>`;
-        })
-        .join("");
-
-      communityActionMapEl.innerHTML = `
-        ${FALLBACK_MAP_BG}
-        <div class="fallback-map-layer">${dotsHtml}</div>
-        <div class="fallback-map-hint">Klik titik untuk lihat detail kegiatan.</div>
-      `;
-      communityActionMapEl.classList.add("fallback-map-ui");
-      const titleEl = communityActionMapEl.querySelector(".fallback-map-title");
-      if (titleEl && actions.length > 0) {
-        titleEl.style.display = "none";
-      }
-
-      const pointButtons = communityActionMapEl.querySelectorAll("[data-action-idx]");
-      pointButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          if (titleEl) titleEl.style.display = "none";
-          const idx = Number(button.getAttribute("data-action-idx"));
-          const target = Number.isFinite(idx) ? actions[idx] : null;
-          if (!target) return;
-          const detailHref = target.id
-            ? `kegiatan.html#activity-${encodeURIComponent(target.id)}`
-            : "kegiatan.html#activity-list";
-          window.location.href = detailHref;
-        });
-      });
+      communityActionMapEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--color-text-secondary);font-size:13px;">Peta aksi komunitas memerlukan Leaflet & koneksi internet.</div>';
       return;
     }
 
@@ -857,58 +606,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateMapVisuals() {
-    if (mapState.fallbackLayer && mapEl) {
-      const titleEl = mapEl.querySelector(".fallback-map-title");
-      mapState.fallbackLayer.innerHTML = "";
-      const from = mapState.from;
-      const to = mapState.to;
-      if (!from && !to) {
-        if (titleEl) titleEl.style.display = "";
-        return;
-      }
-      if (titleEl) titleEl.style.display = "none";
-
-      const drawDot = (point, cls) => {
-        const posRaw = latLngToPercentFallback(point);
-        const pos = {
-          left: clampPercent(posRaw.left),
-          top: clampPercent(posRaw.top),
-        };
-        const dot = document.createElement("span");
-        dot.className = `fallback-map-dot ${cls}`;
-        dot.style.left = `${pos.left}%`;
-        dot.style.top = `${pos.top}%`;
-        mapState.fallbackLayer.appendChild(dot);
-        return pos;
-      };
-
-      const fromPos = from ? drawDot(from, "from") : null;
-      const toPos = to ? drawDot(to, "to") : null;
-      if (fromPos && toPos) {
-        const mapRect = mapEl.getBoundingClientRect();
-        const fromPx = {
-          x: (fromPos.left / 100) * mapRect.width,
-          y: (fromPos.top / 100) * mapRect.height,
-        };
-        const toPx = {
-          x: (toPos.left / 100) * mapRect.width,
-          y: (toPos.top / 100) * mapRect.height,
-        };
-        const line = document.createElement("div");
-        line.className = "fallback-map-line";
-        const dx = toPx.x - fromPx.x;
-        const dy = toPx.y - fromPx.y;
-        const length = Math.sqrt(dx * dx + dy * dy);
-        const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-        line.style.left = `${fromPos.left}%`;
-        line.style.top = `${fromPos.top}%`;
-        line.style.width = `${Math.max(0, length)}px`;
-        line.style.transform = `rotate(${angle}deg)`;
-        mapState.fallbackLayer.appendChild(line);
-      }
-      return;
-    }
-
     if (!mapState.map || !window.L) return;
 
     if (mapState.fromMarker) {
@@ -952,37 +649,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function initMap() {
     if (!mapEl) return;
     if (!window.L) {
-      mapEl.classList.add("fallback-map-ui");
-      mapEl.innerHTML = `
-        ${FALLBACK_MAP_BG}
-        <div class="fallback-map-layer"></div>
-      `;
-      mapState.fallbackLayer = mapEl.querySelector(".fallback-map-layer");
-      mapEl.addEventListener("click", (event) => {
-        const pointRaw = eventToLatLngFallback(mapEl, event);
-        if (!pointRaw) return;
-        const provinceHint = provinceFromFallbackScreenClick(mapEl, event);
-        const point = {
-          lat: pointRaw.lat,
-          lng: pointRaw.lng,
-          provinceHint: provinceHint || undefined,
-          label: "Mencari alamat...",
-        };
-        if (!mapState.from) {
-          mapState.from = point;
-          resolvePointAddress("from");
-        } else if (!mapState.to) {
-          mapState.to = point;
-          resolvePointAddress("to");
-        } else {
-          mapState.from = point;
-          mapState.to = null;
-          resolvePointAddress("from");
-        }
-
-        updatePointLabels();
-        updateMapVisuals();
-      });
+      mapEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--color-text-secondary);font-size:14px;padding:20px;text-align:center;">Peta memerlukan koneksi internet untuk memuat Leaflet.</div>';
       return;
     }
 
@@ -1280,13 +947,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (MOCK_MODE || DUMMY_MAP_MODE) {
       const mockAddress = mockAddressFromPoint(point);
       geocodeCache.set(key, mockAddress);
-      persistGeoCache();
       return mockAddress;
     }
 
     const fallbackAddress = mockAddressFromPoint(point);
     geocodeCache.set(key, fallbackAddress);
-    persistGeoCache();
     return fallbackAddress;
   }
 
@@ -1338,7 +1003,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("export-png-btn")?.addEventListener("click", () => {
-    exportSummaryPng();
+    window.print();
   });
 
   form?.addEventListener("submit", async (event) => {
@@ -1417,7 +1082,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   (async function init() {
-    hydrateCaches();
     initMap();
     syncModeDetailsByViewport();
     window.addEventListener("resize", syncModeDetailsByViewport);
