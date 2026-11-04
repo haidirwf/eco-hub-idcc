@@ -7,10 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
       id: 1,
       title: "Why Urban Areas Suffer from Severe Air Pollution",
       category: "Air Pollution",
-      author: "Rizky P",
+      author: "Eco Hub Science",
       date: "Feb 15, 2026",
       thumbColor: "#E8F5E9",
       wikiTopic: "Air_pollution",
+      excerpt: "Air pollution is the contamination of air by harmful smoke, gases, and particulate matter (PM2.5), causing acute respiratory illness and chronic climate impacts.",
       imgUrl:
         "https://images.unsplash.com/photo-1698128827557-0b05ccb18fbf?auto=format&fit=crop&q=80&w=600",
     },
@@ -18,10 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
       id: 2,
       title: "How Solar Power Works & The Future of Renewable Energy",
       category: "Climate Change",
-      author: "Sarah A",
+      author: "Clean Energy Lab",
       date: "Feb 14, 2026",
       thumbColor: "#FFF3E0",
       wikiTopic: "Solar_power",
+      excerpt: "Solar power converts energy from sunlight into electricity using photovoltaic panels, providing a clean, infinite alternative to fossil fuels.",
       imgUrl:
         "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=600",
     },
@@ -29,10 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
       id: 3,
       title: "Mangrove Forests: Coastal Shields Against Rising Seas",
       category: "Conservation",
-      author: "Budi T",
+      author: "Marine Research",
       date: "Feb 12, 2026",
       thumbColor: "#E1F5FE",
       wikiTopic: "Mangrove",
+      excerpt: "Mangroves are salt-tolerant trees that safeguard coastlines against storm surges, prevent shoreline erosion, and sequester massive volumes of blue carbon.",
       imgUrl:
         "https://images.unsplash.com/photo-1589556183130-530470785fab?auto=format&fit=crop&q=80&w=600",
     },
@@ -40,10 +43,11 @@ document.addEventListener("DOMContentLoaded", () => {
       id: 4,
       title: "The Threat of Microplastics in Our Food Chain",
       category: "Ocean Pollution",
-      author: "Dina M",
+      author: "Ocean Health",
       date: "Feb 10, 2026",
       thumbColor: "#FBE9E7",
       wikiTopic: "Microplastics",
+      excerpt: "Microplastics are tiny synthetic particles less than 5mm across that pollute oceans, bioaccumulate through marine life, and infiltrate human food systems.",
       imgUrl:
         "https://images.unsplash.com/photo-1621451537084-482c73073a0f?auto=format&fit=crop&q=80&w=600",
     },
@@ -51,10 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
       id: 5,
       title: "Home Composting Guide: Turning Organic Waste into Soil",
       category: "Waste Management",
-      author: "Eco Team",
+      author: "Zero Waste Living",
       date: "Feb 09, 2026",
       thumbColor: "#F3E5F5",
       wikiTopic: "Compost",
+      excerpt: "Composting decomposes kitchen scraps and garden trimmings into rich soil conditioner, preventing organic landfill waste from emitting methane.",
       imgUrl:
         "https://images.unsplash.com/photo-1644575881028-9f170fd241ed?auto=format&fit=crop&q=80&w=600",
     },
@@ -65,7 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
       author: "Climate Monitor",
       date: "Feb 08, 2026",
       thumbColor: "#FFF3E0",
-      wikiTopic: "El_Niño",
+      wikiTopic: "El_Niño–Southern_Oscillation",
+      excerpt: "The El Niño–Southern Oscillation drives major global temperature shifts and rainfall fluctuations, triggering droughts, wildfires, and extreme storms.",
       imgUrl:
         "https://images.unsplash.com/photo-1549885606-bbc17accf949?auto=format&fit=crop&q=80&w=600",
     },
@@ -73,10 +79,11 @@ document.addEventListener("DOMContentLoaded", () => {
       id: 7,
       title: "5 Air-Purifying Indoor Plants for Healthier Living",
       category: "Air Pollution",
-      author: "Green Living",
+      author: "Urban Botanical",
       date: "Feb 05, 2026",
       thumbColor: "#E8F5E9",
       wikiTopic: "Houseplant",
+      excerpt: "Indoor houseplants filter volatile organic compounds (VOCs), regulate indoor humidity, and improve mental well-being and productivity.",
       imgUrl:
         "https://images.unsplash.com/photo-1600411833196-7c1f6b1a8b90?auto=format&fit=crop&q=80&w=600",
     },
@@ -84,10 +91,11 @@ document.addEventListener("DOMContentLoaded", () => {
       id: 8,
       title: "A Deep Dive into Carbon Offsetting and Trading",
       category: "Climate Change",
-      author: "Eco Hub",
+      author: "Climate Policy",
       date: "Feb 03, 2026",
       thumbColor: "#FFF3E0",
       wikiTopic: "Emissions_trading",
+      excerpt: "Emissions trading sets a cap on greenhouse gases and creates market incentives for industries to innovate and transition to clean technologies.",
       imgUrl:
         "https://images.unsplash.com/photo-1598335624134-5bceb5de202d?auto=format&fit=crop&q=80&w=600",
     },
@@ -95,10 +103,11 @@ document.addEventListener("DOMContentLoaded", () => {
       id: 9,
       title: "Why Marine Turtles Ingest Ocean Plastic Debris",
       category: "Ocean Pollution",
-      author: "Marine Bio",
+      author: "Marine Biology",
       date: "Feb 01, 2026",
       thumbColor: "#E1F5FE",
       wikiTopic: "Sea_turtle",
+      excerpt: "Sea turtles mistake floating plastic bags for jellyfish prey, causing lethal digestive blockages that threaten ancient marine turtle populations.",
       imgUrl:
         "https://images.unsplash.com/photo-1549557143-90d216195a97?auto=format&fit=crop&q=80&w=600",
     },
@@ -106,10 +115,11 @@ document.addEventListener("DOMContentLoaded", () => {
       id: 10,
       title: "Zero Waste Living: How to Start and Sustain It",
       category: "Waste Management",
-      author: "Siska W",
+      author: "Circular Economy",
       date: "Jan 28, 2026",
       thumbColor: "#F3E5F5",
       wikiTopic: "Zero_waste",
+      excerpt: "Zero waste principles redesign resource lifecycles so all products are reused, aiming to eliminate landfill dumping and incinerator emissions.",
       imgUrl:
         "https://images.unsplash.com/photo-1645739467767-ee1ea618d36c?auto=format&fit=crop&q=80&w=600",
     },
@@ -117,10 +127,11 @@ document.addEventListener("DOMContentLoaded", () => {
       id: 11,
       title: "Rainforest Habitat Conservation for Endangered Wildlife",
       category: "Conservation",
-      author: "WWF Partner",
+      author: "Rainforest Alliance",
       date: "Jan 25, 2026",
       thumbColor: "#E1F5FE",
       wikiTopic: "Orangutan",
+      excerpt: "Orangutans are arboreal seed dispersers vital to tropical rainforests, currently critically endangered by habitat loss and palm oil expansion.",
       imgUrl:
         "https://images.unsplash.com/photo-1699709823274-f3cb659b640b?auto=format&fit=crop&q=80&w=600",
     },
@@ -128,10 +139,11 @@ document.addEventListener("DOMContentLoaded", () => {
       id: 12,
       title: "The Environmental Toll of Global Fast Fashion",
       category: "Waste Management",
-      author: "Fashion Rev",
+      author: "Sustainable Textile",
       date: "Jan 20, 2026",
       thumbColor: "#F3E5F5",
       wikiTopic: "Fast_fashion",
+      excerpt: "Fast fashion generates immense carbon footprints, consumes vast freshwater supplies, and dumps millions of tons of synthetic textiles into landfills.",
       imgUrl:
         "https://images.unsplash.com/photo-1495556650867-99590cea3657?auto=format&fit=crop&q=80&w=600",
     },
@@ -171,9 +183,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 <a href="artikel.html?q=${art.wikiTopic || "Environmental_protection"}&title=${encodeURIComponent(art.title)}&img=${encodeURIComponent(art.imgUrl)}" class="article-item fade-up" style="text-decoration: none; color: inherit;">
                     <div class="article-thumb" style="height: 180px; background-image: url('${art.imgUrl}'); background-size: cover; background-position: center;"></div>
                     <div class="article-body">
-                        <span class="article-cat">${art.category}</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span class="article-cat">${art.category}</span>
+                            <span style="font-size: 11px; color: var(--color-green-primary); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                                <i class="fab fa-wikipedia-w"></i> Wikipedia (EN)
+                            </span>
+                        </div>
                         <h3>${art.title}</h3>
-                        <p class="article-excerpt">Click to explore the full article on ${art.title} verified by academic encyclopedia references.</p>
+                        <p class="article-excerpt">${art.excerpt}</p>
                         <div class="article-footer">
                             <span>${art.author} • ${art.date}</span>
                             <button class="bookmark-btn" aria-label="Bookmark article"><i class="fas fa-bookmark" size="16"></i></button>
