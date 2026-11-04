@@ -1,4 +1,4 @@
-/* Kegiatan Page Styles — Eco Hub */
+/* Community Events Page Styles — Eco Hub */
 /* Strict design rule: solid flat colors only, no gradients */
 
 /* Page Hero System */
@@ -147,7 +147,7 @@ header.page-hero h1,
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18) !important;
 }
 
-/* Daftar Section */
+/* Activity List Section */
 .daftar-section {
   padding-top: 36px;
   padding-bottom: 72px;
