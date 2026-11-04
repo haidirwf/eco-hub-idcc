@@ -171,12 +171,67 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function routeCacheKey(from, to) {
-    return `${from.lat.toFixed(5)},${from.lng.toFixed(5)}|${to.lat.toFixed(5)},${to.lng.toFixed(5)}`;
+  function routeCacheKey(from, to, mode = "driving") {
+    return `${from.lat.toFixed(5)},${from.lng.toFixed(5)}|${to.lat.toFixed(5)},${to.lng.toFixed(5)}|${mode}`;
   }
 
-  async function fetchRealRoute(from, to) {
-    return routeCache.get(routeCacheKey(from, to)) || null;
+  async function fetchRealRoute(from, to, mode = "motor") {
+    if (!from || !to) return null;
+
+    let profile = "driving";
+    let subDomain = "routed-car";
+    if (mode === "walk") {
+      profile = "driving";
+      subDomain = "routed-foot";
+    } else if (mode === "bike") {
+      profile = "driving";
+      subDomain = "routed-bike";
+    }
+
+    const key = routeCacheKey(from, to, subDomain);
+    if (routeCache.has(key)) {
+      return routeCache.get(key);
+    }
+
+    const coords = `${from.lng},${from.lat};${to.lng},${to.lat}`;
+    const endpoints = [
+      `https://router.project-osrm.org/route/v1/${profile}/${coords}?overview=full&geometries=geojson`,
+      `https://routing.openstreetmap.de/${subDomain}/route/v1/driving/${coords}?overview=full&geometries=geojson`,
+    ];
+
+    for (const url of endpoints) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeoutId);
+
+        if (!res.ok) continue;
+        const data = await res.json();
+        if (data && data.code === "Ok" && Array.isArray(data.routes) && data.routes.length > 0) {
+          const route = data.routes[0];
+          const rawCoords = route.geometry?.coordinates;
+          if (Array.isArray(rawCoords) && rawCoords.length > 1) {
+            // Leaflet expects [latitude, longitude]
+            const latlngs = rawCoords.map(([lng, lat]) => [lat, lng]);
+            const distanceKm = Number((route.distance / 1000).toFixed(2));
+            const durationMin = Math.round(route.duration / 60);
+
+            const result = {
+              geometry: latlngs,
+              distanceKm,
+              durationMin,
+            };
+            routeCache.set(key, result);
+            return result;
+          }
+        }
+      } catch (_) {
+        // Continue to fallback endpoint
+      }
+    }
+
+    return null;
   }
 
   function estimateEtaMinutes(distanceKm, mode, routeDurationMin = null) {
@@ -481,7 +536,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modeDetails.setAttribute("open", "open");
   }
 
-  function updateMapVisuals() {
+  async function updateMapVisuals() {
     if (!mapState.map || !window.L) return;
 
     if (mapState.fromMarker) {
@@ -500,25 +555,54 @@ document.addEventListener("DOMContentLoaded", () => {
     if (mapState.from) {
       mapState.fromMarker = window.L.marker([mapState.from.lat, mapState.from.lng], { title: "Asal" })
         .addTo(mapState.map)
-        .bindPopup("Titik Asal");
+        .bindPopup("<strong>Titik Asal:</strong><br>" + (mapState.from.label || "Sedang memuat alamat..."));
     }
 
     if (mapState.to) {
       mapState.toMarker = window.L.marker([mapState.to.lat, mapState.to.lng], { title: "Tujuan" })
         .addTo(mapState.map)
-        .bindPopup("Titik Tujuan");
+        .bindPopup("<strong>Titik Tujuan:</strong><br>" + (mapState.to.label || "Sedang memuat alamat..."));
     }
 
     if (mapState.from && mapState.to) {
+      const fromSnapshot = mapState.from;
+      const toSnapshot = mapState.to;
+      const selectedMode = modeSelect?.value || "motor";
+
+      // Temporary dashed line while calculating real road geometry
       mapState.routeLine = window.L.polyline(
         [
-          [mapState.from.lat, mapState.from.lng],
-          [mapState.to.lat, mapState.to.lng],
+          [fromSnapshot.lat, fromSnapshot.lng],
+          [toSnapshot.lat, toSnapshot.lng],
         ],
-        { color: "#2d5a27", weight: 4, opacity: 0.85 },
+        { color: "#2d5a27", weight: 3, dashArray: "6, 6", opacity: 0.6 },
       ).addTo(mapState.map);
 
       mapState.map.fitBounds(mapState.routeLine.getBounds(), { padding: [40, 40] });
+
+      const realRoute = await fetchRealRoute(fromSnapshot, toSnapshot, selectedMode);
+      if (mapState.from === fromSnapshot && mapState.to === toSnapshot) {
+        if (mapState.routeLine) {
+          mapState.map.removeLayer(mapState.routeLine);
+        }
+        const latlngs =
+          realRoute && Array.isArray(realRoute.geometry) && realRoute.geometry.length > 1
+            ? realRoute.geometry
+            : [
+                [fromSnapshot.lat, fromSnapshot.lng],
+                [toSnapshot.lat, toSnapshot.lng],
+              ];
+
+        mapState.routeLine = window.L.polyline(latlngs, {
+          color: "#2d5a27",
+          weight: 5,
+          opacity: 0.92,
+          lineJoin: "round",
+          lineCap: "round",
+        }).addTo(mapState.map);
+
+        mapState.map.fitBounds(mapState.routeLine.getBounds(), { padding: [40, 40] });
+      }
     }
   }
 
@@ -566,7 +650,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function resolveAndDrawRoute(from, to, modeForEta = "motor") {
-    const realRoute = await fetchRealRoute(from, to);
+    const realRoute = await fetchRealRoute(from, to, modeForEta);
     const distanceKm =
       realRoute && Number.isFinite(realRoute.distanceKm) && realRoute.distanceKm > 0
         ? realRoute.distanceKm
@@ -589,8 +673,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       mapState.routeLine = window.L.polyline(latlngs, {
         color: "#2d5a27",
-        weight: 4,
-        opacity: 0.9,
+        weight: 5,
+        opacity: 0.92,
+        lineJoin: "round",
+        lineCap: "round",
       }).addTo(mapState.map);
 
       mapState.map.fitBounds(mapState.routeLine.getBounds(), { padding: [40, 40] });
@@ -820,10 +906,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const key = geocodeCacheKey(point);
     if (geocodeCache.has(key)) return geocodeCache.get(key);
 
-    if (MOCK_MODE || DUMMY_MAP_MODE) {
-      const mockAddress = mockAddressFromPoint(point);
-      geocodeCache.set(key, mockAddress);
-      return mockAddress;
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3500);
+      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${point.lat}&lon=${point.lng}&zoom=18&addressdetails=1`;
+      const res = await fetch(url, {
+        headers: { "Accept-Language": "id" },
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.display_name) {
+          const addr = data.address || {};
+          const road = addr.road || addr.pedestrian || addr.suburb || "";
+          const village = addr.village || addr.neighbourhood || addr.suburb || "";
+          const city = addr.city || addr.town || addr.municipality || addr.county || "";
+          const parts = [road, village, city].filter(Boolean);
+          const formatted = parts.length > 0 ? parts.join(", ") : data.display_name.split(",").slice(0, 3).join(",");
+          geocodeCache.set(key, formatted);
+          return formatted;
+        }
+      }
+    } catch (_) {
+      // Fallback
     }
 
     const fallbackAddress = mockAddressFromPoint(point);
@@ -853,6 +960,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (samePoint) {
       current.label = address;
       updatePointLabels();
+
+      if (role === "from" && mapState.fromMarker) {
+        mapState.fromMarker.setPopupContent("<strong>Titik Asal:</strong><br>" + address);
+      } else if (role === "to" && mapState.toMarker) {
+        mapState.toMarker.setPopupContent("<strong>Titik Tujuan:</strong><br>" + address);
+      }
     }
   }
 
@@ -880,6 +993,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("export-png-btn")?.addEventListener("click", () => {
     window.print();
+  });
+
+  modeSelect?.addEventListener("change", () => {
+    if (mapState.from && mapState.to) {
+      updateMapVisuals();
+    }
   });
 
   form?.addEventListener("submit", async (event) => {
