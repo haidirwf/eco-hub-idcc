@@ -57,7 +57,7 @@ header.page-hero h1,
 }
 
 .page-hero-subtext,
-.hero-subtext {
+.page-hero .hero-subtext {
   font-size: 16px !important;
   color: #e2ecd9 !important;
   line-height: 1.6 !important;

@@ -558,7 +558,7 @@ header.unified-banner h1,
 
 .page-hero-subtext,
 .page-hero p.page-hero-subtext,
-.hero-subtext,
+.page-hero .hero-subtext,
 header.unified-banner .hero-subtext,
 header.unified-banner > .container > p {
   font-size: 16px !important;

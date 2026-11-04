@@ -30,12 +30,14 @@
   letter-spacing: -1px;
 }
 
+.hero-content .hero-subtext,
 .hero-subtext {
-  font-size: 18px;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  max-width: 540px;
-  margin-bottom: 32px;
+  font-size: 18px !important;
+  line-height: 1.6 !important;
+  color: var(--color-text-secondary, #5a6455) !important;
+  max-width: 540px !important;
+  margin-bottom: 32px !important;
+  text-align: left !important;
 }
 
 .hero-ctas {
