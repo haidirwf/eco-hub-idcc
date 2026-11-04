@@ -153,6 +153,7 @@ header.page-hero h1,
 }
 
 .form-card {
+  height: auto;
   padding: 32px;
   background-color: var(--color-white);
   border: 1px solid var(--color-border);
@@ -422,12 +423,15 @@ header.page-hero h1,
 
 /* Sidebar Elements */
 .lapor-sidebar {
+  align-self: stretch;
   display: flex;
   flex-direction: column;
   gap: 24px;
+  position: relative;
 }
 
 .sidebar-card {
+  height: auto;
   padding: 22px;
   background-color: var(--color-white);
   border: 1px solid var(--color-border);
@@ -490,14 +494,47 @@ header.page-hero h1,
   height: 260px;
 }
 
-/* Feed List */
+/* Feed List & Sticky Card */
+.sticky-reports-card {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 96px;
+  z-index: 15;
+  max-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+}
+
+.sticky-reports-card.fade-up.visible {
+  transform: none;
+}
+
 .feed-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-height: 480px;
+  max-height: calc(100vh - 200px);
   overflow-y: auto;
-  padding-right: 4px;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.feed-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.feed-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.feed-list::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+.feed-list::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
 }
 
 .feed-item {
@@ -816,5 +853,12 @@ header.page-hero h1,
   }
   .grid-2 {
     grid-template-columns: 1fr;
+  }
+  .sticky-reports-card {
+    position: static;
+    max-height: none;
+  }
+  .sticky-reports-card .feed-list {
+    max-height: 480px;
   }
 }
