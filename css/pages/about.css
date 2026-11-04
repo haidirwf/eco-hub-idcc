@@ -1,77 +1,5 @@
 /* About Page CSS */
 
-.about-hero {
-  background-color: var(--color-green-primary);
-  color: var(--color-white);
-  padding: 56px 0 46px;
-  text-align: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  position: relative;
-}
-
-.about-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  background-color: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  color: #dcedc8;
-  margin-bottom: 16px;
-}
-
-.about-hero h1 {
-  font-size: 44px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: #ffffff;
-  margin-bottom: 14px;
-  line-height: 1.15;
-}
-
-.about-hero .hero-subtext {
-  font-size: 16px;
-  color: #e2ecd9;
-  max-width: 660px;
-  margin: 0 auto 24px;
-  line-height: 1.6;
-}
-
-.about-hero-highlights {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.about-hero-pill {
-  background-color: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  padding: 9px 18px;
-  border-radius: 50px;
-  font-size: 14px;
-  color: #f5f2eb;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-}
-
-.about-hero-pill i {
-  color: #dcedc8;
-  font-size: 14px;
-}
-
-.about-hero-pill:hover {
-  background-color: rgba(255, 255, 255, 0.18);
-  transform: translateY(-1px);
-}
-
 /* Mission */
 .mission-section {
   background-color: var(--color-bg-primary);
@@ -233,28 +161,6 @@
 }
 
 @media (max-width: 768px) {
-  .about-hero {
-    padding: 40px 0 32px;
-  }
-
-  .about-hero h1 {
-    font-size: 32px;
-  }
-
-  .about-hero .hero-subtext {
-    font-size: 15px;
-    margin-bottom: 20px;
-  }
-
-  .about-hero-highlights {
-    gap: 8px;
-  }
-
-  .about-hero-pill {
-    font-size: 13px;
-    padding: 7px 14px;
-  }
-
   .mission-grid {
     grid-template-columns: 1fr;
     gap: 40px;

@@ -324,7 +324,7 @@ p {
   display: none !important;
 }
 
-/* Unified Banner */
+/* Unified Banner (Alias for .page-hero) */
 header.unified-banner {
   background-color: var(--color-green-primary);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
@@ -336,7 +336,7 @@ header.unified-banner .container {
 }
 
 header.unified-banner h1 {
-  font-size: clamp(36px, 4.5vw, 48px);
+  font-size: clamp(32px, 4.5vw, 44px);
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: #ffffff;
@@ -354,7 +354,7 @@ header.unified-banner > .container > p {
 
 @media (max-width: 768px) {
   header.unified-banner h1 {
-    font-size: 32px;
+    font-size: 30px;
   }
 
   header.unified-banner .hero-subtext,
