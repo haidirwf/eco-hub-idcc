@@ -17,6 +17,8 @@
   /* Brand Colors */
   --color-green-primary: #2d5a27;
   /* Deep forest green — primary brand */
+  --color-green-banner: #16301a;
+  /* Dark subdued pine green — hero banners & CTA banners */
   --color-green-mid: #4a7c42;
   /* Mid green — secondary elements */
   --color-green-light: #8cb87e;
@@ -334,7 +336,7 @@ header.unified-banner,
 .konten-hero,
 .kegiatan-hero,
 .about-hero {
-  background-color: var(--color-green-primary, #2d5a27) !important;
+  background-color: var(--color-green-banner, #16301a) !important;
   color: var(--color-white, #ffffff) !important;
   padding: 56px 0 48px !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;

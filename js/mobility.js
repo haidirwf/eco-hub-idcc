@@ -171,6 +171,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function haversineDistanceKm(from, to) {
+    if (!from || !to) return 0;
+    const R = 6371;
+    const dLat = ((to.lat - from.lat) * Math.PI) / 180;
+    const dLon = ((to.lng - from.lng) * Math.PI) / 180;
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((from.lat * Math.PI) / 180) * Math.cos((to.lat * Math.PI) / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
   function routeCacheKey(from, to, mode = "driving") {
     return `${from.lat.toFixed(5)},${from.lng.toFixed(5)}|${to.lat.toFixed(5)},${to.lng.toFixed(5)}|${mode}`;
   }
@@ -178,13 +190,24 @@ document.addEventListener("DOMContentLoaded", () => {
   async function fetchRealRoute(from, to, mode = "motor") {
     if (!from || !to) return null;
 
-    let profile = "driving";
+    const straightDist = haversineDistanceKm(from, to);
+
+    // If points are virtually identical (< 15 meters)
+    if (straightDist < 0.015) {
+      return {
+        geometry: [
+          [from.lat, from.lng],
+          [to.lat, to.lng],
+        ],
+        distanceKm: 0.02,
+        durationMin: 1,
+      };
+    }
+
     let subDomain = "routed-car";
     if (mode === "walk") {
-      profile = "driving";
       subDomain = "routed-foot";
     } else if (mode === "bike") {
-      profile = "driving";
       subDomain = "routed-bike";
     }
 
@@ -194,15 +217,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const coords = `${from.lng},${from.lat};${to.lng},${to.lat}`;
-    const endpoints = [
-      `https://router.project-osrm.org/route/v1/${profile}/${coords}?overview=full&geometries=geojson`,
-      `https://routing.openstreetmap.de/${subDomain}/route/v1/driving/${coords}?overview=full&geometries=geojson`,
-    ];
+
+    // Select endpoints prioritized by mode:
+    // For pedestrian/bike: prioritize routed-foot / routed-bike
+    // For motor/car/bus: prioritize car routing
+    let endpoints = [];
+    if (mode === "walk" || mode === "bike") {
+      endpoints = [
+        `https://routing.openstreetmap.de/${subDomain}/route/v1/driving/${coords}?overview=full&geometries=geojson`,
+        `https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`,
+      ];
+    } else {
+      endpoints = [
+        `https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`,
+        `https://routing.openstreetmap.de/routed-car/route/v1/driving/${coords}?overview=full&geometries=geojson`,
+      ];
+    }
 
     for (const url of endpoints) {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        const timeoutId = setTimeout(() => controller.abort(), 4500);
         const res = await fetch(url, { signal: controller.signal });
         clearTimeout(timeoutId);
 
@@ -213,25 +248,55 @@ document.addEventListener("DOMContentLoaded", () => {
           const rawCoords = route.geometry?.coordinates;
           if (Array.isArray(rawCoords) && rawCoords.length > 1) {
             // Leaflet expects [latitude, longitude]
-            const latlngs = rawCoords.map(([lng, lat]) => [lat, lng]);
+            const roadPoints = rawCoords.map(([lng, lat]) => [lat, lng]);
             const distanceKm = Number((route.distance / 1000).toFixed(2));
             const durationMin = Math.round(route.duration / 60);
 
+            // Sanity check: if OSRM snapped > 3.5 km away or route is > 4x straight line for dist > 1km
+            const wp0Dist = data.waypoints?.[0]?.distance || 0;
+            const wp1Dist = data.waypoints?.[1]?.distance || 0;
+            if (wp0Dist > 3500 || wp1Dist > 3500 || (straightDist > 1 && distanceKm > straightDist * 4 && distanceKm > 15)) {
+              continue;
+            }
+
+            // CRITICAL: Anchor route directly to pins so it starts and ends at the pins (no gap or shift)
+            const firstRoad = { lat: roadPoints[0][0], lng: roadPoints[0][1] };
+            const lastRoad = { lat: roadPoints[roadPoints.length - 1][0], lng: roadPoints[roadPoints.length - 1][1] };
+
+            const finalLatlngs = [...roadPoints];
+            if (haversineDistanceKm(from, firstRoad) > 0.003) {
+              finalLatlngs.unshift([from.lat, from.lng]);
+            }
+            if (haversineDistanceKm(to, lastRoad) > 0.003) {
+              finalLatlngs.push([to.lat, to.lng]);
+            }
+
             const result = {
-              geometry: latlngs,
-              distanceKm,
-              durationMin,
+              geometry: finalLatlngs,
+              distanceKm: Math.max(0.1, distanceKm),
+              durationMin: Math.max(1, durationMin),
             };
             routeCache.set(key, result);
             return result;
           }
         }
       } catch (_) {
-        // Continue to fallback endpoint
+        // Fallback to next endpoint
       }
     }
 
-    return null;
+    // Graceful fallback: direct line with realistic urban road distance estimation
+    const fallbackDistKm = Number((straightDist * 1.25).toFixed(2));
+    const fallbackDuration = estimateEtaMinutes(fallbackDistKm, mode);
+    return {
+      geometry: [
+        [from.lat, from.lng],
+        [to.lat, to.lng],
+      ],
+      distanceKm: Math.max(0.1, fallbackDistKm),
+      durationMin: Math.max(1, fallbackDuration),
+      isFallback: true,
+    };
   }
 
   function estimateEtaMinutes(distanceKm, mode, routeDurationMin = null) {
@@ -608,22 +673,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function haversineDistanceKm(from, to) {
-    const R = 6371;
-    const dLat = ((to.lat - from.lat) * Math.PI) / 180;
-    const dLon = ((to.lng - from.lng) * Math.PI) / 180;
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos((from.lat * Math.PI) / 180) * Math.cos((to.lat * Math.PI) / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
-  }
-
   function formatPointLabel(point) {
     if (!point) return "Belum dipilih";
     if (point.label) return point.label;
     return `${point.lat.toFixed(4)}, ${point.lng.toFixed(4)}`;
   }
+
+  const mobilityMapHint = document.getElementById("mobility-map-hint");
+  const resetPointsBtn = document.getElementById("reset-points-btn");
 
   function updatePointLabels() {
     if (fromPointLabel) fromPointLabel.textContent = formatPointLabel(mapState.from);
@@ -633,6 +690,67 @@ document.addEventListener("DOMContentLoaded", () => {
       simulateBtn.disabled = !ready;
       simulateBtn.title = ready ? "" : "Pilih titik asal dan tujuan di peta terlebih dahulu";
     }
+
+    if (resetPointsBtn) {
+      resetPointsBtn.style.display = (mapState.from || mapState.to) ? "inline-flex" : "none";
+    }
+
+    if (mobilityMapHint) {
+      if (!mapState.from && !mapState.to) {
+        mobilityMapHint.innerHTML = 'Klik peta untuk pilih <strong style="color: #2d8a4e;">asal (A)</strong>, lalu klik lagi untuk <strong style="color: #d93829;">tujuan (B)</strong>.';
+      } else if (mapState.from && !mapState.to) {
+        mobilityMapHint.innerHTML = 'Titik Asal (<strong style="color: #2d8a4e;">A</strong>) dipilih! Sekarang klik peta untuk <strong style="color: #d93829;">Tujuan (B)</strong>.';
+      } else if (mapState.from && mapState.to) {
+        mobilityMapHint.innerHTML = 'Rute berhasil dibuat! Geser pin <strong style="color: #2d8a4e;">A</strong> / <strong style="color: #d93829;">B</strong> jika ingin menyesuaikan, lalu klik <strong>Hitung Emisi</strong>.';
+      }
+    }
+  }
+
+  function resetMobilityPoints() {
+    mapState.from = null;
+    mapState.to = null;
+    if (mapState.fromMarker) {
+      mapState.map?.removeLayer(mapState.fromMarker);
+      mapState.fromMarker = null;
+    }
+    if (mapState.toMarker) {
+      mapState.map?.removeLayer(mapState.toMarker);
+      mapState.toMarker = null;
+    }
+    if (mapState.routeLine) {
+      mapState.map?.removeLayer(mapState.routeLine);
+      mapState.routeLine = null;
+    }
+    updatePointLabels();
+  }
+
+  function createCustomPin(role, letter) {
+    const isFrom = role === "from";
+    const bg = isFrom ? "#2d8a4e" : "#d93829";
+    const char = letter || (isFrom ? "A" : "B");
+    const html = `
+      <div class="eco-map-marker-container ${role}-pin" style="
+        width: 30px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: grab;
+      ">
+        <svg width="30" height="42" viewBox="0 0 30 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 0C6.716 0 0 6.716 0 15c0 11.25 15 27 15 27s15-15.75 15-27c0-8.284-6.716-15-15-15z" fill="${bg}" stroke="#ffffff" stroke-width="2.2"/>
+          <circle cx="15" cy="15" r="8.5" fill="#ffffff"/>
+          <text x="15" y="19.5" font-family="'Host Grotesk', -apple-system, sans-serif" font-size="12" font-weight="800" fill="${bg}" text-anchor="middle">${char}</text>
+        </svg>
+      </div>
+    `;
+    return window.L.divIcon({
+      className: "eco-map-marker",
+      html: html,
+      iconSize: [30, 42],
+      iconAnchor: [15, 42],
+      popupAnchor: [0, -42],
+    });
   }
 
   function syncModeDetailsByViewport() {
@@ -640,73 +758,130 @@ document.addEventListener("DOMContentLoaded", () => {
     modeDetails.setAttribute("open", "open");
   }
 
-  async function updateMapVisuals() {
-    if (!mapState.map || !window.L) return;
+  function drawRouteOnMap(from, to, routeData) {
+    if (!mapState.map || !window.L || !from || !to) return;
 
-    if (mapState.fromMarker) {
-      mapState.map.removeLayer(mapState.fromMarker);
-      mapState.fromMarker = null;
-    }
-    if (mapState.toMarker) {
-      mapState.map.removeLayer(mapState.toMarker);
-      mapState.toMarker = null;
-    }
     if (mapState.routeLine) {
       mapState.map.removeLayer(mapState.routeLine);
       mapState.routeLine = null;
     }
 
+    const latlngs =
+      routeData && Array.isArray(routeData.geometry) && routeData.geometry.length >= 2
+        ? routeData.geometry
+        : [
+            [from.lat, from.lng],
+            [to.lat, to.lng],
+          ];
+
+    mapState.routeLine = window.L.polyline(latlngs, {
+      color: "#2d8a4e",
+      weight: 5,
+      opacity: 0.92,
+      lineJoin: "round",
+      lineCap: "round",
+    }).addTo(mapState.map);
+
+    const allPoints = [
+      [from.lat, from.lng],
+      [to.lat, to.lng],
+      ...latlngs,
+    ];
+    const bounds = window.L.latLngBounds(allPoints);
+    mapState.map.fitBounds(bounds, { padding: [35, 35], maxZoom: 16 });
+  }
+
+  async function updateMapVisuals() {
+    if (!mapState.map || !window.L) return;
+
+    // 1. From Marker
     if (mapState.from) {
-      mapState.fromMarker = window.L.marker([mapState.from.lat, mapState.from.lng], { title: "Asal" })
-        .addTo(mapState.map)
-        .bindPopup("<strong>Titik Asal:</strong><br>" + (mapState.from.label || "Sedang memuat alamat..."));
+      if (!mapState.fromMarker) {
+        mapState.fromMarker = window.L.marker([mapState.from.lat, mapState.from.lng], {
+          icon: createCustomPin("from", "A"),
+          draggable: true,
+          title: "Titik Asal (A) - Geser untuk sesuaikan",
+        }).addTo(mapState.map);
+
+        mapState.fromMarker.on("dragend", async (e) => {
+          const pos = e.target.getLatLng();
+          mapState.from = {
+            lat: Number(pos.lat.toFixed(5)),
+            lng: Number(pos.lng.toFixed(5)),
+            label: "Mencari alamat...",
+          };
+          updatePointLabels();
+          resolvePointAddress("from");
+          await updateMapVisuals();
+        });
+      } else {
+        mapState.fromMarker.setLatLng([mapState.from.lat, mapState.from.lng]);
+      }
+      mapState.fromMarker.bindPopup("<strong>Titik Asal (A):</strong><br>" + (mapState.from.label || "Sedang memuat alamat..."));
+    } else if (mapState.fromMarker) {
+      mapState.map.removeLayer(mapState.fromMarker);
+      mapState.fromMarker = null;
     }
 
+    // 2. To Marker
     if (mapState.to) {
-      mapState.toMarker = window.L.marker([mapState.to.lat, mapState.to.lng], { title: "Tujuan" })
-        .addTo(mapState.map)
-        .bindPopup("<strong>Titik Tujuan:</strong><br>" + (mapState.to.label || "Sedang memuat alamat..."));
+      if (!mapState.toMarker) {
+        mapState.toMarker = window.L.marker([mapState.to.lat, mapState.to.lng], {
+          icon: createCustomPin("to", "B"),
+          draggable: true,
+          title: "Titik Tujuan (B) - Geser untuk sesuaikan",
+        }).addTo(mapState.map);
+
+        mapState.toMarker.on("dragend", async (e) => {
+          const pos = e.target.getLatLng();
+          mapState.to = {
+            lat: Number(pos.lat.toFixed(5)),
+            lng: Number(pos.lng.toFixed(5)),
+            label: "Mencari alamat...",
+          };
+          updatePointLabels();
+          resolvePointAddress("to");
+          await updateMapVisuals();
+        });
+      } else {
+        mapState.toMarker.setLatLng([mapState.to.lat, mapState.to.lng]);
+      }
+      mapState.toMarker.bindPopup("<strong>Titik Tujuan (B):</strong><br>" + (mapState.to.label || "Sedang memuat alamat..."));
+    } else if (mapState.toMarker) {
+      mapState.map.removeLayer(mapState.toMarker);
+      mapState.toMarker = null;
     }
 
+    // 3. Route Polyline
     if (mapState.from && mapState.to) {
       const fromSnapshot = mapState.from;
       const toSnapshot = mapState.to;
       const selectedMode = modeSelect?.value || "motor";
 
-      // Temporary dashed line while calculating real road geometry
-      mapState.routeLine = window.L.polyline(
-        [
+      // Temporary dashed direct line while fetching road geometry
+      if (!mapState.routeLine) {
+        mapState.routeLine = window.L.polyline(
+          [
+            [fromSnapshot.lat, fromSnapshot.lng],
+            [toSnapshot.lat, toSnapshot.lng],
+          ],
+          { color: "#2d8a4e", weight: 3, dashArray: "6, 6", opacity: 0.65 },
+        ).addTo(mapState.map);
+
+        const tempBounds = window.L.latLngBounds([
           [fromSnapshot.lat, fromSnapshot.lng],
           [toSnapshot.lat, toSnapshot.lng],
-        ],
-        { color: "#2d5a27", weight: 3, dashArray: "6, 6", opacity: 0.6 },
-      ).addTo(mapState.map);
-
-      mapState.map.fitBounds(mapState.routeLine.getBounds(), { padding: [40, 40] });
+        ]);
+        mapState.map.fitBounds(tempBounds, { padding: [35, 35], maxZoom: 16 });
+      }
 
       const realRoute = await fetchRealRoute(fromSnapshot, toSnapshot, selectedMode);
       if (mapState.from === fromSnapshot && mapState.to === toSnapshot) {
-        if (mapState.routeLine) {
-          mapState.map.removeLayer(mapState.routeLine);
-        }
-        const latlngs =
-          realRoute && Array.isArray(realRoute.geometry) && realRoute.geometry.length > 1
-            ? realRoute.geometry
-            : [
-                [fromSnapshot.lat, fromSnapshot.lng],
-                [toSnapshot.lat, toSnapshot.lng],
-              ];
-
-        mapState.routeLine = window.L.polyline(latlngs, {
-          color: "#2d5a27",
-          weight: 5,
-          opacity: 0.92,
-          lineJoin: "round",
-          lineCap: "round",
-        }).addTo(mapState.map);
-
-        mapState.map.fitBounds(mapState.routeLine.getBounds(), { padding: [40, 40] });
+        drawRouteOnMap(fromSnapshot, toSnapshot, realRoute);
       }
+    } else if (mapState.routeLine) {
+      mapState.map.removeLayer(mapState.routeLine);
+      mapState.routeLine = null;
     }
   }
 
@@ -717,14 +892,16 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    mapState.map = window.L.map(mapEl, { zoomControl: true }).setView([-2.5, 118], 5);
+    const defaultCity = dashboardCitySelect?.value || "Jakarta";
+    const cityCoord = CITIES[defaultCity] || CITIES.Jakarta;
+
+    mapState.map = window.L.map(mapEl, { zoomControl: true }).setView([cityCoord.lat, cityCoord.lon], 13);
     addOsmTileLayer(mapState.map);
-    mapState.map.fitBounds(INDONESIA_BOUNDS, { padding: [10, 10] });
 
     mapState.map.on("click", (event) => {
       const point = {
-        lat: event.latlng.lat,
-        lng: event.latlng.lng,
+        lat: Number(event.latlng.lat.toFixed(5)),
+        lng: Number(event.latlng.lng.toFixed(5)),
         label: "Mencari alamat...",
       };
       if (!mapState.from) {
@@ -734,8 +911,17 @@ document.addEventListener("DOMContentLoaded", () => {
         mapState.to = point;
         resolvePointAddress("to");
       } else {
+        // Third click starts new selection with this point as origin
         mapState.from = point;
         mapState.to = null;
+        if (mapState.toMarker) {
+          mapState.map.removeLayer(mapState.toMarker);
+          mapState.toMarker = null;
+        }
+        if (mapState.routeLine) {
+          mapState.map.removeLayer(mapState.routeLine);
+          mapState.routeLine = null;
+        }
         resolvePointAddress("from");
       }
 
@@ -743,7 +929,9 @@ document.addEventListener("DOMContentLoaded", () => {
       updateMapVisuals();
     });
 
-    setTimeout(() => mapState.map.invalidateSize(), 120);
+    resetPointsBtn?.addEventListener("click", resetMobilityPoints);
+
+    setTimeout(() => mapState.map?.invalidateSize(), 150);
   }
 
   function recommendMode(distanceKm) {
@@ -755,36 +943,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function resolveAndDrawRoute(from, to, modeForEta = "motor") {
     const realRoute = await fetchRealRoute(from, to, modeForEta);
+    const straightDist = haversineDistanceKm(from, to);
     const distanceKm =
       realRoute && Number.isFinite(realRoute.distanceKm) && realRoute.distanceKm > 0
         ? realRoute.distanceKm
-        : haversineDistanceKm(from, to);
+        : Number((straightDist * 1.25).toFixed(2));
     const etaMinutes = estimateEtaMinutes(distanceKm, modeForEta, realRoute?.durationMin);
 
-    if (mapState.routeLine && mapState.map) {
-      mapState.map.removeLayer(mapState.routeLine);
-      mapState.routeLine = null;
-    }
-
-    if (mapState.map && window.L) {
-      const latlngs =
-        realRoute && Array.isArray(realRoute.geometry) && realRoute.geometry.length > 1
-          ? realRoute.geometry
-          : [
-              [from.lat, from.lng],
-              [to.lat, to.lng],
-            ];
-
-      mapState.routeLine = window.L.polyline(latlngs, {
-        color: "#2d5a27",
-        weight: 5,
-        opacity: 0.92,
-        lineJoin: "round",
-        lineCap: "round",
-      }).addTo(mapState.map);
-
-      mapState.map.fitBounds(mapState.routeLine.getBounds(), { padding: [40, 40] });
-    }
+    drawRouteOnMap(from, to, realRoute);
 
     return { realRoute, distanceKm, etaMinutes };
   }
@@ -1065,16 +1231,22 @@ document.addEventListener("DOMContentLoaded", () => {
       current.label = address;
       updatePointLabels();
 
+      const prefix = role === "from" ? "Titik Asal (A)" : "Titik Tujuan (B)";
       if (role === "from" && mapState.fromMarker) {
-        mapState.fromMarker.setPopupContent("<strong>Titik Asal:</strong><br>" + address);
+        mapState.fromMarker.setPopupContent(`<strong>${prefix}:</strong><br>` + address);
       } else if (role === "to" && mapState.toMarker) {
-        mapState.toMarker.setPopupContent("<strong>Titik Tujuan:</strong><br>" + address);
+        mapState.toMarker.setPopupContent(`<strong>${prefix}:</strong><br>` + address);
       }
     }
   }
 
   dashboardCitySelect?.addEventListener("change", async () => {
-    await updateDashboardByCity(dashboardCitySelect.value);
+    const cityName = dashboardCitySelect.value;
+    const cityCoord = CITIES[cityName];
+    if (cityCoord && mapState.map && !mapState.from && !mapState.to) {
+      mapState.map.flyTo([cityCoord.lat, cityCoord.lon], 13, { duration: 0.8 });
+    }
+    await updateDashboardByCity(cityName);
   });
 
   refreshDashboardBtn?.addEventListener("click", async () => {

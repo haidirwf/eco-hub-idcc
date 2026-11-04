@@ -800,7 +800,7 @@
 
 /* CTA Banner */
 .cta-banner {
-  background-color: var(--color-green-primary);
+  background-color: var(--color-green-banner, #16301a);
   color: white;
   padding: 100px 0;
 }
@@ -824,7 +824,7 @@
 
 .btn-white {
   background: white;
-  color: var(--color-green-primary);
+  color: var(--color-green-banner, #16301a);
 }
 
 .btn-white:hover {

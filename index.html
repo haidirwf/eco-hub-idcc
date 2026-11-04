@@ -26,10 +26,10 @@
     />
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/main.css" />
-    <link rel="stylesheet" href="css/components.css" />
-    <link rel="stylesheet" href="css/pages/home.css" />
-    <link rel="stylesheet" href="css/pages/mobility.css" />
+    <link rel="stylesheet" href="css/main.css?v=20261104_6" />
+    <link rel="stylesheet" href="css/components.css?v=20261104_6" />
+    <link rel="stylesheet" href="css/pages/home.css?v=20261104_6" />
+    <link rel="stylesheet" href="css/pages/mobility.css?v=20261104_6" />
   </head>
 
   <body>
@@ -324,20 +324,25 @@
 
         <div class="mobility-layout">
           <form id="mobility-form" class="card mobility-form fade-up" aria-label="Form simulasi mobilitas">
-            <h3>Rencanakan Perjalananmu di Peta</h3>
-            <p class="widget-note">
-              Klik peta untuk pilih <strong>asal</strong>, lalu klik lagi untuk <strong>tujuan</strong>.
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <h3 style="margin: 0;">Rencanakan Perjalananmu di Peta</h3>
+              <button type="button" id="reset-points-btn" class="reset-points-btn" style="display: none;">
+                <i class="fas fa-undo-alt"></i> Reset Rute
+              </button>
+            </div>
+            <p id="mobility-map-hint" class="widget-note">
+              Klik peta untuk pilih <strong>asal (A)</strong>, lalu klik lagi untuk <strong>tujuan (B)</strong>.
             </p>
 
             <div id="mobility-map" class="mobility-map" aria-label="Peta rute mobilitas"></div>
 
             <div class="point-grid">
-              <div class="point-pill">
-                <span>Asal</span>
+              <div class="point-pill" id="from-point-pill">
+                <span><i class="fas fa-map-marker-alt" style="color: #2d8a4e; margin-right: 4px;"></i> Titik Asal (A)</span>
                 <strong id="from-point-label">Belum dipilih</strong>
               </div>
-              <div class="point-pill">
-                <span>Tujuan</span>
+              <div class="point-pill" id="to-point-pill">
+                <span><i class="fas fa-flag-checkered" style="color: #d93829; margin-right: 4px;"></i> Titik Tujuan (B)</span>
                 <strong id="to-point-label">Belum dipilih</strong>
               </div>
             </div>

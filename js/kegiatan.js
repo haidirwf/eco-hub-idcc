@@ -166,7 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function showForm() {
     if (modalOverlay) {
       modalOverlay.classList.remove("hidden");
-      modalOverlay.classList.add("active");
+      requestAnimationFrame(() => {
+        modalOverlay.classList.add("active");
+      });
     }
     if (formCard) {
       formCard.classList.remove("hidden");
@@ -175,14 +177,18 @@ document.addEventListener("DOMContentLoaded", () => {
     initActivityMap();
     setTimeout(() => {
       formMapState.map?.invalidateSize();
-    }, 200);
-    setTimeout(() => titleInput?.focus(), 150);
+    }, 250);
+    setTimeout(() => titleInput?.focus(), 250);
   }
 
   function hideForm() {
     if (modalOverlay) {
       modalOverlay.classList.remove("active");
-      modalOverlay.classList.add("hidden");
+      setTimeout(() => {
+        if (!modalOverlay.classList.contains("active")) {
+          modalOverlay.classList.add("hidden");
+        }
+      }, 350);
     }
     document.body.style.overflow = "";
     setFeedback("");
@@ -230,7 +236,9 @@ document.addEventListener("DOMContentLoaded", () => {
     setJoinFeedback("");
 
     joinModalOverlay.classList.remove("hidden");
-    joinModalOverlay.classList.add("active");
+    requestAnimationFrame(() => {
+      joinModalOverlay.classList.add("active");
+    });
     if (joinFormCard) joinFormCard.classList.remove("hidden");
     document.body.style.overflow = "hidden";
 
@@ -242,13 +250,17 @@ document.addEventListener("DOMContentLoaded", () => {
       } else if (joinNotesInput) {
         joinNotesInput.focus();
       }
-    }, 150);
+    }, 200);
   }
 
   function hideJoinModal() {
     if (joinModalOverlay) {
       joinModalOverlay.classList.remove("active");
-      joinModalOverlay.classList.add("hidden");
+      setTimeout(() => {
+        if (!joinModalOverlay.classList.contains("active")) {
+          joinModalOverlay.classList.add("hidden");
+        }
+      }, 350);
     }
     document.body.style.overflow = "";
     setJoinFeedback("");
