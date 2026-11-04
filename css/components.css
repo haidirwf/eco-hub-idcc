@@ -483,3 +483,207 @@
   border-color: var(--color-green-primary);
   box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
 }
+
+/* ==========================================================================
+   Page Hero System (Unified Across All Sub-pages)
+   ========================================================================== */
+.page-hero {
+  background-color: var(--color-green-primary);
+  color: var(--color-white);
+  padding: 56px 0 48px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: relative;
+  text-align: center;
+}
+
+.page-hero-inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.page-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #dcedc8;
+  margin-bottom: 16px;
+}
+
+.page-hero-eyebrow i {
+  font-size: 13px;
+  color: #dcedc8;
+}
+
+.page-hero h1 {
+  font-size: clamp(32px, 4.5vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0 0 14px 0;
+  line-height: 1.15;
+}
+
+.page-hero-subtext {
+  font-size: 16px;
+  color: #e2ecd9;
+  line-height: 1.6;
+  max-width: 660px;
+  margin: 0 auto 24px;
+}
+
+/* Pills Row (Metrics, stats, feature tags) */
+.hero-pills-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-pill {
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 9px 18px;
+  border-radius: 50px;
+  font-size: 14px;
+  color: #f5f2eb;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.hero-pill i {
+  color: #dcedc8;
+  font-size: 14px;
+}
+
+.hero-pill strong {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.hero-pill:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
+}
+
+/* Hero Action Button Area */
+.page-hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-white {
+  background-color: #ffffff;
+  color: var(--color-green-primary);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 11px 22px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn-white:hover {
+  background-color: #f1f7ee;
+  color: var(--color-green-mid);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+/* Hero Search Container (for Edukasi) */
+.page-hero-search {
+  max-width: 580px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.page-hero-search .search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-green-primary);
+  font-size: 16px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-hero-search input {
+  width: 100%;
+  padding: 15px 20px 15px 50px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50px;
+  font-size: 15px;
+  font-family: inherit;
+  background-color: #ffffff;
+  color: var(--color-text-primary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.25s ease;
+}
+
+.page-hero-search input:focus {
+  outline: none;
+  border-color: #dcedc8;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.22);
+}
+
+.page-hero-search input::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Page Hero Responsive */
+@media (max-width: 768px) {
+  .page-hero {
+    padding: 40px 0 32px;
+  }
+
+  .page-hero h1 {
+    font-size: 30px;
+  }
+
+  .page-hero-subtext {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+
+  .hero-pills-row {
+    gap: 8px;
+  }
+
+  .hero-pill {
+    font-size: 13px;
+    padding: 7px 14px;
+  }
+
+  .page-hero-search input {
+    padding: 13px 18px 13px 44px;
+    font-size: 14px;
+  }
+
+  .btn-white {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -66,25 +66,27 @@
     </div>
 
     <!-- Page Hero -->
-    <header class="konten-hero section">
+    <header class="page-hero section">
       <div class="container fade-up">
-        <span class="konten-eyebrow">
-          <i class="fas fa-book-open" aria-hidden="true"></i> Pusat Edukasi & Literasi Lingkungan
-        </span>
-        <h1>Pusat Edukasi Lingkungan</h1>
-        <p class="hero-subtext">
-          Temukan wawasan terbaru, panduan praktis, dan riset lingkungan terkini
-          untuk mendukung gaya hidup hijau dan aksi nyata berkelanjutan.
-        </p>
+        <div class="page-hero-inner">
+          <span class="page-hero-eyebrow">
+            <i class="fas fa-book-open" aria-hidden="true"></i> Pusat Edukasi & Literasi Lingkungan
+          </span>
+          <h1>Pusat Edukasi Lingkungan</h1>
+          <p class="page-hero-subtext">
+            Temukan wawasan terbaru, panduan praktis, dan riset lingkungan terkini
+            untuk mendukung gaya hidup hijau dan aksi nyata berkelanjutan.
+          </p>
 
-        <div class="search-container">
-          <i class="fas fa-search search-icon" aria-hidden="true"></i>
-          <input
-            type="text"
-            id="search-input"
-            placeholder="Cari artikel, topik, atau kata kunci..."
-            aria-label="Cari artikel atau topik lingkungan"
-          />
+          <div class="page-hero-search">
+            <i class="fas fa-search search-icon" aria-hidden="true"></i>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Cari artikel, topik, atau kata kunci..."
+              aria-label="Cari artikel atau topik lingkungan"
+            />
+          </div>
         </div>
       </div>
     </header>
@@ -135,7 +137,7 @@
         <!-- EcoFact Widget -->
         <div class="widget-card ecofact-card">
           <div class="widget-header">
-            <i class="fas fa-lightbulb" color="#D4870C"></i>
+            <i class="fas fa-lightbulb" style="color: #d4870c;"></i>
             <h3>Tahukah Kamu?</h3>
           </div>
           <div class="ecofact-content">
@@ -148,11 +150,16 @@
 
         <!-- Quiz Widget -->
         <div class="widget-card quiz-card">
-          <h3>Kuis Lingkungan</h3>
+          <div class="widget-header">
+            <i class="fas fa-puzzle-piece" style="color: var(--color-green-primary);"></i>
+            <h3>Kuis Lingkungan</h3>
+          </div>
           <div id="quiz-container">
             <!-- Step 1: Start -->
             <div id="quiz-start" class="quiz-step active">
-              <p>Uji pengetahuanmu tentang lingkungan!</p>
+              <p style="margin-bottom: 16px; color: var(--color-text-secondary); font-size: 14.5px; line-height: 1.5;">
+                Uji pengetahuanmu tentang isu iklim &amp; aksi keberlanjutan bumi!
+              </p>
               <button id="start-quiz-btn" class="btn btn-primary btn-full">
                 Mulai Kuis
               </button>
