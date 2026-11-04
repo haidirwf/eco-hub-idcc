@@ -447,24 +447,55 @@ document.addEventListener("DOMContentLoaded", () => {
   function getCategoryBadge(item) {
     const text = `${item.title} ${item.what}`.toLowerCase();
     if (text.includes("sungai") || text.includes("kali code") || text.includes("ciliwung") || text.includes("air")) {
-      return { name: "Sungai & Air", className: "category-sungai", key: "Sungai" };
+      return { name: "Sungai & Air", className: "category-sungai", key: "Sungai", icon: "fa-water" };
     }
     if (text.includes("pohon") || text.includes("penghijauan") || text.includes("taman") || text.includes("dago")) {
-      return { name: "Penghijauan", className: "category-penghijauan", key: "Pohon" };
+      return { name: "Penghijauan", className: "category-penghijauan", key: "Pohon", icon: "fa-tree" };
     }
     if (text.includes("mangrove") || text.includes("pantai") || text.includes("pesisir") || text.includes("laut")) {
-      return { name: "Pesisir & Laut", className: "category-pesisir", key: "Pantai" };
+      return { name: "Pesisir & Laut", className: "category-pesisir", key: "Pantai", icon: "fa-umbrella-beach" };
     }
     if (text.includes("biopori") || text.includes("kompos") || text.includes("sampah") || text.includes("waste")) {
-      return { name: "Sampah & Kompos", className: "category-sampah", key: "Sampah" };
+      return { name: "Sampah & Kompos", className: "category-sampah", key: "Sampah", icon: "fa-recycle" };
     }
     if (text.includes("sepeda") || text.includes("plogging") || text.includes("gowes")) {
-      return { name: "Mobilitas Hijau", className: "category-sepeda", key: "Sepeda" };
+      return { name: "Mobilitas Hijau", className: "category-sepeda", key: "Sepeda", icon: "fa-bicycle" };
     }
     if (text.includes("farming") || text.includes("hidroponik") || text.includes("sayur")) {
-      return { name: "Urban Farming", className: "category-farming", key: "Farming" };
+      return { name: "Urban Farming", className: "category-farming", key: "Farming", icon: "fa-seedling" };
     }
-    return { name: "Aksi Lingkungan", className: "category-umum", key: "Umum" };
+    return { name: "Aksi Lingkungan", className: "category-umum", key: "Umum", icon: "fa-leaf" };
+  }
+
+  function getCityLabel(item) {
+    if (item.whereCoords?.label) {
+      const parts = item.whereCoords.label.split(",");
+      return parts[parts.length - 1].trim();
+    }
+    if (item.where) {
+      const parts = item.where.split(",");
+      return parts[parts.length - 1].trim();
+    }
+    return "Indonesia";
+  }
+
+  function formatEventDateTime(value) {
+    const time = parseDateTimeLocal(value);
+    if (!Number.isFinite(time) || Number.isNaN(time)) {
+      return { date: "Waktu belum ditetapkan", time: "" };
+    }
+    const date = new Date(time);
+    const dateStr = date.toLocaleDateString("id-ID", {
+      weekday: "short",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+    const timeStr = date.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return { date: dateStr, time: `${timeStr} WIB` };
   }
 
   function syncSummary(activities) {
@@ -526,43 +557,57 @@ document.addEventListener("DOMContentLoaded", () => {
         const buttonIcon = isPast ? "fa-check" : isJoined ? "fa-times" : "fa-user-plus";
         const buttonClass = isJoined ? "join-btn joined" : "join-btn";
         const cat = getCategoryBadge(item);
+        const cityLabel = getCityLabel(item);
+        const dt = formatEventDateTime(item.datetime);
 
         return `
           <article id="activity-${item.id}" class="activity-card list-reveal" style="animation-delay: ${Math.min(idx * 0.04, 0.28).toFixed(2)}s" data-id="${item.id}">
             <div class="activity-top-row">
-              <span class="activity-category-badge ${cat.className}">${cat.name}</span>
-              <span class="activity-chip ${chipClass}">
-                <i class="fas fa-circle" style="font-size: 7px;"></i> ${chipLabel}
+              <span class="activity-category-badge ${cat.className}">
+                <i class="fas ${cat.icon}" aria-hidden="true"></i> ${cat.name}
               </span>
+              ${
+                isJoined
+                  ? `<span class="activity-chip chip-joined"><i class="fas fa-check-circle" aria-hidden="true"></i> Terdaftar</span>`
+                  : `<span class="activity-location-pill" title="${item.where}"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> ${cityLabel}</span>`
+              }
             </div>
 
             <h3 class="activity-title" title="${item.title}">${item.title}</h3>
 
-            <div class="activity-schedule">
-              <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-              <span>${formatDateTime(item.datetime)}</span>
+            <div class="activity-datetime-bar">
+              <span class="datetime-item"><i class="far fa-calendar-alt" aria-hidden="true"></i> ${dt.date}</span>
+              <span class="datetime-dot" aria-hidden="true">•</span>
+              <span class="datetime-item"><i class="far fa-clock" aria-hidden="true"></i> ${dt.time}</span>
             </div>
 
             <p class="activity-body">${item.what}</p>
 
-            <div class="activity-meta">
-              <div class="activity-meta-item">
-                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+            <div class="activity-details-block">
+              <div class="activity-detail-item" title="${item.where}">
+                <i class="fas fa-map-pin" aria-hidden="true"></i>
                 <span>${item.where}</span>
               </div>
-              <div class="activity-meta-item">
-                <i class="fas fa-user-circle" aria-hidden="true"></i>
-                <span>Diinisiasi oleh <strong>${item.creator || "Warga Peduli"}</strong></span>
+              <div class="activity-detail-item" title="Diinisiasi oleh ${item.creator || "Komunitas Warga"}">
+                <i class="fas fa-bullhorn" aria-hidden="true"></i>
+                <span>Diinisiasi oleh <strong>${item.creator || "Komunitas Warga"}</strong></span>
               </div>
             </div>
 
             <div class="activity-footer">
-              <div class="participant-count">
-                <i class="fas fa-users" style="color: var(--color-green-primary);"></i>
-                <strong>${item.participants || 0}</strong> warga
+              <div class="participant-social">
+                <div class="avatar-stack" aria-hidden="true">
+                  <span class="avatar-circle av-1"><i class="fas fa-user"></i></span>
+                  <span class="avatar-circle av-2"><i class="fas fa-user"></i></span>
+                  <span class="avatar-circle av-3"><i class="fas fa-user"></i></span>
+                </div>
+                <div class="participant-text">
+                  <strong>${item.participants || 0}</strong>
+                  <span>warga ikut</span>
+                </div>
               </div>
               <button class="${buttonClass}" data-action="join" data-id="${item.id}" ${isPast ? "disabled" : ""}>
-                <i class="fas ${buttonIcon}"></i> ${buttonLabel}
+                <i class="fas ${buttonIcon}" aria-hidden="true"></i> <span>${buttonLabel}</span>
               </button>
             </div>
           </article>
