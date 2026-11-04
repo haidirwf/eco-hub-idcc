@@ -527,8 +527,8 @@ header.page-hero h1,
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding: 2px 8px;
-  border-radius: 4px;
+  padding: 3px 10px;
+  border-radius: 50px;
 }
 
 .feed-category.polusi-udara { background: #E8F5E9; color: #2D5A27; }

@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Artikel — Eco Hub</title>
+    <title>Artikel Edukasi — Eco Hub</title>
+    <meta
+      name="description"
+      content="Baca artikel edukasi mendalam seputar kualitas udara, perubahan iklim, konservasi alam, dan gaya hidup berkelanjutan di Eco Hub."
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -89,7 +93,7 @@
     <nav class="navbar">
       <div class="container nav-container">
         <a href="index.html" class="nav-brand">
-          <i class="fas fa-leaf" color="var(--color-green-primary)"></i>
+          <i class="fas fa-leaf" style="color: var(--color-green-primary)"></i>
           Eco Hub
         </a>
 
@@ -101,11 +105,9 @@
           <a href="about.html" class="nav-link">Tentang</a>
         </div>
 
-        <a href="index.html#mobility-sim" class="btn btn-primary hide-mobile"
-          >Mulai Sekarang</a
-        >
+        <a href="index.html#mobility-sim" class="btn btn-primary hide-mobile">Mulai Sekarang</a>
 
-        <button class="hamburger" aria-label="Menu">
+        <button class="hamburger" aria-label="Buka Menu Navigasi" type="button">
           <span></span>
           <span></span>
           <span></span>
@@ -117,17 +119,25 @@
       <div class="mobile-nav-list">
         <a href="index.html" class="mobile-nav-link">Beranda</a>
         <a href="lapor.html" class="mobile-nav-link">Lapor</a>
-        <a href="konten.html" class="mobile-nav-link">Edukasi</a>
+        <a href="konten.html" class="mobile-nav-link active">Edukasi</a>
         <a href="kegiatan.html" class="mobile-nav-link">Kegiatan</a>
         <a href="about.html" class="mobile-nav-link">Tentang</a>
-        <a
-          href="index.html#mobility-sim"
-          class="btn btn-primary btn-full"
-          style="margin-top: 20px"
-          >Mulai Sekarang</a
-        >
+        <a href="index.html#mobility-sim" class="btn btn-primary btn-full" style="margin-top: 20px">Mulai Sekarang</a>
       </div>
     </div>
+
+    <!-- Page Hero Compact -->
+    <header class="page-hero page-hero-compact section">
+      <div class="container fade-up">
+        <div class="page-hero-inner">
+          <span class="page-hero-eyebrow">
+            <i class="fas fa-book-open" aria-hidden="true"></i> Literasi &amp; Edukasi Lingkungan
+          </span>
+          <h1 id="hero-article-title">Artikel Lingkungan Hidup</h1>
+          <p class="page-hero-subtext">Wawasan mendalam dan riset terpercaya untuk mendukung aksi keberlanjutan.</p>
+        </div>
+      </div>
+    </header>
 
     <div
       class="container section"
@@ -165,6 +175,10 @@
       const articleImgUrl = imgParam ? imgParam : defaultImg;
 
       const contentBox = document.getElementById("content-box");
+      const heroTitleEl = document.getElementById("hero-article-title");
+      if (heroTitleEl && titleOverride) {
+        heroTitleEl.textContent = titleOverride;
+      }
 
       // Fetch from Wikipedia API
       // https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles=Stack_Overflow&origin=*
@@ -229,31 +243,33 @@
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand">
-            <h3>Eco Hub</h3>
+            <a href="index.html" class="nav-brand" style="margin-bottom: 12px; display: inline-flex; color: #ffffff;">
+              <i class="fas fa-leaf" style="color: var(--color-green-light)"></i>
+              Eco Hub
+            </a>
             <p class="footer-tagline">
-              Platform edukasi dan monitoring lingkungan untuk masa depan yang
-              lebih baik.
+              Platform inovasi mobilitas cerdas, pemantauan kualitas udara, dan aksi gotong royong warga untuk masa depan Indonesia yang lebih hijau.
             </p>
-</div>
+          </div>
 
           <div class="footer-links">
             <div class="footer-heading">Navigasi</div>
             <ul>
               <li><a href="index.html">Beranda</a></li>
               <li><a href="lapor.html">Lapor Isu</a></li>
-              <li><a href="about.html">Tentang</a></li>
               <li><a href="konten.html">Edukasi</a></li>
-              <li><a href="kegiatan.html">Kegiatan</a></li>
+              <li><a href="kegiatan.html">Kegiatan Warga</a></li>
+              <li><a href="about.html">Tentang Kami</a></li>
             </ul>
           </div>
 
           <div class="footer-links">
             <div class="footer-heading">Topik</div>
             <ul>
-              <li><a href="#">Eco Mobility</a></li>
-              <li><a href="#">Kualitas Udara</a></li>
-              <li><a href="#">Aksi Komunitas</a></li>
-              <li><a href="#">Smart City</a></li>
+              <li><a href="index.html#mobility-sim">Smart Mobility</a></li>
+              <li><a href="index.html#aqi">Kualitas Udara</a></li>
+              <li><a href="kegiatan.html">Aksi Komunitas</a></li>
+              <li><a href="konten.html">Literasi Iklim</a></li>
             </ul>
           </div>
 
@@ -261,7 +277,7 @@
             <div class="footer-heading">Informasi</div>
             <ul>
               <li><a href="about.html">Tentang Proyek</a></li>
-              <li><a href="lapor.html">Lapor Isu</a></li>
+              <li><a href="lapor.html">Laporkan Masalah</a></li>
               <li><a href="konten.html">Panduan Edukasi</a></li>
             </ul>
           </div>

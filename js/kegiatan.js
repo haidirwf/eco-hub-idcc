@@ -553,11 +553,10 @@ document.addEventListener("DOMContentLoaded", () => {
           Number.isFinite(start) && !Number.isNaN(start) ? start + 2 * 60 * 60 * 1000 < Date.now() : false;
         const chipLabel = isPast ? "Selesai" : isJoined ? "Terdaftar" : "Aktif";
         const chipClass = isPast ? "chip-past" : isJoined ? "chip-joined" : "chip-active";
-        const buttonLabel = isPast ? "Selesai" : isJoined ? "Batalkan" : "Gabung Kegiatan";
-        const buttonIcon = isPast ? "fa-check" : isJoined ? "fa-times" : "fa-user-plus";
+        const buttonLabel = isPast ? "Selesai" : isJoined ? "Terdaftar" : "Gabung Aksi";
+        const buttonIcon = isPast ? "fa-calendar-check" : isJoined ? "fa-check" : "fa-plus";
         const buttonClass = isJoined ? "join-btn joined" : "join-btn";
         const cat = getCategoryBadge(item);
-        const cityLabel = getCityLabel(item);
         const dt = formatEventDateTime(item.datetime);
 
         return `
@@ -566,47 +565,41 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="activity-category-badge ${cat.className}">
                 <i class="fas ${cat.icon}" aria-hidden="true"></i> ${cat.name}
               </span>
-              ${
-                isJoined
-                  ? `<span class="activity-chip chip-joined"><i class="fas fa-check-circle" aria-hidden="true"></i> Terdaftar</span>`
-                  : `<span class="activity-location-pill" title="${item.where}"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> ${cityLabel}</span>`
-              }
+              <span class="activity-chip ${chipClass}">
+                <i class="fas ${isJoined ? "fa-check-circle" : isPast ? "fa-history" : "fa-circle"}" aria-hidden="true"></i> ${chipLabel}
+              </span>
             </div>
 
             <h3 class="activity-title" title="${item.title}">${item.title}</h3>
 
-            <div class="activity-datetime-bar">
-              <span class="datetime-item"><i class="far fa-calendar-alt" aria-hidden="true"></i> ${dt.date}</span>
-              <span class="datetime-dot" aria-hidden="true">•</span>
-              <span class="datetime-item"><i class="far fa-clock" aria-hidden="true"></i> ${dt.time}</span>
+            <div class="activity-schedule-bar">
+              <span class="schedule-item"><i class="far fa-calendar-alt" aria-hidden="true"></i> ${dt.date}</span>
+              ${
+                dt.time
+                  ? `<span class="schedule-sep" aria-hidden="true">•</span><span class="schedule-item"><i class="far fa-clock" aria-hidden="true"></i> ${dt.time}</span>`
+                  : ""
+              }
             </div>
 
             <p class="activity-body">${item.what}</p>
 
-            <div class="activity-details-block">
-              <div class="activity-detail-item" title="${item.where}">
-                <i class="fas fa-map-pin" aria-hidden="true"></i>
+            <div class="activity-meta">
+              <div class="activity-meta-item" title="${item.where}">
+                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
                 <span>${item.where}</span>
               </div>
-              <div class="activity-detail-item" title="Diinisiasi oleh ${item.creator || "Komunitas Warga"}">
+              <div class="activity-meta-item" title="Diinisiasi oleh ${item.creator || "Komunitas Warga"}">
                 <i class="fas fa-bullhorn" aria-hidden="true"></i>
                 <span>Diinisiasi oleh <strong>${item.creator || "Komunitas Warga"}</strong></span>
               </div>
             </div>
 
             <div class="activity-footer">
-              <div class="participant-social">
-                <div class="avatar-stack" aria-hidden="true">
-                  <span class="avatar-circle av-1"><i class="fas fa-user"></i></span>
-                  <span class="avatar-circle av-2"><i class="fas fa-user"></i></span>
-                  <span class="avatar-circle av-3"><i class="fas fa-user"></i></span>
-                </div>
-                <div class="participant-text">
-                  <strong>${item.participants || 0}</strong>
-                  <span>warga ikut</span>
-                </div>
+              <div class="participant-count">
+                <i class="fas fa-users" aria-hidden="true"></i>
+                <span><strong>${item.participants || 0}</strong> warga ikut</span>
               </div>
-              <button class="${buttonClass}" data-action="join" data-id="${item.id}" ${isPast ? "disabled" : ""}>
+              <button class="${buttonClass}" data-action="join" data-id="${item.id}" ${isPast ? "disabled" : ""} title="${isJoined ? "Klik untuk membatalkan keikutsertaan" : isPast ? "Kegiatan telah selesai" : "Klik untuk mendaftar aksi"}">
                 <i class="fas ${buttonIcon}" aria-hidden="true"></i> <span>${buttonLabel}</span>
               </button>
             </div>
