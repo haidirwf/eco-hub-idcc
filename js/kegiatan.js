@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const STORAGE_KEY = "Eco Hub_community_activities_v1";
   const JOINED_KEY = "Eco Hub_community_joined_v1";
+
   const CITIES = {
     Jakarta: { lat: -6.2088, lon: 106.8456 },
     Bandung: { lat: -6.9175, lon: 107.6191 },
@@ -11,6 +12,108 @@ document.addEventListener("DOMContentLoaded", () => {
     Medan: { lat: 3.5952, lon: 98.6722 },
     Makassar: { lat: -5.1477, lon: 119.4328 },
   };
+
+  const DEFAULT_ACTIVITIES = [
+    {
+      id: "act_jkt_01",
+      title: "Aksi Bersih Sungai Ciliwung & Pilah Sampah",
+      datetime: "2026-11-08T07:30",
+      what: "Gotong royong membersihkan sampah plastik di bantaran Sungai Ciliwung dan pemilahan material daur ulang bersama warga.",
+      where: "Bantaran Sungai Ciliwung, Manggarai, Jakarta Selatan",
+      whereCoords: { lat: -6.2088, lng: 106.8456, label: "Manggarai, Jakarta Selatan" },
+      creator: "Komunitas Ciliwung Bersih",
+      participants: 28,
+      createdAt: "2026-11-01T08:00:00.000Z",
+    },
+    {
+      id: "act_bdg_01",
+      title: "Penanaman 200 Bibit Pohon di Kawasan Dago Atas",
+      datetime: "2026-11-09T08:00",
+      what: "Penghijauan lereng bukit Dago untuk memperkuat daerah resapan air Bandung Utara dan mencegah erosi tanah.",
+      where: "Dago Pakar, Ciburial, Bandung",
+      whereCoords: { lat: -6.8650, lng: 107.6250, label: "Dago Pakar, Bandung" },
+      creator: "Bandung Eco Green",
+      participants: 45,
+      createdAt: "2026-11-02T09:00:00.000Z",
+    },
+    {
+      id: "act_sby_01",
+      title: "Restorasi Mangrove & Bersih Pesisir Wonorejo",
+      datetime: "2026-11-10T06:30",
+      what: "Ekowisata dan aksi penanaman bibit bakau serta pengumpulan sampah plastik di pesisir Timur Surabaya.",
+      where: "Ekowisata Mangrove Wonorejo, Rungkut, Surabaya",
+      whereCoords: { lat: -7.3080, lng: 112.8210, label: "Wonorejo, Surabaya" },
+      creator: "Sahabat Pesisir Surabaya",
+      participants: 36,
+      createdAt: "2026-11-02T10:00:00.000Z",
+    },
+    {
+      id: "act_dps_01",
+      title: "Beach Clean Up & Edukasi Pilah Sampah Sanur",
+      datetime: "2026-11-11T06:00",
+      what: "Aksi bersih pantai pagi hari di Pantai Sanur bersama warga lokal dan turis untuk mengurangi polusi mikroplastik.",
+      where: "Pantai Matahari Terbit, Sanur, Denpasar",
+      whereCoords: { lat: -8.6738, lng: 115.2631, label: "Sanur, Denpasar" },
+      creator: "Bali Clean Waves",
+      participants: 52,
+      createdAt: "2026-11-03T07:00:00.000Z",
+    },
+    {
+      id: "act_smg_01",
+      title: "Pemasangan Biopori Warga & Kompos Lingkungan",
+      datetime: "2026-11-12T08:30",
+      what: "Workshop dan pembuatan 50 lubang biopori percontohan di RW 04 untuk resapan air dan pengolahan sampah organik.",
+      where: "Banyumanik, Semarang Selatan",
+      whereCoords: { lat: -7.0600, lng: 110.4150, label: "Banyumanik, Semarang" },
+      creator: "Kader Lingkungan Mandiri",
+      participants: 22,
+      createdAt: "2026-11-03T08:00:00.000Z",
+    },
+    {
+      id: "act_ygy_01",
+      title: "Sepeda Bersama & Plogging Kali Code",
+      datetime: "2026-11-13T06:30",
+      what: "Gowes santai rendah emisi menyusuri Kali Code dilanjutkan dengan jogging sambil memungut sampah (plogging).",
+      where: "Kawasan Kali Code, Gondokusuman, Yogyakarta",
+      whereCoords: { lat: -7.7828, lng: 110.3725, label: "Kali Code, Yogyakarta" },
+      creator: "Jogja Hijau Bersepeda",
+      participants: 31,
+      createdAt: "2026-11-03T09:00:00.000Z",
+    },
+    {
+      id: "act_mdn_01",
+      title: "Revitalisasi Taman Kota & Drop Point Sampah Elektronik",
+      datetime: "2026-11-14T09:00",
+      what: "Pembuatan spot drop point e-waste dan penataan tanaman hias penyerap polutan di area publik warga.",
+      where: "Taman Cadika, Medan Johor, Medan",
+      whereCoords: { lat: 3.5350, lng: 98.6650, label: "Medan Johor, Medan" },
+      creator: "Gerakan Medan Asri",
+      participants: 19,
+      createdAt: "2026-11-03T11:00:00.000Z",
+    },
+    {
+      id: "act_mks_01",
+      title: "Bersih Pantai Losari & Kampanye Kurangi Kantong Plastik",
+      datetime: "2026-11-15T07:00",
+      what: "Aksi gotong royong memungut sampah di anjungan Pantai Losari serta pembagian kantong belanja ramah lingkungan.",
+      where: "Anjungan Pantai Losari, Makassar",
+      whereCoords: { lat: -5.1450, lng: 119.4080, label: "Pantai Losari, Makassar" },
+      creator: "Makassar Green Community",
+      participants: 40,
+      createdAt: "2026-11-03T12:00:00.000Z",
+    },
+    {
+      id: "act_jkt_02",
+      title: "Workshop Urban Farming & Kompos Sayur Dapur",
+      datetime: "2026-11-16T09:00",
+      what: "Belajar membuat instalasi hidroponik sederhana dari pipa bekas dan budidaya sayuran pekarangan sempit.",
+      where: "RPTRA Kalijodo, Penjaringan, Jakarta Utara",
+      whereCoords: { lat: -6.1415, lng: 106.7905, label: "Kalijodo, Jakarta Utara" },
+      creator: "Urban Farming ID",
+      participants: 25,
+      createdAt: "2026-11-03T13:00:00.000Z",
+    },
+  ];
 
   const form = document.getElementById("kegiatan-form");
   const titleInput = document.getElementById("activity-title");
@@ -23,12 +126,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const createBtn = document.getElementById("create-activity-btn");
   const openFormBtn = document.getElementById("open-form-btn");
   const closeFormBtn = document.getElementById("close-form-btn");
+  const modalCloseBtn = document.getElementById("modal-close-btn");
+  const modalOverlay = document.getElementById("activity-modal");
   const formCard = document.getElementById("create-form-card");
 
   const listEl = document.getElementById("activity-list");
   const totalActivitiesEl = document.getElementById("total-activities");
   const upcomingActivitiesEl = document.getElementById("upcoming-activities");
   const totalParticipantsEl = document.getElementById("total-participants");
+
   const formMapState = {
     map: null,
     marker: null,
@@ -36,17 +142,28 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   function showForm() {
-    if (!formCard) return;
-    formCard.classList.remove("hidden");
+    if (modalOverlay) {
+      modalOverlay.classList.remove("hidden");
+      modalOverlay.classList.add("active");
+    }
+    if (formCard) {
+      formCard.classList.remove("hidden");
+    }
+    document.body.style.overflow = "hidden";
     initActivityMap();
-    setTimeout(() => formMapState.map?.invalidateSize(), 140);
-    formCard.scrollIntoView({ behavior: "smooth", block: "start" });
-    setTimeout(() => titleInput?.focus(), 100);
+    setTimeout(() => {
+      formMapState.map?.invalidateSize();
+    }, 200);
+    setTimeout(() => titleInput?.focus(), 150);
   }
 
   function hideForm() {
-    if (!formCard) return;
-    formCard.classList.add("hidden");
+    if (modalOverlay) {
+      modalOverlay.classList.remove("active");
+      modalOverlay.classList.add("hidden");
+    }
+    document.body.style.overflow = "";
+    setFeedback("");
   }
 
   function haversineDistanceKm(from, to) {
@@ -73,22 +190,44 @@ document.addEventListener("DOMContentLoaded", () => {
     return nearest;
   }
 
-  function mockAddressFromPoint(point) {
-    return `${nearestCityForPoint(point)}, Indonesia`;
-  }
-
   function formatMapLocation(point) {
     if (!point) return "Belum ada titik dipilih.";
-    return point.label || `Sekitar ${nearestCityForPoint(point)}`;
+    return point.label || `Sekitar ${nearestCityForPoint(point)}, Indonesia`;
   }
 
   function updateMapLocationDisplay() {
     if (!activityLocationDisplay) return;
     if (!formMapState.location) {
-      activityLocationDisplay.textContent = "Belum ada titik dipilih.";
+      activityLocationDisplay.textContent = "Klik titik pada peta di atas untuk memilih lokasi.";
       return;
     }
     activityLocationDisplay.textContent = formatMapLocation(formMapState.location);
+  }
+
+  async function reverseGeocodeActivity(lat, lng) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3500);
+      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
+      const res = await fetch(url, {
+        headers: { "Accept-Language": "id" },
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.display_name) {
+          const addr = data.address || {};
+          const road = addr.road || addr.pedestrian || addr.suburb || "";
+          const village = addr.village || addr.neighbourhood || addr.suburb || "";
+          const city = addr.city || addr.town || addr.municipality || addr.county || "";
+          const parts = [road, village, city].filter(Boolean);
+          return parts.length > 0 ? parts.join(", ") : data.display_name.split(",").slice(0, 3).join(",");
+        }
+      }
+    } catch (_) {}
+    return `Sekitar ${nearestCityForPoint({ lat, lng })}, Indonesia`;
   }
 
   function initActivityMap() {
@@ -106,23 +245,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }).addTo(map);
 
     map.on("click", (event) => {
+      const lat = event.latlng.lat;
+      const lng = event.latlng.lng;
+      const nearestCity = nearestCityForPoint({ lat, lng });
+
       const point = {
-        lat: event.latlng.lat,
-        lng: event.latlng.lng,
-        label: `${nearestCityForPoint({ lat: event.latlng.lat, lng: event.latlng.lng })}, Indonesia`,
+        lat,
+        lng,
+        label: `Sekitar ${nearestCity}, Indonesia`,
       };
       formMapState.location = point;
 
       if (formMapState.marker) {
         map.removeLayer(formMapState.marker);
       }
-      formMapState.marker = window.L.marker([point.lat, point.lng], { title: "Lokasi Kegiatan" }).addTo(map);
+      formMapState.marker = window.L.marker([lat, lng], { title: "Lokasi Kegiatan" })
+        .addTo(map)
+        .bindPopup("<strong>Lokasi Terpilih:</strong><br>Sedang mencari alamat...");
+
       updateMapLocationDisplay();
+
+      // Reverse geocode asynchronously to show real road/village address
+      reverseGeocodeActivity(lat, lng).then((addr) => {
+        if (formMapState.location && formMapState.location.lat === lat && formMapState.location.lng === lng) {
+          formMapState.location.label = addr;
+          updateMapLocationDisplay();
+          formMapState.marker?.setPopupContent("<strong>Lokasi Terpilih:</strong><br>" + addr);
+        }
+      });
     });
 
     formMapState.map = map;
-    setTimeout(() => map.invalidateSize(), 120);
-  }
+    setTimeout(() => map.invalidateSize(), 180);
   }
 
   function safeParse(raw, fallback) {
@@ -135,8 +289,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function loadActivities() {
-    const parsed = safeParse(localStorage.getItem(STORAGE_KEY), []);
-    return Array.isArray(parsed) ? parsed : [];
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_ACTIVITIES));
+      return DEFAULT_ACTIVITIES;
+    }
+    const parsed = safeParse(raw, []);
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_ACTIVITIES));
+      return DEFAULT_ACTIVITIES;
+    }
+    return parsed;
   }
 
   function saveActivities(activities) {
@@ -179,7 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function formatDateTime(value) {
     const time = parseDateTimeLocal(value);
-    if (!Number.isFinite(time) || Number.isNaN(time)) return "Waktu tidak valid";
+    if (!Number.isFinite(time) || Number.isNaN(time)) return "Waktu belum ditetapkan";
     const date = new Date(time);
     return date.toLocaleString("id-ID", {
       weekday: "short",
@@ -213,12 +376,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const now = Date.now();
     const isActiveActivity = (item) => {
       const start = parseDateTimeLocal(item?.datetime);
-      if (!Number.isFinite(start) || Number.isNaN(start)) return false;
+      if (!Number.isFinite(start) || Number.isNaN(start)) return true;
       return start + 2 * 60 * 60 * 1000 >= now;
     };
-    const activeActivities = activities.filter((item) => {
-      return isActiveActivity(item);
-    });
+    const activeActivities = activities.filter((item) => isActiveActivity(item));
     syncSummary(activeActivities);
 
     if (!activeActivities.length) {
@@ -240,26 +401,26 @@ document.addEventListener("DOMContentLoaded", () => {
           Number.isFinite(start) && !Number.isNaN(start) ? start + 2 * 60 * 60 * 1000 < Date.now() : false;
         const chipLabel = isPast ? "Selesai" : isJoined ? "Joined" : "Aktif";
         const chipClass = isPast ? "chip-past" : isJoined ? "chip-joined" : "chip-active";
-        const buttonLabel = isPast ? "Kegiatan Selesai" : isJoined ? "Batalkan Join" : "Join Kegiatan";
+        const buttonLabel = isPast ? "Kegiatan Selesai" : isJoined ? "Batalkan Join" : "Gabung Kegiatan";
         const buttonClass = isJoined ? "btn btn-outline join-btn joined" : "btn btn-outline join-btn";
 
         return `
-          <article id="activity-${item.id}" class="card activity-card list-reveal" style="animation-delay: ${Math.min(idx * 0.06, 0.36).toFixed(2)}s" data-id="${item.id}">
+          <article id="activity-${item.id}" class="card activity-card list-reveal" style="animation-delay: ${Math.min(idx * 0.05, 0.35).toFixed(2)}s" data-id="${item.id}">
             <div class="activity-head">
               <h3 class="activity-title">${item.title}</h3>
               <span class="activity-chip ${chipClass}">${chipLabel}</span>
             </div>
             <div class="activity-time">
-              <i class="fas fa-calendar-alt" size="14"></i>
+              <i class="fas fa-calendar-alt" aria-hidden="true"></i>
               ${formatDateTime(item.datetime)}
             </div>
             <p class="activity-body">${item.what}</p>
             <div class="activity-meta">
-              <span><i class="fas fa-map-marker-alt" size="14"></i>${item.where}</span>
-              <span><i class="fas fa-user" size="14"></i>Penggagas: ${item.creator || "Warga"}</span>
+              <span><i class="fas fa-map-marker-alt" aria-hidden="true"></i> ${item.where}</span>
+              <span><i class="fas fa-user" aria-hidden="true"></i> Penggagas: ${item.creator || "Warga"}</span>
             </div>
             <div class="activity-footer">
-              <div class="participant-count">${item.participants || 0} peserta</div>
+              <div class="participant-count"><strong>${item.participants || 0}</strong> warga bergabung</div>
               <button class="${buttonClass}" data-action="join" data-id="${item.id}" ${isPast ? "disabled" : ""}>${buttonLabel}</button>
             </div>
           </article>
@@ -287,7 +448,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function createActivity(payload) {
     const activities = loadActivities();
-    activities.push(payload);
+    activities.unshift(payload);
     saveActivities(activities);
   }
 
@@ -297,21 +458,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const title = String(titleInput?.value || "").trim();
     const datetime = String(datetimeInput?.value || "").trim();
     const what = String(whatInput?.value || "").trim();
-    const creator = String(creatorInput?.value || "").trim() || "Warga";
+    const creator = String(creatorInput?.value || "").trim() || "Warga Peduli";
     const where = formMapState.location ? formatMapLocation(formMapState.location) : "";
 
-    if (!title || !datetime || !what || !where) {
-      setFeedback("Lengkapi semua field wajib dan pilih lokasi di peta.");
+    if (!title || !datetime || !what || !formMapState.location) {
+      setFeedback("Lengkapi semua field wajib dan tentukan lokasi di peta.", false);
       return;
     }
 
     const time = parseDateTimeLocal(datetime);
     if (!Number.isFinite(time) || Number.isNaN(time)) {
-      setFeedback("Format waktu kegiatan tidak valid.");
+      setFeedback("Format waktu kegiatan tidak valid.", false);
       return;
     }
     if (time < Date.now() - 5 * 60 * 1000) {
-      setFeedback("Waktu kegiatan sudah lewat. Pilih waktu sekarang atau yang akan datang.");
+      setFeedback("Waktu kegiatan sudah lewat. Pilih waktu sekarang atau yang akan datang.", false);
       return;
     }
 
@@ -331,7 +492,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     createActivity(activity);
     setCreateLoading(false);
-    setFeedback("Kegiatan berhasil dibuat dan masuk ke daftar.", true);
+    setFeedback("Kegiatan berhasil dibuat dan masuk ke daftar!", true);
 
     form.reset();
     formMapState.location = null;
@@ -340,12 +501,16 @@ document.addEventListener("DOMContentLoaded", () => {
       formMapState.marker = null;
     }
     updateMapLocationDisplay();
-    hideForm();
-    renderActivities();
 
     setTimeout(() => {
-      document.getElementById("activity-list")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 120);
+      hideForm();
+      renderActivities();
+      const el = document.getElementById(`activity-${activity.id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.style.borderColor = "var(--color-green-primary)";
+      }
+    }, 400);
   });
 
   listEl?.addEventListener("click", (event) => {
@@ -386,8 +551,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   openFormBtn?.addEventListener("click", showForm);
   closeFormBtn?.addEventListener("click", hideForm);
+  modalCloseBtn?.addEventListener("click", hideForm);
+  modalOverlay?.addEventListener("click", (e) => {
+    if (e.target === modalOverlay) hideForm();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modalOverlay?.classList.contains("active")) {
+      hideForm();
+    }
+  });
 
   updateMapLocationDisplay();
   renderActivities();
 });
-

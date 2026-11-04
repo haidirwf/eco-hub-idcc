@@ -80,50 +80,76 @@
 
     <section class="section daftar-section">
       <div class="container">
-        <article id="create-form-card" class="card form-card hidden fade-up">
-          <div class="form-head">
-            <div>
-              <h3>Buat Kegiatan Baru</h3>
-              <p class="form-note">Isi kapan kegiatan dilakukan, ngapain, dan di mana lokasinya.</p>
-            </div>
+        <!-- Stats Summary Bar -->
+        <div class="kegiatan-stats-bar fade-up">
+          <div class="stat-pill">
+            <span class="stat-pill-label">Total Kegiatan:</span>
+            <strong id="total-activities" class="stat-pill-val">0</strong>
           </div>
+          <div class="stat-pill">
+            <span class="stat-pill-label">Akan Datang:</span>
+            <strong id="upcoming-activities" class="stat-pill-val">0</strong>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-pill-label">Warga Bergabung:</span>
+            <strong id="total-participants" class="stat-pill-val">0</strong>
+          </div>
+        </div>
 
-          <form id="kegiatan-form" class="kegiatan-form">
-            <div class="form-group">
-              <label for="activity-title">Judul Kegiatan</label>
-              <input id="activity-title" type="text" required placeholder="Contoh: Bersih Sungai Mingguan" />
-            </div>
-
-            <div class="form-group">
-              <label for="activity-datetime">Waktu Kegiatan</label>
-              <input id="activity-datetime" type="datetime-local" required />
-            </div>
-
-            <div class="form-group">
-              <label for="activity-what">Ngapain?</label>
-              <textarea id="activity-what" rows="3" required placeholder="Contoh: gotong royong bersih sampah dan sortir daur ulang"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label>Di mana? (Pilih di Peta)</label>
-              <div id="activity-map" class="activity-map" aria-label="Peta lokasi kegiatan"></div>
-              <p id="activity-location-display" class="map-location-display">Belum ada titik dipilih.</p>
-            </div>
-
-            <div class="form-group">
-              <label for="activity-creator">Nama Penggagas</label>
-              <input id="activity-creator" type="text" placeholder="Nama kamu (opsional)" />
-            </div>
-
-            <button id="create-activity-btn" type="submit" class="btn btn-primary">Buat Kegiatan</button>
-            <button id="close-form-btn" class="btn btn-outline" type="button" style="margin-top: 10px">Tutup Form</button>
-            <p id="form-feedback" class="feedback-text" aria-live="polite"></p>
-          </form>
-        </article>
-
+        <!-- Activity Cards Grid -->
         <div id="activity-list" class="activity-list"></div>
       </div>
     </section>
+
+    <!-- Modal Form Buat Kegiatan -->
+    <div id="activity-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <article id="create-form-card" class="card modal-card">
+        <button id="modal-close-btn" class="modal-close" type="button" aria-label="Tutup Modal">
+          <i class="fas fa-times"></i>
+        </button>
+
+        <div class="form-head">
+          <div>
+            <h3 id="modal-title">Buat Kegiatan Warga Baru</h3>
+            <p class="form-note">Ajak warga sekitar gotong royong aksi hijau di lokasimu.</p>
+          </div>
+        </div>
+
+        <form id="kegiatan-form" class="kegiatan-form">
+          <div class="form-group">
+            <label for="activity-title">Judul Kegiatan</label>
+            <input id="activity-title" type="text" required placeholder="Contoh: Bersih Sungai Cikapundung" />
+          </div>
+
+          <div class="form-group">
+            <label for="activity-datetime">Waktu Kegiatan</label>
+            <input id="activity-datetime" type="datetime-local" required />
+          </div>
+
+          <div class="form-group">
+            <label for="activity-what">Deskripsi Aksi (Ngapain?)</label>
+            <textarea id="activity-what" rows="3" required placeholder="Contoh: Gotong royong bersih sampah plastik dan sortir daur ulang"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Lokasi Kegiatan (Pilih di Peta)</label>
+            <div id="activity-map" class="activity-map" aria-label="Peta lokasi kegiatan"></div>
+            <p id="activity-location-display" class="map-location-display">Klik titik pada peta di atas untuk memilih lokasi.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="activity-creator">Nama Penggagas</label>
+            <input id="activity-creator" type="text" placeholder="Nama kamu atau komunitas (opsional)" />
+          </div>
+
+          <div class="modal-actions">
+            <button id="create-activity-btn" type="submit" class="btn btn-primary" style="flex: 1;">Buat Kegiatan</button>
+            <button id="close-form-btn" class="btn btn-outline" type="button">Tutup</button>
+          </div>
+          <p id="form-feedback" class="feedback-text" aria-live="polite"></p>
+        </form>
+      </article>
+    </div>
 
     <footer class="footer">
       <div class="container">

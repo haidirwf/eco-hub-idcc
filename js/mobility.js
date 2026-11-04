@@ -4,7 +4,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const COMMUNITY_ACTIVITIES_KEY = "Eco Hub_community_activities_v1";
   const MOCK_MODE = localStorage.getItem("Eco Hub_mock_mode") === "1";
-  const DUMMY_MAP_MODE = window.ECO_HUB_MAP_CONFIG?.dummyOnly ?? true;
+  const DUMMY_MAP_MODE = false;
   const INDONESIA_BOUNDS = [
     [-11.2, 94.5],
     [6.8, 141.5],
@@ -385,9 +385,116 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  const DEFAULT_COMMUNITY_ACTIVITIES = [
+    {
+      id: "act_jkt_01",
+      title: "Aksi Bersih Sungai Ciliwung & Pilah Sampah",
+      datetime: "2026-11-08T07:30",
+      what: "Gotong royong membersihkan sampah plastik di bantaran Sungai Ciliwung dan pemilahan material daur ulang bersama warga.",
+      where: "Bantaran Sungai Ciliwung, Manggarai, Jakarta Selatan",
+      whereCoords: { lat: -6.2088, lng: 106.8456, label: "Manggarai, Jakarta Selatan" },
+      creator: "Komunitas Ciliwung Bersih",
+      participants: 28,
+      createdAt: "2026-11-01T08:00:00.000Z",
+    },
+    {
+      id: "act_bdg_01",
+      title: "Penanaman 200 Bibit Pohon di Kawasan Dago Atas",
+      datetime: "2026-11-09T08:00",
+      what: "Penghijauan lereng bukit Dago untuk memperkuat daerah resapan air Bandung Utara dan mencegah erosi tanah.",
+      where: "Dago Pakar, Ciburial, Bandung",
+      whereCoords: { lat: -6.8650, lng: 107.6250, label: "Dago Pakar, Bandung" },
+      creator: "Bandung Eco Green",
+      participants: 45,
+      createdAt: "2026-11-02T09:00:00.000Z",
+    },
+    {
+      id: "act_sby_01",
+      title: "Restorasi Mangrove & Bersih Pesisir Wonorejo",
+      datetime: "2026-11-10T06:30",
+      what: "Ekowisata dan aksi penanaman bibit bakau serta pengumpulan sampah plastik di pesisir Timur Surabaya.",
+      where: "Ekowisata Mangrove Wonorejo, Rungkut, Surabaya",
+      whereCoords: { lat: -7.3080, lng: 112.8210, label: "Wonorejo, Surabaya" },
+      creator: "Sahabat Pesisir Surabaya",
+      participants: 36,
+      createdAt: "2026-11-02T10:00:00.000Z",
+    },
+    {
+      id: "act_dps_01",
+      title: "Beach Clean Up & Edukasi Pilah Sampah Sanur",
+      datetime: "2026-11-11T06:00",
+      what: "Aksi bersih pantai pagi hari di Pantai Sanur bersama warga lokal dan turis untuk mengurangi polusi mikroplastik.",
+      where: "Pantai Matahari Terbit, Sanur, Denpasar",
+      whereCoords: { lat: -8.6738, lng: 115.2631, label: "Sanur, Denpasar" },
+      creator: "Bali Clean Waves",
+      participants: 52,
+      createdAt: "2026-11-03T07:00:00.000Z",
+    },
+    {
+      id: "act_smg_01",
+      title: "Pemasangan Biopori Warga & Kompos Lingkungan",
+      datetime: "2026-11-12T08:30",
+      what: "Workshop dan pembuatan 50 lubang biopori percontohan di RW 04 untuk resapan air dan pengolahan sampah organik.",
+      where: "Banyumanik, Semarang Selatan",
+      whereCoords: { lat: -7.0600, lng: 110.4150, label: "Banyumanik, Semarang" },
+      creator: "Kader Lingkungan Mandiri",
+      participants: 22,
+      createdAt: "2026-11-03T08:00:00.000Z",
+    },
+    {
+      id: "act_ygy_01",
+      title: "Sepeda Bersama & Plogging Kali Code",
+      datetime: "2026-11-13T06:30",
+      what: "Gowes santai rendah emisi menyusuri Kali Code dilanjutkan dengan jogging sambil memungut sampah (plogging).",
+      where: "Kawasan Kali Code, Gondokusuman, Yogyakarta",
+      whereCoords: { lat: -7.7828, lng: 110.3725, label: "Kali Code, Yogyakarta" },
+      creator: "Jogja Hijau Bersepeda",
+      participants: 31,
+      createdAt: "2026-11-03T09:00:00.000Z",
+    },
+    {
+      id: "act_mdn_01",
+      title: "Revitalisasi Taman Kota & Drop Point Sampah Elektronik",
+      datetime: "2026-11-14T09:00",
+      what: "Pembuatan spot drop point e-waste dan penataan tanaman hias penyerap polutan di area publik warga.",
+      where: "Taman Cadika, Medan Johor, Medan",
+      whereCoords: { lat: 3.5350, lng: 98.6650, label: "Medan Johor, Medan" },
+      creator: "Gerakan Medan Asri",
+      participants: 19,
+      createdAt: "2026-11-03T11:00:00.000Z",
+    },
+    {
+      id: "act_mks_01",
+      title: "Bersih Pantai Losari & Kampanye Kurangi Kantong Plastik",
+      datetime: "2026-11-15T07:00",
+      what: "Aksi gotong royong memungut sampah di anjungan Pantai Losari serta pembagian kantong belanja ramah lingkungan.",
+      where: "Anjungan Pantai Losari, Makassar",
+      whereCoords: { lat: -5.1450, lng: 119.4080, label: "Pantai Losari, Makassar" },
+      creator: "Makassar Green Community",
+      participants: 40,
+      createdAt: "2026-11-03T12:00:00.000Z",
+    },
+    {
+      id: "act_jkt_02",
+      title: "Workshop Urban Farming & Kompos Sayur Dapur",
+      datetime: "2026-11-16T09:00",
+      what: "Belajar membuat instalasi hidroponik sederhana dari pipa bekas dan budidaya sayuran pekarangan sempit.",
+      where: "RPTRA Kalijodo, Penjaringan, Jakarta Utara",
+      whereCoords: { lat: -6.1415, lng: 106.7905, label: "Kalijodo, Jakarta Utara" },
+      creator: "Urban Farming ID",
+      participants: 25,
+      createdAt: "2026-11-03T13:00:00.000Z",
+    },
+  ];
+
   function getCommunityActivitiesForMap(cityName) {
-    const raw = safeParse(localStorage.getItem(COMMUNITY_ACTIVITIES_KEY), []);
-    if (!Array.isArray(raw) || raw.length === 0) return [];
+    let raw = safeParse(localStorage.getItem(COMMUNITY_ACTIVITIES_KEY), null);
+    if (!Array.isArray(raw) || raw.length === 0) {
+      raw = DEFAULT_COMMUNITY_ACTIVITIES;
+      try {
+        localStorage.setItem(COMMUNITY_ACTIVITIES_KEY, JSON.stringify(DEFAULT_COMMUNITY_ACTIVITIES));
+      } catch (_) {}
+    }
 
     const cityCoord = CITIES[cityName] || CITIES.Jakarta;
     const cityPoint = { lat: cityCoord.lat, lng: cityCoord.lon };
@@ -482,25 +589,22 @@ document.addEventListener("DOMContentLoaded", () => {
         ? `<strong>${item.title}</strong><br>${item.type}<br>${item.detail}<br>${item.participants} peserta<br><a class="map-detail-link" href="${detailHref}">Lihat Detail</a>`
             : `<strong>${item.title}</strong><br>${item.type}<br><a class="map-detail-link" href="${detailHref}">Lihat Detail</a>`;
       window.L.circleMarker([item.lat, item.lng], {
-        radius: 6,
-        color: isCommunityActivity ? "#1f4f8f" : "#2d5a27",
-        fillColor: isCommunityActivity ? "#5f94d0" : "#73a567",
-        fillOpacity: 0.92,
-        weight: 1.2,
+        radius: 8,
+        color: "#ffffff",
+        fillColor: "#2D5A27",
+        fillOpacity: 0.95,
+        weight: 2,
       })
         .bindPopup(popupHtml)
         .addTo(communityMapState.layerGroup);
     });
 
-    if (DUMMY_MAP_MODE) {
-      communityMapState.map.fitBounds(INDONESIA_BOUNDS, { padding: [10, 10] });
+    const bounds = window.L.latLngBounds(actions.map((item) => [item.lat, item.lng]));
+    if (bounds.isValid()) {
+      communityMapState.map.fitBounds(bounds, { padding: [35, 35], maxZoom: 13 });
     } else {
-      const bounds = window.L.latLngBounds(actions.map((item) => [item.lat, item.lng]));
-      if (bounds.isValid()) {
-        communityMapState.map.fitBounds(bounds, { padding: [22, 22], maxZoom: 13 });
-      } else {
-        communityMapState.map.setView([-2.5, 118], 5);
-      }
+      const cityCoord = CITIES[cityName] || CITIES.Jakarta;
+      communityMapState.map.setView([cityCoord.lat, cityCoord.lon], 11);
     }
   }
 
