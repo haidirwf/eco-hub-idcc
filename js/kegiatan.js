@@ -354,6 +354,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  let activeFilter = "Semua";
+
+  function getCategoryBadge(item) {
+    const text = `${item.title} ${item.what}`.toLowerCase();
+    if (text.includes("sungai") || text.includes("kali code") || text.includes("ciliwung") || text.includes("air")) {
+      return { name: "Sungai & Air", className: "category-sungai", key: "Sungai" };
+    }
+    if (text.includes("pohon") || text.includes("penghijauan") || text.includes("taman") || text.includes("dago")) {
+      return { name: "Penghijauan", className: "category-penghijauan", key: "Pohon" };
+    }
+    if (text.includes("mangrove") || text.includes("pantai") || text.includes("pesisir") || text.includes("laut")) {
+      return { name: "Pesisir & Laut", className: "category-pesisir", key: "Pantai" };
+    }
+    if (text.includes("biopori") || text.includes("kompos") || text.includes("sampah") || text.includes("waste")) {
+      return { name: "Sampah & Kompos", className: "category-sampah", key: "Sampah" };
+    }
+    if (text.includes("sepeda") || text.includes("plogging") || text.includes("gowes")) {
+      return { name: "Mobilitas Hijau", className: "category-sepeda", key: "Sepeda" };
+    }
+    if (text.includes("farming") || text.includes("hidroponik") || text.includes("sayur")) {
+      return { name: "Urban Farming", className: "category-farming", key: "Farming" };
+    }
+    return { name: "Aksi Lingkungan", className: "category-umum", key: "Umum" };
+  }
+
   function syncSummary(activities) {
     const now = Date.now();
     const upcoming = activities.filter((item) => {
@@ -382,46 +407,75 @@ document.addEventListener("DOMContentLoaded", () => {
     const activeActivities = activities.filter((item) => isActiveActivity(item));
     syncSummary(activeActivities);
 
-    if (!activeActivities.length) {
+    let filteredActivities = activeActivities;
+    if (activeFilter !== "Semua") {
+      filteredActivities = activeActivities.filter((item) => {
+        const cat = getCategoryBadge(item);
+        return cat.key === activeFilter || cat.name.toLowerCase().includes(activeFilter.toLowerCase());
+      });
+    }
+
+    if (!filteredActivities.length) {
       listEl.innerHTML = `
-        <article class="card empty-state-card list-reveal" style="animation-delay: 0.02s">
-          <h3>Belum Ada Kegiatan</h3>
-          <p>Jadi yang pertama membuat kegiatan warga di lokasimu.</p>
-          <button class="btn btn-primary" data-action="open-form-empty">Buat Kegiatan</button>
+        <article class="card empty-state-card list-reveal">
+          <h3>Tidak Ada Kegiatan untuk Kategori Ini</h3>
+          <p>Belum ada kegiatan yang cocok dengan filter "${activeFilter}".</p>
+          <button class="btn btn-outline" data-action="reset-filter">Tampilkan Semua Aksi</button>
         </article>
       `;
       return;
     }
 
-    listEl.innerHTML = activeActivities
+    listEl.innerHTML = filteredActivities
       .map((item, idx) => {
         const isJoined = Boolean(joined[item.id]);
         const start = parseDateTimeLocal(item.datetime);
         const isPast =
           Number.isFinite(start) && !Number.isNaN(start) ? start + 2 * 60 * 60 * 1000 < Date.now() : false;
-        const chipLabel = isPast ? "Selesai" : isJoined ? "Joined" : "Aktif";
+        const chipLabel = isPast ? "Selesai" : isJoined ? "Terdaftar" : "Aktif";
         const chipClass = isPast ? "chip-past" : isJoined ? "chip-joined" : "chip-active";
-        const buttonLabel = isPast ? "Kegiatan Selesai" : isJoined ? "Batalkan Join" : "Gabung Kegiatan";
-        const buttonClass = isJoined ? "btn btn-outline join-btn joined" : "btn btn-outline join-btn";
+        const buttonLabel = isPast ? "Selesai" : isJoined ? "Batalkan" : "Ikut Aksi";
+        const buttonIcon = isPast ? "fa-check" : isJoined ? "fa-times" : "fa-plus";
+        const buttonClass = isJoined ? "join-btn joined" : "join-btn";
+        const cat = getCategoryBadge(item);
 
         return `
-          <article id="activity-${item.id}" class="card activity-card list-reveal" style="animation-delay: ${Math.min(idx * 0.05, 0.35).toFixed(2)}s" data-id="${item.id}">
-            <div class="activity-head">
-              <h3 class="activity-title">${item.title}</h3>
-              <span class="activity-chip ${chipClass}">${chipLabel}</span>
+          <article id="activity-${item.id}" class="activity-card list-reveal" style="animation-delay: ${Math.min(idx * 0.04, 0.28).toFixed(2)}s" data-id="${item.id}">
+            <div class="activity-top-row">
+              <span class="activity-category-badge ${cat.className}">${cat.name}</span>
+              <span class="activity-chip ${chipClass}">
+                <i class="fas fa-circle" style="font-size: 7px;"></i> ${chipLabel}
+              </span>
             </div>
-            <div class="activity-time">
+
+            <h3 class="activity-title" title="${item.title}">${item.title}</h3>
+
+            <div class="activity-schedule">
               <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-              ${formatDateTime(item.datetime)}
+              <span>${formatDateTime(item.datetime)}</span>
             </div>
+
             <p class="activity-body">${item.what}</p>
+
             <div class="activity-meta">
-              <span><i class="fas fa-map-marker-alt" aria-hidden="true"></i> ${item.where}</span>
-              <span><i class="fas fa-user" aria-hidden="true"></i> Penggagas: ${item.creator || "Warga"}</span>
+              <div class="activity-meta-item">
+                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                <span>${item.where}</span>
+              </div>
+              <div class="activity-meta-item">
+                <i class="fas fa-user-circle" aria-hidden="true"></i>
+                <span>Diinisiasi oleh <strong>${item.creator || "Warga Peduli"}</strong></span>
+              </div>
             </div>
+
             <div class="activity-footer">
-              <div class="participant-count"><strong>${item.participants || 0}</strong> warga bergabung</div>
-              <button class="${buttonClass}" data-action="join" data-id="${item.id}" ${isPast ? "disabled" : ""}>${buttonLabel}</button>
+              <div class="participant-count">
+                <i class="fas fa-users" style="color: var(--color-green-primary);"></i>
+                <strong>${item.participants || 0}</strong> warga
+              </div>
+              <button class="${buttonClass}" data-action="join" data-id="${item.id}" ${isPast ? "disabled" : ""}>
+                <i class="fas ${buttonIcon}"></i> ${buttonLabel}
+              </button>
             </div>
           </article>
         `;
@@ -517,6 +571,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
+    const resetFilterBtn = target.closest('button[data-action="reset-filter"]');
+    if (resetFilterBtn) {
+      activeFilter = "Semua";
+      document.querySelectorAll("#activity-filter-tabs .filter-btn").forEach((b) => {
+        b.classList.toggle("active", b.dataset.filter === "Semua");
+      });
+      renderActivities();
+      return;
+    }
+
     const openFromEmptyBtn = target.closest('button[data-action="open-form-empty"]');
     if (openFromEmptyBtn) {
       showForm();
@@ -546,6 +610,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     saveActivities(activities);
     saveJoinedState(joined);
+    renderActivities();
+  });
+
+  const filterTabsContainer = document.getElementById("activity-filter-tabs");
+  filterTabsContainer?.addEventListener("click", (e) => {
+    const btn = e.target.closest(".filter-btn");
+    if (!btn) return;
+    const filter = btn.dataset.filter || "Semua";
+    activeFilter = filter;
+    filterTabsContainer.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
     renderActivities();
   });
 

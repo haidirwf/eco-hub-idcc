@@ -66,33 +66,55 @@
     <header class="kegiatan-hero section fade-up">
       <div class="container">
         <div class="hero-head">
-          <div>
+          <div class="hero-copy">
+            <span class="kegiatan-eyebrow">
+              <i class="fas fa-users" aria-hidden="true"></i> Aksi Komunitas & Warga Hijau
+            </span>
             <h1>Daftar Kegiatan Warga</h1>
-            <p>Warga bisa membuat kegiatan lingkungan berdasarkan lokasi, lalu warga lain bisa langsung join.</p>
+            <p>
+              Inisiasi dan temukan aksi lingkungan terdekat di kotamu.
+              Pilih kegiatan terdekat dan bergabung bersama ratusan warga lainnya.
+            </p>
+
+            <div class="hero-stats-row">
+              <div class="hero-stat-box">
+                <span id="total-activities" class="stat-num">9</span>
+                <span class="stat-desc">Total Kegiatan</span>
+              </div>
+              <div class="hero-stat-box">
+                <span id="upcoming-activities" class="stat-num">9</span>
+                <span class="stat-desc">Akan Datang</span>
+              </div>
+              <div class="hero-stat-box">
+                <span id="total-participants" class="stat-num">298</span>
+                <span class="stat-desc">Warga Terdaftar</span>
+              </div>
+            </div>
           </div>
-          <button id="open-form-btn" class="btn btn-primary" type="button">
-            <i class="fas fa-plus"></i>
-            Buat Kegiatan
-          </button>
+
+          <div class="hero-cta-box">
+            <button id="open-form-btn" class="btn btn-white" type="button">
+              <i class="fas fa-plus-circle" aria-hidden="true"></i>
+              Buat Kegiatan Baru
+            </button>
+          </div>
         </div>
       </div>
     </header>
 
     <section class="section daftar-section">
       <div class="container">
-        <!-- Stats Summary Bar -->
-        <div class="kegiatan-stats-bar fade-up">
-          <div class="stat-pill">
-            <span class="stat-pill-label">Total Kegiatan:</span>
-            <strong id="total-activities" class="stat-pill-val">0</strong>
+        <!-- Filter Tabs -->
+        <div class="activity-filter-bar fade-up">
+          <div class="filter-categories" id="activity-filter-tabs">
+            <button class="filter-btn active" data-filter="Semua">Semua Aksi</button>
+            <button class="filter-btn" data-filter="Sungai">Sungai & Air</button>
+            <button class="filter-btn" data-filter="Pohon">Penghijauan</button>
+            <button class="filter-btn" data-filter="Pantai">Pesisir & Laut</button>
+            <button class="filter-btn" data-filter="Sampah">Sampah & Kompos</button>
           </div>
-          <div class="stat-pill">
-            <span class="stat-pill-label">Akan Datang:</span>
-            <strong id="upcoming-activities" class="stat-pill-val">0</strong>
-          </div>
-          <div class="stat-pill">
-            <span class="stat-pill-label">Warga Bergabung:</span>
-            <strong id="total-participants" class="stat-pill-val">0</strong>
+          <div class="filter-hint" style="font-size: 13px; color: var(--color-text-secondary);">
+            <i class="fas fa-info-circle" style="color: var(--color-green-primary);"></i> Klik "Ikut Aksi" untuk mendaftar
           </div>
         </div>
 
