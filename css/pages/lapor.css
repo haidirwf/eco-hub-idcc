@@ -636,9 +636,11 @@ header.page-hero h1,
   border: 1px solid rgba(0, 0, 0, 0.08);
   width: 100%;
   max-width: 540px;
-  padding: 30px;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: calc(100vh - 48px);
+  padding: 28px;
   position: relative;
-  max-height: 90vh;
   overflow-y: auto;
   box-shadow:
     0 24px 60px -12px rgba(18, 38, 15, 0.28),

@@ -64,6 +64,10 @@
     box-shadow 0.3s ease;
 }
 
+.modal-card {
+  height: auto !important;
+}
+
 .card:hover {
   border-color: var(--color-green-light);
   transform: translateY(-2px);

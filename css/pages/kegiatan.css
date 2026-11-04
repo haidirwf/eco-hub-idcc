@@ -541,10 +541,12 @@ header.page-hero h1,
   border-radius: 18px;
   border: 1px solid rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 580px;
-  padding: 32px;
+  max-width: 540px;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: calc(100vh - 48px);
+  padding: 28px;
   position: relative;
-  max-height: 90vh;
   overflow-y: auto;
   box-shadow:
     0 24px 60px -12px rgba(18, 38, 15, 0.28),
@@ -706,7 +708,8 @@ header.page-hero h1,
 
 /* Join Modal Specific Styles (Solid Flat Colors Only) */
 .join-modal-card {
-  max-width: 560px;
+  max-width: 540px;
+  height: auto !important;
 }
 
 .join-modal-badge {
@@ -727,9 +730,9 @@ header.page-hero h1,
 .join-activity-summary {
   background-color: var(--color-bg-primary);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 20px;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
 }
 
 .summary-top {
